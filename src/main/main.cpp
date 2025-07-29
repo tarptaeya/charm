@@ -16,7 +16,7 @@ int main()
     charm::AppOptions options;
     options.window_title = "Charmed Demo";
 
-    charm::Application::create(options);
-    charm::Application::set_adapter(new GameAdapter);
+    GameAdapter adapter;
+    charm::Application::create(options, adapter);
     return charmApp->exec();
 }
