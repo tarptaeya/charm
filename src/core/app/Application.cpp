@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "AppAdapter.h"
 #include "Window.h"
 
 #define GLFW_INCLUDE_NONE
@@ -38,6 +39,21 @@ void Application::create(const AppOptions& app_options)
     s_instance = new Application(app_options);
 }
 
+void Application::set_adapter(AppAdapter* adapter)
+{
+    if (!s_instance) {
+        std::cerr << "[error] no app instance created yet" << std::endl;
+        std::exit(1);
+    }
+
+    if (s_instance->m_adapter) {
+        delete s_instance->m_adapter;
+        s_instance->m_adapter = nullptr;
+    }
+
+    s_instance->m_adapter = adapter;
+}
+
 void Application::create()
 {
     AppOptions options;
@@ -46,7 +62,18 @@ void Application::create()
 
 int Application::exec()
 {
+    if (!m_adapter) {
+        std::cerr << "[error] app adapter is null" << std::endl;
+        std::exit(1);
+    }
+
+    double prev_time = glfwGetTime();
     while (!m_window->should_close()) {
+        double curr_time = glfwGetTime();
+        double delta_time = curr_time - prev_time;
+        prev_time = curr_time;
+        m_adapter->update(delta_time);
+
         glfwPollEvents();
         m_window->swap_buffers();
     }
