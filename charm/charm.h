@@ -8,3 +8,6 @@
 #include "app/AppOptions.h"
 #include "app/Application.h"
 #include "app/Window.h"
+
+#include "ecs/Component.h"
+#include "ecs/Entity.h"
