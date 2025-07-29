@@ -1,4 +1,6 @@
 #include "charm.h"
+#include <iostream>
+#include <unistd.h>
 
 class GameAdapter : public charm::AppAdapter {
 public:
@@ -13,6 +15,10 @@ public:
 
 int main()
 {
+    char path[512];
+    getcwd(path, sizeof(path));
+    std::cout << path << std::endl;
+
     charm::AppOptions options;
     options.window_title = "Charmed Demo";
 
