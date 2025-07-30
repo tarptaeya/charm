@@ -2,10 +2,8 @@
 #include <iostream>
 #include <unistd.h>
 
-using namespace charm;
-
 class GameAdapter : public charm::AppAdapter {
-    ShaderProgram m_program;
+    charm::ShaderProgram m_program;
 
 public:
     GameAdapter()
@@ -13,7 +11,7 @@ public:
         charmShaderRegistry->add_shader(GL_VERTEX_SHADER, "assets/basic.vertex.glsl");
         charmShaderRegistry->add_shader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl");
 
-        m_program = std::move(ShaderProgram(charmShaderRegistry->get_shader("assets/basic.vertex.glsl"), charmShaderRegistry->get_shader("assets/basic.fragment.glsl")));
+        m_program = std::move(charm::ShaderProgram(charmShaderRegistry->get_shader("assets/basic.vertex.glsl"), charmShaderRegistry->get_shader("assets/basic.fragment.glsl")));
     }
 
     ~GameAdapter() override = default;
@@ -29,9 +27,9 @@ public:
 
 int main()
 {
-    AppOptions options;
+    charm::AppOptions options;
     options.window_title = "Charmed Demo";
 
-    Application::create<GameAdapter>(options);
+    charm::Application::create<GameAdapter>(options);
     return charmApp->exec();
 }
