@@ -6,14 +6,11 @@
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
 
-#include <iostream>
-
 namespace charm {
 
 Application* Application::s_instance = nullptr;
 
-Application::Application(const AppOptions& options, AppAdapter& adapter)
-    : m_adapter(adapter)
+Application::Application(const AppOptions& options)
 {
     if (!glfwInit()) {
         std::cerr << "[error] glfw initialization faield" << std::endl;
@@ -25,24 +22,14 @@ Application::Application(const AppOptions& options, AppAdapter& adapter)
 
 Application::~Application()
 {
+    delete m_adapter;
     delete m_window;
     glfwTerminate();
 }
 
-void Application::create(const AppOptions& options, AppAdapter& adapter)
+ShaderRegistry* Application::get_shader_registry()
 {
-    if (s_instance) {
-        std::cerr << "[error] app instance already exists" << std::endl;
-        std::exit(1);
-    }
-
-    s_instance = new Application(options, adapter);
-}
-
-void Application::create(AppAdapter& adapter)
-{
-    AppOptions options;
-    create(options, adapter);
+    return &m_shader_registry;
 }
 
 int Application::exec()
@@ -52,7 +39,7 @@ int Application::exec()
         double curr_time = glfwGetTime();
         double delta_time = curr_time - prev_time;
         prev_time = curr_time;
-        m_adapter.update(delta_time);
+        m_adapter->update(delta_time);
 
         glfwPollEvents();
         m_window->swap_buffers();

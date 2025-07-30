@@ -12,7 +12,3 @@ add_subdirectory(src)
 
 enable_testing()
 add_subdirectory(test)
-
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    add_compile_definitions(DEBUG_BUILD)
-endif()

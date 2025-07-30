@@ -11,3 +11,8 @@
 
 #include "ecs/Component.h"
 #include "ecs/Entity.h"
+
+#include "graphics/shaders/ShaderProgram.h"
+#include "graphics/shaders/ShaderRegistry.h"
+
+#include "io/FileIO.h"
