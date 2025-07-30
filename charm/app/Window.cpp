@@ -21,6 +21,12 @@ Window::Window(const AppOptions& app_options)
     gladLoadGL(glfwGetProcAddress);
 }
 
+Window::~Window()
+{
+    glfwDestroyWindow(m_handle);
+    m_handle = nullptr;
+}
+
 bool Window::should_close()
 {
     return glfwWindowShouldClose(m_handle);

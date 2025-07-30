@@ -15,6 +15,11 @@ class Window {
     explicit Window(const AppOptions&);
 
 public:
+    ~Window();
+
+    Window(const Window&) = delete;
+    Window& operator=(const Window&) = delete;
+
     bool should_close();
     void swap_buffers();
 };
