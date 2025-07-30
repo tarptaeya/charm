@@ -7,6 +7,7 @@ add_library(
     graphics/shaders/ShaderProgram.cpp
     graphics/shaders/ShaderRegistry.cpp
     io/FileIO.cpp
+    math/Matrix4f.cpp
 )
 
 target_link_libraries(charmcore glfw glad)

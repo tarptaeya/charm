@@ -1,12 +1,15 @@
 #pragma once
 
+#include "math/Matrix4f.h"
 #include <iostream>
 #include <string>
+#include <unordered_map>
 
 namespace charm {
 
 class ShaderProgram {
     unsigned int m_program = 0;
+    std::unordered_map<std::string, int> m_uniform_locations;
 
 public:
     ShaderProgram() = default;
@@ -20,6 +23,7 @@ public:
     ShaderProgram& operator=(ShaderProgram&&);
 
     void use();
+    void set_uniform(const std::string&, const Matrix4f&);
 };
 
 }

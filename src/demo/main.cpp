@@ -86,6 +86,9 @@ public:
         glClearColor(0.1, 0.2, 0.3, 1.0);
 
         m_program.use();
+        charm::Matrix4f mat = charm::Matrix4f::identity();
+        m_program.set_uniform("u_model", mat);
+
         auto component = m_entity.get_component<CustomVertexArrayComponent>();
         glBindVertexArray(component->get_vertex_array());
         glDrawArrays(GL_TRIANGLES, 0, component->get_count());
