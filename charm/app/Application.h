@@ -5,6 +5,7 @@
 #include <iostream>
 
 #define charmApp charm::Application::get_instance()
+#define charmShaderRegistry charmApp->get_shader_registry()
 
 namespace charm {
 
