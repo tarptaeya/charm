@@ -5,6 +5,7 @@
 using namespace charm;
 
 class GameAdapter : public charm::AppAdapter {
+    ShaderProgram m_program;
 
 public:
     GameAdapter()
@@ -12,8 +13,7 @@ public:
         charmShaderRegistry->add_shader(GL_VERTEX_SHADER, "assets/basic.vertex.glsl");
         charmShaderRegistry->add_shader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl");
 
-        ShaderProgram program(charmShaderRegistry->get_shader("assets/basic.vertex.glsl"), charmShaderRegistry->get_shader("assets/basic.fragment.glsl"));
-        program.use();
+        m_program = std::move(ShaderProgram(charmShaderRegistry->get_shader("assets/basic.vertex.glsl"), charmShaderRegistry->get_shader("assets/basic.fragment.glsl")));
     }
 
     ~GameAdapter() override = default;
@@ -22,6 +22,8 @@ public:
     {
         glClearColor(0.1, 0.2, 0.3, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        m_program.use();
     }
 };
 

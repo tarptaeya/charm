@@ -22,7 +22,24 @@ ShaderProgram::ShaderProgram(unsigned int vertex_shader, unsigned int fragment_s
 
 ShaderProgram::~ShaderProgram()
 {
-    glDeleteProgram(m_program);
+    if (m_program != 0)
+        glDeleteProgram(m_program);
+}
+
+ShaderProgram::ShaderProgram(ShaderProgram&& other)
+{
+    m_program = other.m_program;
+    other.m_program = 0;
+}
+
+ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other)
+{
+    if (this == &other) {
+        return *this;
+    }
+    m_program = other.m_program;
+    other.m_program = 0;
+    return *this;
 }
 
 void ShaderProgram::use()
