@@ -34,9 +34,12 @@ ShaderProgram::ShaderProgram(ShaderProgram&& other)
 
 ShaderProgram& ShaderProgram::operator=(ShaderProgram&& other)
 {
-    if (this == &other) {
+    if (this == &other)
         return *this;
-    }
+
+    if (m_program != 0)
+        glDeleteProgram(m_program);
+
     m_program = other.m_program;
     other.m_program = 0;
     return *this;

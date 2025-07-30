@@ -16,12 +16,15 @@ public:
     Entity(const Entity&) = delete;
     Entity& operator=(const Entity&) = delete;
 
+    Entity(Entity&&);
+    Entity& operator=(Entity&&);
+
     template <typename T, typename... Args>
     T* add_component(Args&&... args)
     {
         static_assert(std::is_base_of<Component, T>::value, "cannot add non component to the entity");
 
-        T* component = new T(this, std::forward<Args>(args)...);
+        T* component = new T(*this, std::forward<Args>(args)...);
         m_components.push_back(component);
         return component;
     }

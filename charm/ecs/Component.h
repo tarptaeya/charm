@@ -5,10 +5,10 @@ namespace charm {
 class Entity;
 
 class Component {
-    Entity* m_entity = nullptr;
+    Entity& m_entity;
 
 public:
-    explicit Component(Entity*);
+    explicit Component(Entity&);
     virtual ~Component() = default;
 
     Component(const Component&) = delete;
