@@ -7,6 +7,7 @@ class Matrix4f {
 
 public:
     Matrix4f() = default;
+    Matrix4f(const float (&)[16]);
     ~Matrix4f() = default;
 
     Matrix4f(const Matrix4f&) = default;
@@ -16,6 +17,14 @@ public:
     Matrix4f& operator=(Matrix4f&&) = default;
 
     const float* get_data() const;
+
+    Matrix4f& operator+=(const Matrix4f&);
+    Matrix4f& operator-=(const Matrix4f&);
+    Matrix4f& operator*=(const Matrix4f&);
+
+    friend Matrix4f operator+(const Matrix4f&, const Matrix4f&);
+    friend Matrix4f operator-(const Matrix4f&, const Matrix4f&);
+    friend Matrix4f operator*(const Matrix4f&, const Matrix4f&);
 
     static Matrix4f identity();
 };
