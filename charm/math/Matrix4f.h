@@ -21,10 +21,16 @@ public:
     Matrix4f& operator+=(const Matrix4f&);
     Matrix4f& operator-=(const Matrix4f&);
     Matrix4f& operator*=(const Matrix4f&);
+    Matrix4f& operator*=(float);
+    Matrix4f& operator/=(float);
 
     friend Matrix4f operator+(const Matrix4f&, const Matrix4f&);
     friend Matrix4f operator-(const Matrix4f&, const Matrix4f&);
     friend Matrix4f operator*(const Matrix4f&, const Matrix4f&);
+    friend Matrix4f operator*(float, const Matrix4f&);
+    friend Matrix4f operator*(const Matrix4f&, float);
+    friend Matrix4f operator/(float, const Matrix4f&);
+    friend Matrix4f operator/(const Matrix4f&, float);
 
     static Matrix4f identity();
 };

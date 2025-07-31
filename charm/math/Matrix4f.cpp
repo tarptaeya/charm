@@ -55,6 +55,22 @@ Matrix4f& Matrix4f::operator*=(const Matrix4f& other)
     return *this;
 }
 
+Matrix4f& Matrix4f::operator*=(float x)
+{
+    for (int i = 0; i < 16; ++i) {
+        m_data[i] *= x;
+    }
+    return *this;
+}
+
+Matrix4f& Matrix4f::operator/=(float x)
+{
+    for (int i = 0; i < 16; ++i) {
+        m_data[i] /= x;
+    }
+    return *this;
+}
+
 Matrix4f operator+(const Matrix4f& a, const Matrix4f& b)
 {
     Matrix4f ans;
@@ -83,6 +99,46 @@ Matrix4f operator*(const Matrix4f& a, const Matrix4f& b)
             }
         }
     }
+    return ans;
+}
+
+Matrix4f operator*(float x, const Matrix4f& mat)
+{
+    Matrix4f ans(mat);
+    for (int i = 0; i < 16; ++i) {
+        ans.m_data[i] *= x;
+    }
+
+    return ans;
+}
+
+Matrix4f operator*(const Matrix4f& mat, float x)
+{
+    Matrix4f ans(mat);
+    for (int i = 0; i < 16; ++i) {
+        ans.m_data[i] *= x;
+    }
+
+    return ans;
+}
+
+Matrix4f operator/(float x, const Matrix4f& mat)
+{
+    Matrix4f ans(mat);
+    for (int i = 0; i < 16; ++i) {
+        ans.m_data[i] /= x;
+    }
+
+    return ans;
+}
+
+Matrix4f operator/(const Matrix4f& mat, float x)
+{
+    Matrix4f ans(mat);
+    for (int i = 0; i < 16; ++i) {
+        ans.m_data[i] /= x;
+    }
+
     return ans;
 }
 

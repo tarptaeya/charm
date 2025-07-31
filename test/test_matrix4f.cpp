@@ -3,6 +3,37 @@
 
 using namespace charm;
 
+void test_basic_op()
+{
+    // clang-format off
+    float data[] = {
+        1, 2, 3, 4,
+        5, 6, 7, 8,
+        9, 10, 11, 12,
+        13, 14, 15, 16,
+    };
+    // clang-format on
+
+    Matrix4f a(data);
+    a *= 3;
+    for (int i = 0; i < 16; ++i) {
+        ASSERT_TRUE(a.get_data()[i] == data[i] * 3);
+    }
+
+    Matrix4f b(data);
+    b *= 2.5f;
+    for (int i = 0; i < 16; ++i) {
+        ASSERT_TRUE(b.get_data()[i] == data[i] * 2.5f);
+    }
+
+    Matrix4f c = Matrix4f(data) * 2;
+    Matrix4f d = Matrix4f(data) * 3;
+    Matrix4f e = c + d;
+    for (int i = 0; i < 16; ++i) {
+        ASSERT_TRUE(e.get_data()[i] == data[i] * 5);
+    }
+}
+
 void test_matmul_1()
 {
     Matrix4f a = Matrix4f::identity();
@@ -99,6 +130,7 @@ void test_matmul_4()
 
 int main()
 {
+    test_basic_op();
     test_matmul_1();
     test_matmul_2();
     test_matmul_3();
