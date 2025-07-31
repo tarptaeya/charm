@@ -4,6 +4,8 @@
 #include <GLFW/glfw3.h>
 #include <glad/gl.h>
 
+#include <cmath>
+
 #include "app/AppAdapter.h"
 #include "app/AppOptions.h"
 #include "app/Application.h"
