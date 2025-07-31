@@ -33,6 +33,8 @@ public:
     friend Matrix4f operator/(const Matrix4f&, float);
 
     static Matrix4f identity();
+    static Matrix4f scaling(float);
+    static Matrix4f scaling(float, float, float);
 };
 
 }

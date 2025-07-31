@@ -99,12 +99,7 @@ public:
         m_program.use();
         charm::Matrix4f mat = charm::Matrix4f::identity();
         // clang-format off
-        mat *= charm::Matrix4f({
-            0.5, 0, 0, 0,
-            0, 0.5, 0, 0,
-            0, 0, 0.5, 0,
-            0, 0, 0, 1,
-        });
+        mat *= charm::Matrix4f::scaling(0.5);
         mat *= charm::Matrix4f({
             cos(theta), sin(theta), 0, 0,
             -sin(theta), cos(theta), 0, 0,
