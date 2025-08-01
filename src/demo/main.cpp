@@ -98,11 +98,8 @@ public:
 
         m_program.use();
         charm::Matrix4f mat = charm::Matrix4f::identity();
-        // clang-format off
         mat *= charm::Matrix4f::translation(0.5, 0.5, 0);
         mat *= charm::Matrix4f::scaling(0.5);
-
-        // clang-format on
         m_program.set_uniform("u_model", mat);
 
         auto component = m_entity.get_component<CustomVertexArrayComponent>();

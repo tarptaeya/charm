@@ -2,6 +2,11 @@
 
 namespace charm {
 
+/**
+ * This class represents a 4x4 matrix of floats. The
+ * matrix works like a row major matrix, but is stored
+ * internally as a column major order.
+ */
 class Matrix4f {
     float m_data[16] = { 0 };
 
