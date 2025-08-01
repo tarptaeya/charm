@@ -35,6 +35,7 @@ public:
     static Matrix4f identity();
     static Matrix4f scaling(float);
     static Matrix4f scaling(float, float, float);
+    static Matrix4f translation(float, float, float);
 };
 
 }

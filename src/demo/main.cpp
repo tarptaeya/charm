@@ -99,13 +99,9 @@ public:
         m_program.use();
         charm::Matrix4f mat = charm::Matrix4f::identity();
         // clang-format off
+        mat *= charm::Matrix4f::translation(0.5, 0.5, 0);
         mat *= charm::Matrix4f::scaling(0.5);
-        mat *= charm::Matrix4f({
-            cos(theta), sin(theta), 0, 0,
-            -sin(theta), cos(theta), 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1,
-        });
+
         // clang-format on
         m_program.set_uniform("u_model", mat);
 

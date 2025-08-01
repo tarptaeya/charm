@@ -166,4 +166,16 @@ Matrix4f Matrix4f::scaling(float x, float y, float z)
     // clang-format on
 }
 
+Matrix4f Matrix4f::translation(float x, float y, float z)
+{
+    // clang-format off
+    return Matrix4f({
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        x, y, z, 1,
+    });
+    // clang-format on
+}
+
 }
