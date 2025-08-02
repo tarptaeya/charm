@@ -99,8 +99,15 @@ public:
         m_program.use();
 
         charm::Matrix4f model = charm::Matrix4f::identity();
-        model *= charm::Matrix4f::translation(0, 0, -10);
+        model *= charm::Matrix4f::translation(0, 0, 0);
         m_program.set_uniform("u_model", model);
+
+        static float x = 0;
+        x = (x > 5) ? 0 : x + delta_time;
+        charm::Matrix4f camera = charm::Matrix4f::identity();
+        camera *= charm::Matrix4f::translation(0, 0, 2 + x);
+        camera.inverse();
+        m_program.set_uniform("u_view", camera);
 
         charm::Matrix4f projection = charm::Matrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100.0);
         m_program.set_uniform("u_projection", projection);
