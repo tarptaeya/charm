@@ -45,6 +45,11 @@ public:
     friend Matrix4f operator/(float, const Matrix4f&);
     friend Matrix4f operator/(const Matrix4f&, float);
 
+    /**
+     * Calculates matrix inverse in-place.
+     */
+    Matrix4f& inverse();
+
     static Matrix4f identity();
     static Matrix4f scaling(float);
     static Matrix4f scaling(float, float, float);

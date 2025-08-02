@@ -128,6 +128,35 @@ void test_matmul_4()
     }
 }
 
+void test_inverse()
+{
+    Matrix4f a = Matrix4f::identity();
+    Matrix4f b = Matrix4f::identity();
+    a.inverse();
+    for (int i = 0; i < 16; ++i) {
+        ASSERT_TRUE(a.get_data()[i] == b.get_data()[i]);
+    }
+
+    // clang-format off
+    Matrix4f c({
+        1, 3, 6, 11,
+        12, 4, 7, 10,
+        9, 2, 5, 8,
+        13, 15, 14, 16
+    });
+    float expected[16] = {
+        -2/9.0, -85/81.0, 107/81.0, 4/27.0,
+        -2/3.0, -133/27.0, 149/27.0, 7/9.0,
+        14/9.0, 991/81.0, -1136/81.0, -46/27.0,
+        -5/9.0, -424/81.0, 488/81.0, 19/27.0
+    };
+    // clang-format on
+    c.inverse();
+    for (int i = 0; i < 16; ++i) {
+        ASSERT_TRUE(c.get_data()[i] == expected[i]);
+    }
+}
+
 int main()
 {
     test_basic_op();
@@ -135,4 +164,5 @@ int main()
     test_matmul_2();
     test_matmul_3();
     test_matmul_4();
+    test_inverse();
 }

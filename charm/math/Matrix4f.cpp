@@ -135,6 +135,44 @@ Matrix4f operator/(const Matrix4f& mat, float x)
     return ans;
 }
 
+Matrix4f& Matrix4f::inverse()
+{
+    float det = (m_data[0]) * (m_data[5] * m_data[10] * m_data[15] + m_data[9] * m_data[14] * m_data[7] + m_data[13] * m_data[6] * m_data[11] - m_data[13] * m_data[10] * m_data[7] - m_data[9] * m_data[6] * m_data[15] - m_data[5] * m_data[14] * m_data[11]) - (m_data[4]) * (m_data[1] * m_data[10] * m_data[15] + m_data[9] * m_data[14] * m_data[3] + m_data[13] * m_data[2] * m_data[11] - m_data[13] * m_data[10] * m_data[3] - m_data[9] * m_data[2] * m_data[15] - m_data[1] * m_data[14] * m_data[11]) + (m_data[8]) * (m_data[1] * m_data[6] * m_data[15] + m_data[5] * m_data[14] * m_data[3] + m_data[13] * m_data[2] * m_data[7] - m_data[13] * m_data[6] * m_data[3] - m_data[5] * m_data[2] * m_data[15] - m_data[1] * m_data[14] * m_data[7]) - (m_data[12]) * (m_data[1] * m_data[6] * m_data[11] + m_data[5] * m_data[10] * m_data[3] + m_data[9] * m_data[2] * m_data[7] - m_data[9] * m_data[6] * m_data[3] - m_data[5] * m_data[2] * m_data[11] - m_data[1] * m_data[10] * m_data[7]);
+    float temp0 = 1 * (m_data[5] * m_data[10] * m_data[15] + m_data[9] * m_data[14] * m_data[7] + m_data[13] * m_data[6] * m_data[11] - m_data[13] * m_data[10] * m_data[7] - m_data[9] * m_data[6] * m_data[15] - m_data[5] * m_data[14] * m_data[11]);
+    float temp4 = -1 * (m_data[4] * m_data[10] * m_data[15] + m_data[8] * m_data[14] * m_data[7] + m_data[12] * m_data[6] * m_data[11] - m_data[12] * m_data[10] * m_data[7] - m_data[8] * m_data[6] * m_data[15] - m_data[4] * m_data[14] * m_data[11]);
+    float temp8 = 1 * (m_data[4] * m_data[9] * m_data[15] + m_data[8] * m_data[13] * m_data[7] + m_data[12] * m_data[5] * m_data[11] - m_data[12] * m_data[9] * m_data[7] - m_data[8] * m_data[5] * m_data[15] - m_data[4] * m_data[13] * m_data[11]);
+    float temp12 = -1 * (m_data[4] * m_data[9] * m_data[14] + m_data[8] * m_data[13] * m_data[6] + m_data[12] * m_data[5] * m_data[10] - m_data[12] * m_data[9] * m_data[6] - m_data[8] * m_data[5] * m_data[14] - m_data[4] * m_data[13] * m_data[10]);
+    float temp1 = -1 * (m_data[1] * m_data[10] * m_data[15] + m_data[9] * m_data[14] * m_data[3] + m_data[13] * m_data[2] * m_data[11] - m_data[13] * m_data[10] * m_data[3] - m_data[9] * m_data[2] * m_data[15] - m_data[1] * m_data[14] * m_data[11]);
+    float temp5 = 1 * (m_data[0] * m_data[10] * m_data[15] + m_data[8] * m_data[14] * m_data[3] + m_data[12] * m_data[2] * m_data[11] - m_data[12] * m_data[10] * m_data[3] - m_data[8] * m_data[2] * m_data[15] - m_data[0] * m_data[14] * m_data[11]);
+    float temp9 = -1 * (m_data[0] * m_data[9] * m_data[15] + m_data[8] * m_data[13] * m_data[3] + m_data[12] * m_data[1] * m_data[11] - m_data[12] * m_data[9] * m_data[3] - m_data[8] * m_data[1] * m_data[15] - m_data[0] * m_data[13] * m_data[11]);
+    float temp13 = 1 * (m_data[0] * m_data[9] * m_data[14] + m_data[8] * m_data[13] * m_data[2] + m_data[12] * m_data[1] * m_data[10] - m_data[12] * m_data[9] * m_data[2] - m_data[8] * m_data[1] * m_data[14] - m_data[0] * m_data[13] * m_data[10]);
+    float temp2 = 1 * (m_data[1] * m_data[6] * m_data[15] + m_data[5] * m_data[14] * m_data[3] + m_data[13] * m_data[2] * m_data[7] - m_data[13] * m_data[6] * m_data[3] - m_data[5] * m_data[2] * m_data[15] - m_data[1] * m_data[14] * m_data[7]);
+    float temp6 = -1 * (m_data[0] * m_data[6] * m_data[15] + m_data[4] * m_data[14] * m_data[3] + m_data[12] * m_data[2] * m_data[7] - m_data[12] * m_data[6] * m_data[3] - m_data[4] * m_data[2] * m_data[15] - m_data[0] * m_data[14] * m_data[7]);
+    float temp10 = 1 * (m_data[0] * m_data[5] * m_data[15] + m_data[4] * m_data[13] * m_data[3] + m_data[12] * m_data[1] * m_data[7] - m_data[12] * m_data[5] * m_data[3] - m_data[4] * m_data[1] * m_data[15] - m_data[0] * m_data[13] * m_data[7]);
+    float temp14 = -1 * (m_data[0] * m_data[5] * m_data[14] + m_data[4] * m_data[13] * m_data[2] + m_data[12] * m_data[1] * m_data[6] - m_data[12] * m_data[5] * m_data[2] - m_data[4] * m_data[1] * m_data[14] - m_data[0] * m_data[13] * m_data[6]);
+    float temp3 = -1 * (m_data[1] * m_data[6] * m_data[11] + m_data[5] * m_data[10] * m_data[3] + m_data[9] * m_data[2] * m_data[7] - m_data[9] * m_data[6] * m_data[3] - m_data[5] * m_data[2] * m_data[11] - m_data[1] * m_data[10] * m_data[7]);
+    float temp7 = 1 * (m_data[0] * m_data[6] * m_data[11] + m_data[4] * m_data[10] * m_data[3] + m_data[8] * m_data[2] * m_data[7] - m_data[8] * m_data[6] * m_data[3] - m_data[4] * m_data[2] * m_data[11] - m_data[0] * m_data[10] * m_data[7]);
+    float temp11 = -1 * (m_data[0] * m_data[5] * m_data[11] + m_data[4] * m_data[9] * m_data[3] + m_data[8] * m_data[1] * m_data[7] - m_data[8] * m_data[5] * m_data[3] - m_data[4] * m_data[1] * m_data[11] - m_data[0] * m_data[9] * m_data[7]);
+    float temp15 = 1 * (m_data[0] * m_data[5] * m_data[10] + m_data[4] * m_data[9] * m_data[2] + m_data[8] * m_data[1] * m_data[6] - m_data[8] * m_data[5] * m_data[2] - m_data[4] * m_data[1] * m_data[10] - m_data[0] * m_data[9] * m_data[6]);
+    m_data[0] = temp0 / det;
+    m_data[4] = temp4 / det;
+    m_data[8] = temp8 / det;
+    m_data[12] = temp12 / det;
+    m_data[1] = temp1 / det;
+    m_data[5] = temp5 / det;
+    m_data[9] = temp9 / det;
+    m_data[13] = temp13 / det;
+    m_data[2] = temp2 / det;
+    m_data[6] = temp6 / det;
+    m_data[10] = temp10 / det;
+    m_data[14] = temp14 / det;
+    m_data[3] = temp3 / det;
+    m_data[7] = temp7 / det;
+    m_data[11] = temp11 / det;
+    m_data[15] = temp15 / det;
+    return *this;
+}
+
 Matrix4f Matrix4f::identity()
 {
     Matrix4f ans;
