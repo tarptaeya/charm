@@ -178,4 +178,16 @@ Matrix4f Matrix4f::translation(float x, float y, float z)
     // clang-format on
 }
 
+Matrix4f Matrix4f::perspective(float fov, float aspect_ratio, float near, float far)
+{
+    // clang-format off
+    return Matrix4f({
+        1 / (aspect_ratio * tan(fov / 2)), 0,                0,                              0,
+        0,                                 1 / tan(fov / 2), 0,                              0,
+        0,                                 0,                -(far + near) / (far - near),   -1,
+        0,                                 0,                -2 * far * near / (far - near), 0,
+    });
+    // clang-format on
+}
+
 }

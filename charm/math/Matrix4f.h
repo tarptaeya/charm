@@ -14,6 +14,8 @@ public:
     Matrix4f() = default;
     /**
      * Constructs Matrix4f from column major float[16] array
+     *
+     * @param data float[16] array in column major order
      */
     Matrix4f(const float (&)[16]);
     ~Matrix4f() = default;
@@ -47,6 +49,16 @@ public:
     static Matrix4f scaling(float);
     static Matrix4f scaling(float, float, float);
     static Matrix4f translation(float, float, float);
+
+    /**
+     * Returns symmetric perspective projection matrix.
+     *
+     * @param fov vertical field of view in radians
+     * @param aspect_ratio width / height of image plane
+     * @param near
+     * @param far
+     */
+    static Matrix4f perspective(float fov, float aspect_ratio, float near, float far);
 };
 
 }

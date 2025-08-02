@@ -97,10 +97,13 @@ public:
         theta += delta_time;
 
         m_program.use();
-        charm::Matrix4f mat = charm::Matrix4f::identity();
-        mat *= charm::Matrix4f::translation(0.5, 0.5, 0);
-        mat *= charm::Matrix4f::scaling(0.5);
-        m_program.set_uniform("u_model", mat);
+
+        charm::Matrix4f model = charm::Matrix4f::identity();
+        model *= charm::Matrix4f::translation(0, 0, -10);
+        m_program.set_uniform("u_model", model);
+
+        charm::Matrix4f projection = charm::Matrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100.0);
+        m_program.set_uniform("u_projection", projection);
 
         auto component = m_entity.get_component<CustomVertexArrayComponent>();
         glBindVertexArray(component->get_vertex_array());
@@ -111,7 +114,8 @@ public:
 int main()
 {
     charm::AppOptions options;
-    options.window_width = options.window_height = 640;
+    options.window_width = 1024;
+    options.window_height = 720;
     options.window_title = "Charmed Demo";
 
     charm::Application::create<GameAdapter>(options);
