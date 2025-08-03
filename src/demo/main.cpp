@@ -1,45 +1,32 @@
 #include "charm.h"
 #include <iostream>
 
-class CustomVertexArrayComponent : public charm::Component {
-    unsigned int m_vertex_array = 0;
-    unsigned int m_vertex_buffer = 0;
-    unsigned int m_index_buffer = 0;
-    int m_count = 0;
+class CustomComponent : public charm::Component {
+    charm::Geometry m_geometry;
+    charm::Material m_material;
 
 public:
-    explicit CustomVertexArrayComponent(charm::Entity& entity, unsigned int vertex_array, unsigned int vertex_buffer, unsigned int index_buffer, int count)
-        : m_vertex_array(vertex_array)
-        , m_vertex_buffer(vertex_buffer)
-        , m_index_buffer(index_buffer)
-        , m_count(count)
-        , Component(entity)
+    explicit CustomComponent(charm::Entity& entity, charm::Geometry&& geometry, charm::Material&& material)
+        : Component(entity)
+        , m_geometry(std::move(geometry))
+        , m_material(std::move(material))
     {
     }
 
-    ~CustomVertexArrayComponent() override
+    ~CustomComponent() override = default;
+
+    charm::Geometry& get_geometry()
     {
-        if (m_vertex_array != 0)
-            glDeleteVertexArrays(1, &m_vertex_array);
-        if (m_vertex_buffer != 0)
-            glDeleteBuffers(1, &m_vertex_buffer);
-        if (m_index_buffer != 0)
-            glDeleteBuffers(1, &m_index_buffer);
+        return m_geometry;
     }
 
-    unsigned int get_vertex_array() const
+    charm::Material& get_material()
     {
-        return m_vertex_array;
-    }
-
-    int get_count() const
-    {
-        return m_count;
+        return m_material;
     }
 };
 
 class GameAdapter : public charm::AppAdapter {
-    charm::ShaderProgram m_program;
     charm::Entity m_entity;
     charm::Texture2D m_texture_1;
     charm::Texture2D m_texture_2;
@@ -51,7 +38,7 @@ public:
 
         charmShaderRegistry->add_shader(GL_VERTEX_SHADER, "assets/basic.vertex.glsl");
         charmShaderRegistry->add_shader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl");
-        m_program = std::move(charm::ShaderProgram(charmShaderRegistry->get_shader("assets/basic.vertex.glsl"), charmShaderRegistry->get_shader("assets/basic.fragment.glsl")));
+        charm::ShaderProgram program = std::move(charm::ShaderProgram(charmShaderRegistry->get_shader("assets/basic.vertex.glsl"), charmShaderRegistry->get_shader("assets/basic.fragment.glsl")));
 
         unsigned int vertex_array;
         glGenVertexArrays(1, &vertex_array);
@@ -87,7 +74,10 @@ public:
         // clang-format on
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-        m_entity.add_component<CustomVertexArrayComponent>(vertex_array, vertex_buffer, index_buffer, 6);
+        charm::Geometry geometry(vertex_array, vertex_buffer, index_buffer, 6);
+        charm::Material material(std::move(program));
+
+        m_entity.add_component<CustomComponent>(std::move(geometry), std::move(material));
         m_texture_1 = charm::Texture2DBuilder("assets/container.ppm").set_texture_unit(GL_TEXTURE0).build();
         m_texture_2 = charm::Texture2DBuilder("assets/awesomeface.ppm").set_texture_unit(GL_TEXTURE1).build();
     }
@@ -102,31 +92,34 @@ public:
         static float theta = 0;
         theta += delta_time;
 
-        m_program.use();
+        auto component = m_entity.get_component<CustomComponent>();
+        auto& geometry = component->get_geometry();
+        auto& program = component->get_material().get_shader_program();
+
+        program.use();
 
         m_texture_1.bind();
-        m_program.set_uniform("u_texture_1", 0);
+        program.set_uniform("u_texture_1", 0);
 
         m_texture_2.bind();
-        m_program.set_uniform("u_texture_2", 1);
+        program.set_uniform("u_texture_2", 1);
 
         charm::Matrix4f model = charm::Matrix4f::identity();
         model *= charm::Matrix4f::translation(0, 0, 0);
-        m_program.set_uniform("u_model", model);
+        program.set_uniform("u_model", model);
 
         static float x = 0;
         x = (x > 5) ? 0 : x + delta_time;
         charm::Matrix4f camera = charm::Matrix4f::identity();
         camera *= charm::Matrix4f::translation(0, 0, 2 + x);
         camera.inverse();
-        m_program.set_uniform("u_view", camera);
+        program.set_uniform("u_view", camera);
 
         charm::Matrix4f projection = charm::Matrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100.0);
-        m_program.set_uniform("u_projection", projection);
+        program.set_uniform("u_projection", projection);
 
-        auto component = m_entity.get_component<CustomVertexArrayComponent>();
-        glBindVertexArray(component->get_vertex_array());
-        glDrawElements(GL_TRIANGLES, component->get_count(), GL_UNSIGNED_INT, nullptr);
+        glBindVertexArray(geometry.get_vertex_array());
+        glDrawElements(GL_TRIANGLES, geometry.get_count(), GL_UNSIGNED_INT, nullptr);
     }
 };
 

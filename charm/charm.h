@@ -14,6 +14,10 @@
 #include "ecs/Component.h"
 #include "ecs/Entity.h"
 
+#include "graphics/geometry/Geometry.h"
+
+#include "graphics/material/Material.h"
+
 #include "graphics/shaders/ShaderProgram.h"
 #include "graphics/shaders/ShaderRegistry.h"
 
