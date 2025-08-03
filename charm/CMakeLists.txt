@@ -18,3 +18,6 @@ target_link_libraries(charmcore glfw glad)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(charmcore PRIVATE DEBUG_BUILD)
 endif()
+
+install(TARGETS charmcore)
+install(DIRECTORY . DESTINATION include/charm FILES_MATCHING PATTERN "*.h")

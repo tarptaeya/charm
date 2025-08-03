@@ -3,6 +3,12 @@ cmake_minimum_required(VERSION 4.0)
 project(charm VERSION 0.1)
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/dist)
+
+set(GLFW_BUILD_EXAMPLES OFF)
+set(GLFW_BUILD_TESTS OFF)
+set(GLFW_BUILD_DOCS OFF)
+
 
 include_directories(deps/glfw/include deps/glad/include charm)
 
