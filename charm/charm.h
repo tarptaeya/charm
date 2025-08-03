@@ -17,6 +17,9 @@
 #include "graphics/shaders/ShaderProgram.h"
 #include "graphics/shaders/ShaderRegistry.h"
 
+#include "graphics/textures/ImageData.h"
+
 #include "io/FileIO.h"
+#include "io/ppm/PPMReader.h"
 
 #include "math/Matrix4f.h"

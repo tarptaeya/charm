@@ -6,7 +6,9 @@ add_library(
     ecs/Entity.cpp
     graphics/shaders/ShaderProgram.cpp
     graphics/shaders/ShaderRegistry.cpp
+    graphics/textures/ImageData.cpp
     io/FileIO.cpp
+    io/ppm/PPMReader.cpp
     math/Matrix4f.cpp
 )
 

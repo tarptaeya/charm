@@ -60,17 +60,19 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
         // clang-format off
         float data[] = {
-            -1, -1, 0, 1, 1,
-            -1, 1, 1, 0, 1,
-            1, 1, 1, 1, 1,
-            1, -1, 1, 1, 0,
+            -1, -1, 0, 1, 1, 0, 0,
+            -1, 1, 1, 0, 1, 0, 1,
+            1, 1, 1, 1, 1, 1, 1,
+            1, -1, 1, 1, 0, 1, 0,
         };
         // clang-format on
         glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT, false, 5 * sizeof(float), nullptr);
+        glVertexAttribPointer(0, 2, GL_FLOAT, false, 7 * sizeof(float), nullptr);
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 7 * sizeof(float), (void*)(2 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, false, 7 * sizeof(float), (void*)(5 * sizeof(float)));
 
         unsigned int index_buffer;
         glGenBuffers(1, &index_buffer);
@@ -84,6 +86,19 @@ public:
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
         m_entity.add_component<CustomVertexArrayComponent>(vertex_array, vertex_buffer, index_buffer, 6);
+
+        auto image_data = charm::PPMReader::read("assets/texture.ppm");
+        {
+            unsigned int texture;
+            glGenTextures(1, &texture);
+            glBindTexture(GL_TEXTURE_2D, texture);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image_data.get_width(), image_data.get_height(), 0, GL_RGB, GL_UNSIGNED_BYTE, &image_data.get_data()[0]);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
     }
 
     ~GameAdapter() override = default;
