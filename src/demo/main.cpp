@@ -40,41 +40,7 @@ public:
         charmShaderRegistry->add_shader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl");
         charm::ShaderProgram program = std::move(charm::ShaderProgram(charmShaderRegistry->get_shader("assets/basic.vertex.glsl"), charmShaderRegistry->get_shader("assets/basic.fragment.glsl")));
 
-        unsigned int vertex_array;
-        glGenVertexArrays(1, &vertex_array);
-        glBindVertexArray(vertex_array);
-
-        unsigned int vertex_buffer;
-        glGenBuffers(1, &vertex_buffer);
-        glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-        // clang-format off
-        float data[] = {
-            -1, -1, 0, 1, 1, 0, 0,
-            -1, 1, 1, 0, 1, 0, 1,
-            1, 1, 1, 1, 1, 1, 1,
-            1, -1, 1, 1, 0, 1, 0,
-        };
-        // clang-format on
-        glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT, false, 7 * sizeof(float), nullptr);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 7 * sizeof(float), (void*)(2 * sizeof(float)));
-        glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, false, 7 * sizeof(float), (void*)(5 * sizeof(float)));
-
-        unsigned int index_buffer;
-        glGenBuffers(1, &index_buffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
-        // clang-format off
-        unsigned int indices[] = {
-            0, 1, 3,
-            1, 2, 3,
-        };
-        // clang-format on
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-        charm::Geometry geometry(vertex_array, vertex_buffer, index_buffer, 6);
+        charm::Geometry geometry = charm::BoxGeometry();
         charm::Material material(std::move(program));
 
         m_entity.add_component<CustomComponent>(std::move(geometry), std::move(material));
@@ -111,7 +77,7 @@ public:
         static float x = 0;
         x = (x > 5) ? 0 : x + delta_time;
         charm::Matrix4f camera = charm::Matrix4f::identity();
-        camera *= charm::Matrix4f::translation(0, 0, 2 + x);
+        camera *= charm::Matrix4f::translation(x / 2, x / 2, 2 + x);
         camera.inverse();
         program.set_uniform("u_view", camera);
 

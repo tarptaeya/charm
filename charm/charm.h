@@ -14,6 +14,7 @@
 #include "ecs/Component.h"
 #include "ecs/Entity.h"
 
+#include "graphics/geometry/BoxGeometry.h"
 #include "graphics/geometry/Geometry.h"
 
 #include "graphics/material/Material.h"

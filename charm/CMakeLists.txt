@@ -4,6 +4,7 @@ add_library(
     app/Window.cpp
     ecs/Component.cpp
     ecs/Entity.cpp
+    graphics/geometry/BoxGeometry.cpp
     graphics/geometry/Geometry.cpp
     graphics/material/Material.cpp
     graphics/shaders/ShaderProgram.cpp

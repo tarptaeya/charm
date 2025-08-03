@@ -52,4 +52,30 @@ int Geometry::get_count() const
     return m_count;
 }
 
+void Geometry::set_vertex_array(GLuint vertex_array)
+{
+    if (m_vertex_array != 0)
+        glDeleteVertexArrays(1, &m_vertex_array);
+    m_vertex_array = vertex_array;
+}
+
+void Geometry::set_vertex_buffer(GLuint vertex_buffer)
+{
+    if (m_vertex_buffer != 0)
+        glDeleteBuffers(1, &m_vertex_buffer);
+    m_vertex_buffer = vertex_buffer;
+}
+
+void Geometry::set_index_buffer(GLuint index_buffer)
+{
+    if (m_index_buffer != 0)
+        glDeleteBuffers(1, &m_index_buffer);
+    m_index_buffer = index_buffer;
+}
+
+void Geometry::set_count(int count)
+{
+    m_count = count;
+}
+
 }
