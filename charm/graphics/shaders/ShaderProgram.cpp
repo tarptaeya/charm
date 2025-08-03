@@ -60,4 +60,14 @@ void ShaderProgram::set_uniform(const std::string& name, const Matrix4f& mat)
     glUniformMatrix4fv(location, 1, false, mat.get_data());
 }
 
+void ShaderProgram::set_uniform(const std::string& name, int value)
+{
+    if (!m_uniform_locations.count(name)) {
+        m_uniform_locations[name] = glGetUniformLocation(m_program, name.c_str());
+    }
+
+    int location = m_uniform_locations[name];
+    glUniform1i(location, value);
+}
+
 }

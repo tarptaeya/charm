@@ -18,6 +18,8 @@
 #include "graphics/shaders/ShaderRegistry.h"
 
 #include "graphics/textures/ImageData.h"
+#include "graphics/textures/Texture2D.h"
+#include "graphics/textures/Texture2DBuilder.h"
 
 #include "io/FileIO.h"
 #include "io/ppm/PPMReader.h"

@@ -24,6 +24,7 @@ public:
 
     void use();
     void set_uniform(const std::string&, const Matrix4f&);
+    void set_uniform(const std::string&, int);
 };
 
 }

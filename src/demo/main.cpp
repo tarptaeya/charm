@@ -41,6 +41,8 @@ public:
 class GameAdapter : public charm::AppAdapter {
     charm::ShaderProgram m_program;
     charm::Entity m_entity;
+    charm::Texture2D m_texture_1;
+    charm::Texture2D m_texture_2;
 
 public:
     GameAdapter()
@@ -86,19 +88,8 @@ public:
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
         m_entity.add_component<CustomVertexArrayComponent>(vertex_array, vertex_buffer, index_buffer, 6);
-
-        auto image_data = charm::PPMReader::read("assets/texture.ppm");
-        {
-            unsigned int texture;
-            glGenTextures(1, &texture);
-            glBindTexture(GL_TEXTURE_2D, texture);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image_data.get_width(), image_data.get_height(), 0, GL_RGB, GL_UNSIGNED_BYTE, &image_data.get_data()[0]);
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
+        m_texture_1 = charm::Texture2DBuilder("assets/container.ppm").set_texture_unit(GL_TEXTURE0).build();
+        m_texture_2 = charm::Texture2DBuilder("assets/awesomeface.ppm").set_texture_unit(GL_TEXTURE1).build();
     }
 
     ~GameAdapter() override = default;
@@ -112,6 +103,12 @@ public:
         theta += delta_time;
 
         m_program.use();
+
+        m_texture_1.bind();
+        m_program.set_uniform("u_texture_1", 0);
+
+        m_texture_2.bind();
+        m_program.set_uniform("u_texture_2", 1);
 
         charm::Matrix4f model = charm::Matrix4f::identity();
         model *= charm::Matrix4f::translation(0, 0, 0);

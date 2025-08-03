@@ -7,6 +7,8 @@ add_library(
     graphics/shaders/ShaderProgram.cpp
     graphics/shaders/ShaderRegistry.cpp
     graphics/textures/ImageData.cpp
+    graphics/textures/Texture2D.cpp
+    graphics/textures/Texture2DBuilder.cpp
     io/FileIO.cpp
     io/ppm/PPMReader.cpp
     math/Matrix4f.cpp
