@@ -2,6 +2,7 @@ add_library(
     charmcore
     app/Application.cpp
     app/Window.cpp
+    ecs/components/MeshRendererComponent.cpp
     ecs/Component.cpp
     ecs/Entity.cpp
     graphics/geometry/BoxGeometry.cpp
@@ -12,6 +13,7 @@ add_library(
     graphics/textures/ImageData.cpp
     graphics/textures/Texture2D.cpp
     graphics/textures/Texture2DBuilder.cpp
+    graphics/Renderer.cpp
     io/FileIO.cpp
     io/ppm/PPMReader.cpp
     math/Matrix4f.cpp
