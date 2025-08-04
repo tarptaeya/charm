@@ -1,26 +1,26 @@
 #include "charm.h"
 #include <iostream>
 
-class GameAdapter : public charm::AppAdapter {
-    charm::Camera m_camera;
-    charm::Renderer m_renderer;
-    charm::Entity m_entity;
-    charm::Texture2D m_texture;
+class GameAdapter : public XAppAdapter {
+    XCamera m_camera;
+    XRenderer m_renderer;
+    XEntity m_entity;
+    XTexture2D m_texture;
 
 public:
     GameAdapter()
     {
         glEnable(GL_DEPTH_TEST);
 
-        charmShaderRegistry->add_shader(GL_VERTEX_SHADER, "assets/basic.vertex.glsl");
-        charmShaderRegistry->add_shader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl");
-        charm::ShaderProgram program = std::move(charm::ShaderProgram(charmShaderRegistry->get_shader("assets/basic.vertex.glsl"), charmShaderRegistry->get_shader("assets/basic.fragment.glsl")));
+        xShaderRegistry->add_shader(GL_VERTEX_SHADER, "assets/basic.vertex.glsl");
+        xShaderRegistry->add_shader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl");
+        XProgram program = std::move(XProgram(xShaderRegistry->get_shader("assets/basic.vertex.glsl"), xShaderRegistry->get_shader("assets/basic.fragment.glsl")));
 
-        m_entity.add_component<charm::MeshRendererComponent>(charm::BoxGeometry(), charm::Material(std::move(program)));
-        m_texture = charm::Texture2DBuilder("assets/container.ppm").set_texture_unit(GL_TEXTURE0).build();
+        m_entity.add_component<XMeshRendererComponent>(XBoxGeometry(), XMaterial(std::move(program)));
+        m_texture = XTexture2DBuilder("assets/container.ppm").set_texture_unit(GL_TEXTURE0).build();
 
-        m_camera.set_projection(charm::Matrix4f::perspective(M_PI_4, 1024.0 / 720.0, 0.1, 100));
-        m_camera.set_transform(charm::Matrix4f::identity() * charm::Matrix4f::translation(0, 0, 5));
+        m_camera.set_projection(XMatrix4f::perspective(M_PI_4, 1024.0 / 720.0, 0.1, 100));
+        m_camera.set_transform(XMatrix4f::identity() * XMatrix4f::translation(0, 0, 5));
     }
 
     ~GameAdapter() override = default;
@@ -32,9 +32,9 @@ public:
 
         static float theta = 0;
         theta += delta_time;
-        charm::Matrix4f transform = charm::Matrix4f::identity();
-        transform *= charm::Matrix4f::rotation_x(theta) * charm::Matrix4f::rotation_z(theta);
-        m_entity.get_component<charm::TransformComponent>()->set_transform(transform);
+        XMatrix4f transform = XMatrix4f::identity();
+        transform *= XMatrix4f::rotation_x(theta) * XMatrix4f::rotation_z(theta);
+        m_entity.get_component<XTransformComponent>()->set_transform(transform);
 
         m_renderer.render(m_entity, m_camera);
     }
@@ -42,11 +42,11 @@ public:
 
 int main()
 {
-    charm::AppOptions options;
+    XAppOptions options;
     options.window_width = 1024;
     options.window_height = 720;
     options.window_title = "Charmed Demo";
 
-    charm::Application::create<GameAdapter>(options);
-    return charmApp->exec();
+    XApplication::create<GameAdapter>(options);
+    return xApp->exec();
 }

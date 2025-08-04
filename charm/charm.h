@@ -2,39 +2,28 @@
 
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
+#include <cmath>
 #include <glad/gl.h>
 
-#include <cmath>
-
-#include "app/AppAdapter.h"
-#include "app/AppOptions.h"
-#include "app/Application.h"
-#include "app/Window.h"
-
-#include "camera/Camera.h"
-
-#include "ecs/Component.h"
-#include "ecs/Entity.h"
-
-#include "ecs/components/MeshRendererComponent.h"
-#include "ecs/components/TransformComponent.h"
-
-#include "graphics/geometry/BoxGeometry.h"
-#include "graphics/geometry/Geometry.h"
-
-#include "graphics/material/Material.h"
-
-#include "graphics/shaders/ShaderProgram.h"
-#include "graphics/shaders/ShaderRegistry.h"
-
-#include "graphics/textures/ImageData.h"
-#include "graphics/textures/Texture2D.h"
-#include "graphics/textures/Texture2DBuilder.h"
-
-#include "graphics/Renderer.h"
-
-#include "io/FileIO.h"
-#include "io/ppm/PPMReader.h"
-
-#include "math/Matrix4f.h"
-#include "math/Vector4f.h"
+#include "app/XAppAdapter.h"
+#include "app/XAppOptions.h"
+#include "app/XApplication.h"
+#include "app/XWindow.h"
+#include "camera/XCamera.h"
+#include "ecs/XComponent.h"
+#include "ecs/XEntity.h"
+#include "ecs/components/XMeshRendererComponent.h"
+#include "ecs/components/XTransformComponent.h"
+#include "graphics/XRenderer.h"
+#include "graphics/geometry/XBoxGeometry.h"
+#include "graphics/geometry/XGeometry.h"
+#include "graphics/material/XMaterial.h"
+#include "graphics/shaders/XProgram.h"
+#include "graphics/shaders/XShaderRegistry.h"
+#include "graphics/textures/XImageData.h"
+#include "graphics/textures/XTexture2D.h"
+#include "graphics/textures/XTexture2DBuilder.h"
+#include "io/XFileIO.h"
+#include "io/ppm/XPPMReader.h"
+#include "math/XMatrix4f.h"
+#include "math/XVector4f.h"
