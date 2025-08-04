@@ -17,7 +17,7 @@ void Renderer::render(Entity& entity, Camera& camera)
 
     program.use();
 
-    program.set_uniform("u_model", transform_component->get_transformation_matrix());
+    program.set_uniform("u_model", transform_component->get_transform());
     program.set_uniform("u_view", camera.get_view());
     program.set_uniform("u_projection", camera.get_projection());
 

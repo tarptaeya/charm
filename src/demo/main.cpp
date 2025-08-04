@@ -30,6 +30,12 @@ public:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.1, 0.2, 0.3, 1.0);
 
+        static float theta = 0;
+        theta += delta_time;
+        charm::Matrix4f transform = charm::Matrix4f::identity();
+        transform *= charm::Matrix4f::rotation_x(theta) * charm::Matrix4f::rotation_z(theta);
+        m_entity.get_component<charm::TransformComponent>()->set_transform(transform);
+
         m_renderer.render(m_entity, m_camera);
     }
 };
