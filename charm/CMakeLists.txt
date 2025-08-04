@@ -1,5 +1,5 @@
 add_library(
-    charmcore
+    charm
     app/XApplication.cpp
     app/XWindow.cpp
     camera/XCamera.cpp
@@ -22,10 +22,10 @@ add_library(
     math/XVector4f.cpp
 )
 
-target_link_libraries(charmcore glfw glad)
+target_link_libraries(charm glfw glad)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    target_compile_definitions(charmcore PRIVATE DEBUG_BUILD)
+    target_compile_definitions(charm PRIVATE DEBUG_BUILD)
 endif()
 
-install(TARGETS charmcore)
+install(TARGETS charm)
 install(DIRECTORY . DESTINATION include/charm FILES_MATCHING PATTERN "*.h")
