@@ -204,6 +204,42 @@ Matrix4f Matrix4f::scaling(float x, float y, float z)
     // clang-format on
 }
 
+Matrix4f Matrix4f::rotation_x(float theta)
+{
+    // clang-format off
+    return Matrix4f({
+        1, 0,      0,       0,
+        0, cos(theta), -sin(theta), 0,
+        0, sin(theta), cos(theta),  0,
+        0, 0,      0,       1,
+    });
+    // clang-format on
+}
+
+Matrix4f Matrix4f::rotation_y(float theta)
+{
+    // clang-format off
+    return Matrix4f({
+        cos(theta), 0, -sin(theta), 0,
+        0,          1, 0,           0,
+        sin(theta), 0, cos(theta),  0,
+        0,          0, 0,           1,
+    });
+    // clang-format on
+}
+
+Matrix4f Matrix4f::rotation_z(float theta)
+{
+    // clang-format off
+    return Matrix4f({
+        cos(theta),  sin(theta), 0, 0,
+        -sin(theta), cos(theta), 0, 0,
+        0,           0,          1, 0,
+        0,           0,          0, 1,
+    });
+    // clang-format on
+}
+
 Matrix4f Matrix4f::translation(float x, float y, float z)
 {
     // clang-format off

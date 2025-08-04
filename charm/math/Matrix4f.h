@@ -53,6 +53,11 @@ public:
     static Matrix4f identity();
     static Matrix4f scaling(float);
     static Matrix4f scaling(float, float, float);
+
+    static Matrix4f rotation_x(float theta);
+    static Matrix4f rotation_y(float theta);
+    static Matrix4f rotation_z(float theta);
+
     static Matrix4f translation(float, float, float);
 
     /**
