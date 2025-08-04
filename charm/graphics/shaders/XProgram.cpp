@@ -1,11 +1,11 @@
 #include "XProgram.h"
 #include <glad/gl.h>
 
-XProgram::XProgram(unsigned int vertex_shader, unsigned int fragment_shader)
+XProgram::XProgram(const XShader& vertex, const XShader& fragment)
 {
     m_program = glCreateProgram();
-    glAttachShader(m_program, vertex_shader);
-    glAttachShader(m_program, fragment_shader);
+    glAttachShader(m_program, vertex.m_shader);
+    glAttachShader(m_program, fragment.m_shader);
     glLinkProgram(m_program);
     int status;
     glGetProgramiv(m_program, GL_LINK_STATUS, &status);

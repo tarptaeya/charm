@@ -11,7 +11,7 @@ add_library(
     graphics/geometry/XGeometry.cpp
     graphics/material/XMaterial.cpp
     graphics/shaders/XProgram.cpp
-    graphics/shaders/XShaderRegistry.cpp
+    graphics/shaders/XShader.cpp
     graphics/textures/XImageData.cpp
     graphics/textures/XTexture2D.cpp
     graphics/textures/XTexture2DBuilder.cpp

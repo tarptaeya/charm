@@ -25,9 +25,14 @@ XApplication::~XApplication()
     glfwTerminate();
 }
 
-XShaderRegistry* XApplication::get_shader_registry()
+XRegistry<XShader>& XApplication::get_shader_registry()
 {
-    return &m_shader_registry;
+    return m_shaders;
+}
+
+XRegistry<XMaterial>& XApplication::get_material_registry()
+{
+    return m_materials;
 }
 
 int XApplication::exec()

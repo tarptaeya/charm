@@ -19,7 +19,7 @@
 #include "graphics/geometry/XGeometry.h"
 #include "graphics/material/XMaterial.h"
 #include "graphics/shaders/XProgram.h"
-#include "graphics/shaders/XShaderRegistry.h"
+#include "graphics/shaders/XShader.h"
 #include "graphics/textures/XImageData.h"
 #include "graphics/textures/XTexture2D.h"
 #include "graphics/textures/XTexture2DBuilder.h"

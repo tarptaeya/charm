@@ -1,9 +1,9 @@
 #include "XMeshRendererComponent.h"
 
-XMeshRendererComponent::XMeshRendererComponent(XEntity& entity, XGeometry&& geometry, XMaterial&& material)
+XMeshRendererComponent::XMeshRendererComponent(XEntity& entity, XGeometry& geometry, XMaterial& material)
     : XComponent(entity)
-    , m_geometry(std::move(geometry))
-    , m_material(std::move(material))
+    , m_geometry(geometry)
+    , m_material(material)
 {
 }
 

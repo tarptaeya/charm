@@ -5,11 +5,11 @@
 #include "graphics/material/XMaterial.h"
 
 class XMeshRendererComponent : public XComponent {
-    XGeometry m_geometry;
-    XMaterial m_material;
+    XGeometry& m_geometry;
+    XMaterial& m_material;
 
 public:
-    explicit XMeshRendererComponent(XEntity&, XGeometry&&, XMaterial&&);
+    explicit XMeshRendererComponent(XEntity&, XGeometry&, XMaterial&);
     ~XMeshRendererComponent() override = default;
 
     XMeshRendererComponent(const XMeshRendererComponent&) = delete;

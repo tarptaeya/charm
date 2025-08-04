@@ -6,19 +6,21 @@ class GameAdapter : public XAppAdapter {
     XRenderer m_renderer;
     std::vector<XEntity> m_entities;
     XTexture2D m_texture;
+    XBoxGeometry m_box_geometry;
 
 public:
     GameAdapter()
     {
         glEnable(GL_DEPTH_TEST);
 
-        xShaderRegistry->add_shader(GL_VERTEX_SHADER, "assets/basic.vertex.glsl");
-        xShaderRegistry->add_shader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl");
+        xShaders.add("basic.vertex", XShader(GL_VERTEX_SHADER, "assets/basic.vertex.glsl"));
+        xShaders.add("basic.fragment", XShader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl"));
+        XProgram program = std::move(XProgram(xShaders.get("basic.vertex"), xShaders.get("basic.fragment")));
+        xMaterials.add("basic", XMaterial(std::move(program)));
 
         for (int i = 0; i < 10; ++i) {
             XEntity entity;
-            XProgram program = std::move(XProgram(xShaderRegistry->get_shader("assets/basic.vertex.glsl"), xShaderRegistry->get_shader("assets/basic.fragment.glsl")));
-            entity.add_component<XMeshRendererComponent>(XBoxGeometry(), XMaterial(std::move(program)));
+            entity.add_component<XMeshRendererComponent>(m_box_geometry, xMaterials.get("basic"));
             m_entities.push_back(std::move(entity));
         }
 

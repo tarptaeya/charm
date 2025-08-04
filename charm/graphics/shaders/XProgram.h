@@ -1,5 +1,6 @@
 #pragma once
 
+#include "XShader.h"
 #include "math/XMatrix4f.h"
 #include <iostream>
 #include <string>
@@ -11,7 +12,7 @@ class XProgram {
 
 public:
     XProgram() = default;
-    explicit XProgram(unsigned int vertex_shader, unsigned int fragment_shader);
+    explicit XProgram(const XShader&, const XShader&);
     ~XProgram();
 
     XProgram(const XProgram&) = delete;

@@ -1,11 +1,14 @@
 #pragma once
 
 #include "XAppOptions.h"
-#include "graphics/shaders/XShaderRegistry.h"
+#include "XRegistry.h"
+#include "graphics/material/XMaterial.h"
+#include "graphics/shaders/XShader.h"
 #include <iostream>
 
 #define xApp XApplication::get_instance()
-#define xShaderRegistry xApp->get_shader_registry()
+#define xShaders xApp->get_shader_registry()
+#define xMaterials xApp->get_material_registry()
 
 class XWindow;
 class XAppAdapter;
@@ -13,7 +16,8 @@ class XAppAdapter;
 class XApplication {
     XWindow* m_window = nullptr;
     XAppAdapter* m_adapter = nullptr;
-    XShaderRegistry m_shader_registry;
+    XRegistry<XShader> m_shaders;
+    XRegistry<XMaterial> m_materials;
     static XApplication* s_instance;
 
     explicit XApplication(const XAppOptions&);
@@ -23,7 +27,8 @@ public:
     XApplication(const XApplication&) = delete;
     XApplication& operator=(const XApplication&) = delete;
 
-    XShaderRegistry* get_shader_registry();
+    XRegistry<XShader>& get_shader_registry();
+    XRegistry<XMaterial>& get_material_registry();
 
     template <typename T>
     static void create(const XAppOptions& options)
