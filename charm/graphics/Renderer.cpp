@@ -5,7 +5,7 @@
 
 namespace charm {
 
-void Renderer::render(Entity& entity)
+void Renderer::render(Entity& entity, Camera& camera)
 {
     MeshRendererComponent* mesh_renderer_component = entity.get_component<MeshRendererComponent>();
     if (!mesh_renderer_component)
@@ -16,13 +16,10 @@ void Renderer::render(Entity& entity)
     ShaderProgram& program = mesh_renderer_component->get_material().get_shader_program();
 
     program.use();
-    Matrix4f model = transform_component->get_transformation_matrix();
-    Matrix4f view = Matrix4f::identity();
-    Matrix4f projection = Matrix4f::identity();
 
-    program.set_uniform("u_model", model);
-    program.set_uniform("u_view", view);
-    program.set_uniform("u_projection", projection);
+    program.set_uniform("u_model", transform_component->get_transformation_matrix());
+    program.set_uniform("u_view", camera.get_view());
+    program.set_uniform("u_projection", camera.get_projection());
 
     glBindVertexArray(geometry.get_vertex_array());
     glDrawElements(GL_TRIANGLES, geometry.get_count(), GL_UNSIGNED_INT, nullptr);

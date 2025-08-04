@@ -2,6 +2,7 @@ add_library(
     charmcore
     app/Application.cpp
     app/Window.cpp
+    camera/Camera.cpp
     ecs/components/MeshRendererComponent.cpp
     ecs/components/TransformComponent.cpp
     ecs/Component.cpp

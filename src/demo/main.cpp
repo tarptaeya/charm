@@ -2,10 +2,10 @@
 #include <iostream>
 
 class GameAdapter : public charm::AppAdapter {
+    charm::Camera m_camera;
     charm::Renderer m_renderer;
     charm::Entity m_entity;
-    charm::Texture2D m_texture_1;
-    charm::Texture2D m_texture_2;
+    charm::Texture2D m_texture;
 
 public:
     GameAdapter()
@@ -16,12 +16,11 @@ public:
         charmShaderRegistry->add_shader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl");
         charm::ShaderProgram program = std::move(charm::ShaderProgram(charmShaderRegistry->get_shader("assets/basic.vertex.glsl"), charmShaderRegistry->get_shader("assets/basic.fragment.glsl")));
 
-        charm::Geometry geometry = charm::BoxGeometry();
-        charm::Material material(std::move(program));
+        m_entity.add_component<charm::MeshRendererComponent>(charm::BoxGeometry(), charm::Material(std::move(program)));
+        m_texture = charm::Texture2DBuilder("assets/container.ppm").set_texture_unit(GL_TEXTURE0).build();
 
-        m_entity.add_component<charm::MeshRendererComponent>(std::move(geometry), std::move(material));
-        m_texture_1 = charm::Texture2DBuilder("assets/container.ppm").set_texture_unit(GL_TEXTURE0).build();
-        m_texture_2 = charm::Texture2DBuilder("assets/awesomeface.ppm").set_texture_unit(GL_TEXTURE1).build();
+        m_camera.set_projection(charm::Matrix4f::perspective(M_PI_4, 1024.0 / 720.0, 0.1, 100));
+        m_camera.set_transform(charm::Matrix4f::identity() * charm::Matrix4f::translation(0, 0, 5));
     }
 
     ~GameAdapter() override = default;
@@ -31,7 +30,7 @@ public:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.1, 0.2, 0.3, 1.0);
 
-        m_renderer.render(m_entity);
+        m_renderer.render(m_entity, m_camera);
     }
 };
 
