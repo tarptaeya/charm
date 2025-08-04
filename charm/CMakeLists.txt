@@ -18,6 +18,7 @@ add_library(
     io/FileIO.cpp
     io/ppm/PPMReader.cpp
     math/Matrix4f.cpp
+    math/Vector4f.cpp
 )
 
 target_link_libraries(charmcore glfw glad)
