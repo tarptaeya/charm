@@ -1,9 +1,11 @@
 #include "Entity.h"
+#include "components/TransformComponent.h"
 
 namespace charm {
 
 Entity::Entity()
 {
+    add_component<TransformComponent>();
 }
 
 Entity::~Entity()

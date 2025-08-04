@@ -3,6 +3,7 @@ add_library(
     app/Application.cpp
     app/Window.cpp
     ecs/components/MeshRendererComponent.cpp
+    ecs/components/TransformComponent.cpp
     ecs/Component.cpp
     ecs/Entity.cpp
     graphics/geometry/BoxGeometry.cpp

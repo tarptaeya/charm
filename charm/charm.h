@@ -15,6 +15,7 @@
 #include "ecs/Entity.h"
 
 #include "ecs/components/MeshRendererComponent.h"
+#include "ecs/components/TransformComponent.h"
 
 #include "graphics/geometry/BoxGeometry.h"
 #include "graphics/geometry/Geometry.h"

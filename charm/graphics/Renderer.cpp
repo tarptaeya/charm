@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "ecs/components/MeshRendererComponent.h"
+#include "ecs/components/TransformComponent.h"
 #include "math/Matrix4f.h"
 
 namespace charm {
@@ -10,11 +11,12 @@ void Renderer::render(Entity& entity)
     if (!mesh_renderer_component)
         return;
 
+    TransformComponent* transform_component = entity.get_component<TransformComponent>();
     Geometry& geometry = mesh_renderer_component->get_geometry();
     ShaderProgram& program = mesh_renderer_component->get_material().get_shader_program();
 
     program.use();
-    Matrix4f model = Matrix4f::identity();
+    Matrix4f model = transform_component->get_transformation_matrix();
     Matrix4f view = Matrix4f::identity();
     Matrix4f projection = Matrix4f::identity();
 
