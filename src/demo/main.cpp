@@ -79,6 +79,12 @@ public:
     void on_key_input(int key, int scancode, int action, int mods) override
     {
     }
+
+    void on_mouse_button(int button, int action, int mods) override
+    {
+        if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+            std::cout << "opening context menu..." << std::endl;
+    }
 };
 
 int main()

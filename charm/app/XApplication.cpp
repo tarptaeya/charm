@@ -19,6 +19,9 @@ XApplication::XApplication(const XAppOptions& options)
     glfwSetKeyCallback(m_window->m_handle, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
         xApp->m_adapter->on_key_input(key, scancode, action, mods);
     });
+    glfwSetMouseButtonCallback(m_window->m_handle, [](GLFWwindow* window, int button, int action, int mods) {
+        xApp->m_adapter->on_mouse_button(button, action, mods);
+    });
 }
 
 XApplication::~XApplication()
