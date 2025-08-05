@@ -16,7 +16,7 @@ public:
     XVector4f(XVector4f&&) = default;
     XVector4f& operator=(XVector4f&&) = default;
 
-    float operator[](int);
+    float& operator[](int);
 
     float x() const;
     float y() const;

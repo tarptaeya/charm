@@ -16,6 +16,9 @@ XApplication::XApplication(const XAppOptions& options)
     }
 
     m_window = new XWindow(options);
+    glfwSetKeyCallback(m_window->m_handle, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+        xApp->m_adapter->on_key_input(key, scancode, action, mods);
+    });
 }
 
 XApplication::~XApplication()

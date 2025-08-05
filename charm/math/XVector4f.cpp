@@ -16,7 +16,7 @@ XVector4f::XVector4f(float x, float y, float z, float w)
     m_data[3] = w;
 }
 
-float XVector4f::operator[](int index)
+float& XVector4f::operator[](int index)
 {
     return m_data[index];
 }
