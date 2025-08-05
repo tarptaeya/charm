@@ -43,7 +43,6 @@ public:
         m_texture = XTexture2DBuilder("assets/container.ppm").set_texture_unit(GL_TEXTURE0).build();
 
         m_camera.set_projection(XMatrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100));
-        m_camera.set_transform(XMatrix4f::identity() * XMatrix4f::translation(0, 0, 3));
     }
 
     ~GameAdapter() override = default;
@@ -52,6 +51,13 @@ public:
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.5, 0.6, 0.7, 1.0);
+
+        static float theta = 0;
+        theta += delta_time;
+        float r = 5;
+        XMatrix4f look_at = XMatrix4f::look_at(XVector4f(r * sin(theta), 0, r * cos(theta)), XVector4f(0, 0, 0), XVector4f(0, 1, 0));
+        look_at.inverse();
+        m_camera.set_transform(look_at);
 
         for (XEntity& entity : m_entities) {
             m_renderer.render(entity, m_camera);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "XVector4f.h"
+
 /**
  * This class represents a 4x4 matrix of floats. The
  * matrix works like a row major matrix, but is stored
@@ -67,4 +69,6 @@ public:
      * @param far
      */
     static XMatrix4f perspective(float fov, float aspect_ratio, float near, float far);
+
+    static XMatrix4f look_at(const XVector4f& position, const XVector4f& target, const XVector4f& world_up);
 };

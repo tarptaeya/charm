@@ -261,3 +261,21 @@ XMatrix4f XMatrix4f::perspective(float fov, float aspect_ratio, float near, floa
     });
     // clang-format on
 }
+
+XMatrix4f XMatrix4f::look_at(const XVector4f& position, const XVector4f& target, const XVector4f& world_up)
+{
+    XVector4f direction = (position - target).normalized();
+    XVector4f right = XVector4f::cross(world_up, direction).normalized();
+    XVector4f up = XVector4f::cross(direction, right).normalized();
+
+    // clang-format off
+    XMatrix4f change_of_basis({
+        right.x(), up.x(), direction.x(), 0,
+        right.y(), up.y(), direction.y(), 0,
+        right.z(), up.z(), direction.z(), 0,
+        0,         0,      0,             1,
+    });
+    // clang-format on
+
+    return change_of_basis * translation(-position.x(), -position.y(), -position.z());
+}
