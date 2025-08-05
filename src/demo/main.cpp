@@ -55,9 +55,7 @@ public:
         static float theta = 0;
         theta += delta_time;
         float r = 5;
-        XMatrix4f look_at = XMatrix4f::look_at(XVector4f(r * sin(theta), 0, r * cos(theta)), XVector4f(0, 0, 0), XVector4f(0, 1, 0));
-        look_at.inverse();
-        m_camera.set_transform(look_at);
+        m_camera.set_view(XMatrix4f::look_at(XVector4f(r * sin(theta), 0, r * cos(theta)), XVector4f(0, 0, 0), XVector4f(0, 1, 0)));
 
         for (XEntity& entity : m_entities) {
             m_renderer.render(entity, m_camera);
