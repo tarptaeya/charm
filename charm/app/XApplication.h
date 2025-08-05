@@ -22,6 +22,8 @@ class XApplication {
 
     explicit XApplication(const XAppOptions&);
 
+    friend class XInput;
+
 public:
     ~XApplication();
     XApplication(const XApplication&) = delete;

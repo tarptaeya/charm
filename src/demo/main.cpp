@@ -53,6 +53,24 @@ public:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.5, 0.6, 0.7, 1.0);
 
+        static XVector4f position(0, 0, 3);
+        XVector4f front(0, 0, -1);
+
+        float speed = 1.5 * delta_time;
+        if (XInput::is_key_pressed(GLFW_KEY_W)) {
+            position[2] -= speed;
+            m_camera.set_view(XMatrix4f::look_at(position, position + front, XVector4f(0, 1, 0)));
+        } else if (XInput::is_key_pressed(GLFW_KEY_S)) {
+            position[2] += speed;
+            m_camera.set_view(XMatrix4f::look_at(position, position + front, XVector4f(0, 1, 0)));
+        } else if (XInput::is_key_pressed(GLFW_KEY_A)) {
+            position[0] -= speed;
+            m_camera.set_view(XMatrix4f::look_at(position, position + front, XVector4f(0, 1, 0)));
+        } else if (XInput::is_key_pressed(GLFW_KEY_D)) {
+            position[0] += speed;
+            m_camera.set_view(XMatrix4f::look_at(position, position + front, XVector4f(0, 1, 0)));
+        }
+
         for (XEntity& entity : m_entities) {
             m_renderer.render(entity, m_camera);
         }
@@ -60,23 +78,6 @@ public:
 
     void on_key_input(int key, int scancode, int action, int mods) override
     {
-        static XVector4f position(0, 0, 3);
-        XVector4f front(0, 0, -1);
-
-        float speed = 0.5;
-        if (key == GLFW_KEY_W && action == GLFW_PRESS) {
-            position[2] -= speed;
-            m_camera.set_view(XMatrix4f::look_at(position, position + front, XVector4f(0, 1, 0)));
-        } else if (key == GLFW_KEY_S && action == GLFW_PRESS) {
-            position[2] += speed;
-            m_camera.set_view(XMatrix4f::look_at(position, position + front, XVector4f(0, 1, 0)));
-        } else if (key == GLFW_KEY_A && action == GLFW_PRESS) {
-            position[0] -= speed;
-            m_camera.set_view(XMatrix4f::look_at(position, position + front, XVector4f(0, 1, 0)));
-        } else if (key == GLFW_KEY_D && action == GLFW_PRESS) {
-            position[0] += speed;
-            m_camera.set_view(XMatrix4f::look_at(position, position + front, XVector4f(0, 1, 0)));
-        }
     }
 };
 

@@ -17,6 +17,7 @@ add_library(
     graphics/textures/XTexture2DBuilder.cpp
     graphics/XRenderer.cpp
     io/XFileIO.cpp
+    io/XInput.cpp
     io/ppm/XPPMReader.cpp
     math/XMatrix4f.cpp
     math/XVector4f.cpp

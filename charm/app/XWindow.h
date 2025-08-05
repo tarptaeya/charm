@@ -8,6 +8,7 @@
 
 class XWindow {
     friend class XApplication;
+    friend class XInput;
     GLFWwindow* m_handle = nullptr;
 
     explicit XWindow(const XAppOptions&);

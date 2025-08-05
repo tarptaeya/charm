@@ -24,6 +24,7 @@
 #include "graphics/textures/XTexture2D.h"
 #include "graphics/textures/XTexture2DBuilder.h"
 #include "io/XFileIO.h"
+#include "io/XInput.h"
 #include "io/ppm/XPPMReader.h"
 #include "math/XMatrix4f.h"
 #include "math/XVector4f.h"
