@@ -5,16 +5,16 @@ namespace charm {
 
 Program::Program(const Shader& vertex, const Shader& fragment)
 {
-    m_program = glCreateProgram();
-    glAttachShader(m_program, vertex.m_shader);
-    glAttachShader(m_program, fragment.m_shader);
-    glLinkProgram(m_program);
+    m_id = glCreateProgram();
+    glAttachShader(m_id, vertex.m_id);
+    glAttachShader(m_id, fragment.m_id);
+    glLinkProgram(m_id);
     int status;
-    glGetProgramiv(m_program, GL_LINK_STATUS, &status);
+    glGetProgramiv(m_id, GL_LINK_STATUS, &status);
     if (status != GL_TRUE) {
         char log[512];
-        glGetProgramInfoLog(m_program, sizeof(log), nullptr, log);
-        glDeleteProgram(m_program);
+        glGetProgramInfoLog(m_id, sizeof(log), nullptr, log);
+        glDeleteProgram(m_id);
         std::cerr << "[error] " << log << std::endl;
         std::exit(1);
     }
@@ -22,14 +22,14 @@ Program::Program(const Shader& vertex, const Shader& fragment)
 
 Program::~Program()
 {
-    if (m_program != 0)
-        glDeleteProgram(m_program);
+    if (m_id != 0)
+        glDeleteProgram(m_id);
 }
 
 Program::Program(Program&& other)
 {
-    m_program = other.m_program;
-    other.m_program = 0;
+    m_id = other.m_id;
+    other.m_id = 0;
 }
 
 Program& Program::operator=(Program&& other)
@@ -37,23 +37,23 @@ Program& Program::operator=(Program&& other)
     if (this == &other)
         return *this;
 
-    if (m_program != 0)
-        glDeleteProgram(m_program);
+    if (m_id != 0)
+        glDeleteProgram(m_id);
 
-    m_program = other.m_program;
-    other.m_program = 0;
+    m_id = other.m_id;
+    other.m_id = 0;
     return *this;
 }
 
 void Program::use()
 {
-    glUseProgram(m_program);
+    glUseProgram(m_id);
 }
 
 void Program::set_uniform(const std::string& name, const Matrix4f& mat)
 {
     if (!m_uniform_locations.count(name)) {
-        m_uniform_locations[name] = glGetUniformLocation(m_program, name.c_str());
+        m_uniform_locations[name] = glGetUniformLocation(m_id, name.c_str());
     }
 
     int location = m_uniform_locations[name];
@@ -63,7 +63,7 @@ void Program::set_uniform(const std::string& name, const Matrix4f& mat)
 void Program::set_uniform(const std::string& name, int value)
 {
     if (!m_uniform_locations.count(name)) {
-        m_uniform_locations[name] = glGetUniformLocation(m_program, name.c_str());
+        m_uniform_locations[name] = glGetUniformLocation(m_id, name.c_str());
     }
 
     int location = m_uniform_locations[name];

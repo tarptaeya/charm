@@ -6,16 +6,16 @@ namespace charm {
 
 Shader::Shader(GLuint type, const std::string& source)
 {
-    m_shader = glCreateShader(type);
+    m_id = glCreateShader(type);
     const char* raw_source = source.c_str();
-    glShaderSource(m_shader, 1, &raw_source, nullptr);
-    glCompileShader(m_shader);
+    glShaderSource(m_id, 1, &raw_source, nullptr);
+    glCompileShader(m_id);
     int status;
-    glGetShaderiv(m_shader, GL_COMPILE_STATUS, &status);
+    glGetShaderiv(m_id, GL_COMPILE_STATUS, &status);
     if (status != GL_TRUE) {
         char log[512];
-        glGetShaderInfoLog(m_shader, sizeof(log), nullptr, log);
-        glDeleteShader(m_shader);
+        glGetShaderInfoLog(m_id, sizeof(log), nullptr, log);
+        glDeleteShader(m_id);
         std::cerr << "[error] " << log << std::endl;
         std::exit(1);
     }
@@ -23,14 +23,14 @@ Shader::Shader(GLuint type, const std::string& source)
 
 Shader::~Shader()
 {
-    if (m_shader != 0)
-        glDeleteShader(m_shader);
+    if (m_id != 0)
+        glDeleteShader(m_id);
 }
 
 Shader::Shader(Shader&& other)
 {
-    m_shader = other.m_shader;
-    other.m_shader = 0;
+    m_id = other.m_id;
+    other.m_id = 0;
 }
 
 Shader& Shader::operator=(Shader&& other)
@@ -38,8 +38,8 @@ Shader& Shader::operator=(Shader&& other)
     if (this == &other)
         return *this;
 
-    m_shader = other.m_shader;
-    other.m_shader = 0;
+    m_id = other.m_id;
+    other.m_id = 0;
     return *this;
 }
 

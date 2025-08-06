@@ -23,9 +23,19 @@ Material& Material::operator=(Material&& other)
     return *this;
 }
 
-Program& Material::get_program()
+void Material::use()
 {
-    return m_program;
+    glUseProgram(m_program.m_id);
+}
+
+void Material::set_uniform(const std::string& name, const Matrix4f& value)
+{
+    m_program.set_uniform(name, value);
+}
+
+void Material::set_uniform(const std::string& name, int value)
+{
+    m_program.set_uniform(name, value);
 }
 
 }

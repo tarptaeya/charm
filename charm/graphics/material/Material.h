@@ -18,7 +18,9 @@ public:
     Material(Material&&);
     Material& operator=(Material&&);
 
-    Program& get_program();
+    void use();
+    void set_uniform(const std::string&, const Matrix4f&);
+    void set_uniform(const std::string&, int);
 };
 
 }

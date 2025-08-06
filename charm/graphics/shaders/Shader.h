@@ -6,7 +6,7 @@
 namespace charm {
 
 class Shader {
-    GLuint m_shader = 0;
+    GLuint m_id = 0;
     friend class Program;
 
 public:

@@ -9,7 +9,9 @@
 namespace charm {
 
 class Program {
-    unsigned int m_program = 0;
+    friend class Material;
+
+    unsigned int m_id = 0;
     std::unordered_map<std::string, int> m_uniform_locations;
 
 public:
