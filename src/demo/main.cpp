@@ -6,7 +6,6 @@ class GameAdapter : public XAppAdapter {
     XRenderer m_renderer;
     std::vector<XEntity> m_entities;
     XTexture2D m_texture;
-    XBoxGeometry m_box_geometry;
 
 public:
     GameAdapter()
@@ -16,6 +15,7 @@ public:
         xShaders.add("basic.vertex", XShader(GL_VERTEX_SHADER, "assets/basic.vertex.glsl"));
         xShaders.add("basic.fragment", XShader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl"));
         xMaterials.add("basic", XMaterial(XProgram(xShaders.get("basic.vertex"), xShaders.get("basic.fragment"))));
+        xGeometries.add("box", XBoxGeometry());
 
         float positions[10][3] = {
             { 0, 0, 0 },
@@ -32,7 +32,7 @@ public:
 
         for (int i = 0; i < 10; ++i) {
             XEntity entity;
-            entity.add_component<XMeshRendererComponent>(m_box_geometry, xMaterials.get("basic"));
+            entity.add_component<XMeshRendererComponent>(xGeometries.get("box"), xMaterials.get("basic"));
             XMatrix4f transform = XMatrix4f::identity();
             transform *= XMatrix4f::translation(positions[i][0], positions[i][1], positions[i][2]);
             transform *= XMatrix4f::rotation_x(i * 20) * XMatrix4f::rotation_y(i * 10) * XMatrix4f::rotation_z(i * 30);

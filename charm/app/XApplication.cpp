@@ -41,6 +41,11 @@ XRegistry<XMaterial>& XApplication::get_material_registry()
     return m_materials;
 }
 
+XRegistry<XGeometry>& XApplication::get_geometry_registry()
+{
+    return m_geometries;
+}
+
 int XApplication::exec()
 {
     double prev_time = glfwGetTime();
