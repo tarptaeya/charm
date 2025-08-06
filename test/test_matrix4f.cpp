@@ -1,6 +1,8 @@
 #include "charm.h"
 #include "testing.h"
 
+using namespace charm;
+
 void test_basic_op()
 {
     // clang-format off
@@ -12,21 +14,21 @@ void test_basic_op()
     };
     // clang-format on
 
-    XMatrix4f a(data);
+    Matrix4f a(data);
     a *= 3;
     for (int i = 0; i < 16; ++i) {
         ASSERT_TRUE(a.get_data()[i] == data[i] * 3);
     }
 
-    XMatrix4f b(data);
+    Matrix4f b(data);
     b *= 2.5f;
     for (int i = 0; i < 16; ++i) {
         ASSERT_TRUE(b.get_data()[i] == data[i] * 2.5f);
     }
 
-    XMatrix4f c = XMatrix4f(data) * 2;
-    XMatrix4f d = XMatrix4f(data) * 3;
-    XMatrix4f e = c + d;
+    Matrix4f c = Matrix4f(data) * 2;
+    Matrix4f d = Matrix4f(data) * 3;
+    Matrix4f e = c + d;
     for (int i = 0; i < 16; ++i) {
         ASSERT_TRUE(e.get_data()[i] == data[i] * 5);
     }
@@ -34,9 +36,9 @@ void test_basic_op()
 
 void test_matmul_1()
 {
-    XMatrix4f a = XMatrix4f::identity();
-    XMatrix4f b = XMatrix4f::identity();
-    XMatrix4f c = a * b;
+    Matrix4f a = Matrix4f::identity();
+    Matrix4f b = Matrix4f::identity();
+    Matrix4f c = a * b;
     a *= b;
     for (int i = 0; i < 16; ++i) {
         ASSERT_TRUE(a.get_data()[i] == b.get_data()[i]);
@@ -47,7 +49,7 @@ void test_matmul_1()
 void test_matmul_2()
 {
     // clang-format off
-    XMatrix4f a({
+    Matrix4f a({
         1, 2, 3, 4,
         5, 6, 7, 8,
         9, 10, 11, 12,
@@ -60,8 +62,8 @@ void test_matmul_2()
         expected[i] = a.get_data()[i];
     }
 
-    XMatrix4f b = XMatrix4f::identity();
-    XMatrix4f c = a * b;
+    Matrix4f b = Matrix4f::identity();
+    Matrix4f c = a * b;
     a *= b;
     for (int i = 0; i < 16; ++i) {
         ASSERT_TRUE(a.get_data()[i] == expected[i]);
@@ -72,8 +74,8 @@ void test_matmul_2()
 void test_matmul_3()
 {
     // clang-format off
-    XMatrix4f a = XMatrix4f::identity();
-    XMatrix4f b({
+    Matrix4f a = Matrix4f::identity();
+    Matrix4f b({
         1, 2, 3, 4,
         5, 6, 7, 8,
         9, 10, 11, 12,
@@ -86,7 +88,7 @@ void test_matmul_3()
         expected[i] = b.get_data()[i];
     }
 
-    XMatrix4f c = a * b;
+    Matrix4f c = a * b;
     a *= b;
     for (int i = 0; i < 16; ++i) {
         ASSERT_TRUE(a.get_data()[i] == expected[i]);
@@ -97,13 +99,13 @@ void test_matmul_3()
 void test_matmul_4()
 {
     // clang-format off
-    XMatrix4f a({
+    Matrix4f a({
         1, 2, 3, 4,
         5, 6, 7, 8,
         9, 10, 11, 12,
         13, 14, 15, 16,
     });
-    XMatrix4f b({
+    Matrix4f b({
         17, 18, 19, 20,
         21, 22, 23, 24,
         25, 26, 27, 28,
@@ -118,7 +120,7 @@ void test_matmul_4()
     };
     // clang-format on
 
-    XMatrix4f c = a * b;
+    Matrix4f c = a * b;
     a *= b;
     for (int i = 0; i < 16; ++i) {
         ASSERT_TRUE(a.get_data()[i] == expected[i]);
@@ -128,15 +130,15 @@ void test_matmul_4()
 
 void test_inverse()
 {
-    XMatrix4f a = XMatrix4f::identity();
-    XMatrix4f b = XMatrix4f::identity();
+    Matrix4f a = Matrix4f::identity();
+    Matrix4f b = Matrix4f::identity();
     a.inverse();
     for (int i = 0; i < 16; ++i) {
         ASSERT_TRUE(a.get_data()[i] == b.get_data()[i]);
     }
 
     // clang-format off
-    XMatrix4f c({
+    Matrix4f c({
         1, 3, 6, 11,
         12, 4, 7, 10,
         9, 2, 5, 8,
