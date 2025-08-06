@@ -9,7 +9,7 @@ class XShader {
 
 public:
     XShader() = default;
-    XShader(GLuint, const std::string&);
+    XShader(GLuint type, const std::string& source);
     ~XShader();
 
     XShader(const XShader&) = delete;

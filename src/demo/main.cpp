@@ -12,8 +12,8 @@ public:
     {
         glEnable(GL_DEPTH_TEST);
 
-        xShaders.add("basic.vertex", XShader(GL_VERTEX_SHADER, "assets/basic.vertex.glsl"));
-        xShaders.add("basic.fragment", XShader(GL_FRAGMENT_SHADER, "assets/basic.fragment.glsl"));
+        xShaders.add("basic.vertex", XShader(GL_VERTEX_SHADER, XFileIO::read_text("assets/basic.vertex.glsl")));
+        xShaders.add("basic.fragment", XShader(GL_FRAGMENT_SHADER, XFileIO::read_text("assets/basic.fragment.glsl")));
         xMaterials.add("basic", XMaterial(XProgram(xShaders.get("basic.vertex"), xShaders.get("basic.fragment"))));
         xGeometries.add("box", XBoxGeometry());
 

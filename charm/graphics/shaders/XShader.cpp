@@ -2,10 +2,9 @@
 #include "io/XFileIO.h"
 #include <iostream>
 
-XShader::XShader(GLuint type, const std::string& path)
+XShader::XShader(GLuint type, const std::string& source)
 {
     m_shader = glCreateShader(type);
-    std::string source = XFileIO::read_text(path);
     const char* raw_source = source.c_str();
     glShaderSource(m_shader, 1, &raw_source, nullptr);
     glCompileShader(m_shader);
