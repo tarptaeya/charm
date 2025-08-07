@@ -25,7 +25,7 @@ void Renderer::render(Entity& entity, Camera& camera)
     glDrawElements(GL_TRIANGLES, geometry.get_count(), GL_UNSIGNED_INT, nullptr);
 }
 
-void Renderer::render(AbstractGameObject& object, Camera& camera)
+void Renderer::render(IGameObject& object, Camera& camera)
 {
     object.render(camera);
 }

@@ -1,6 +1,7 @@
 add_library(
     charm
     app/Application.cpp
+    app/IGameLoop.cpp
     camera/Camera.cpp
     ecs/components/MeshRendererComponent.cpp
     ecs/components/TransformComponent.cpp
@@ -19,6 +20,7 @@ add_library(
     io/ppm/PPMReader.cpp
     math/Matrix4f.cpp
     math/Vector4f.cpp
+    objects/IGameObject.cpp
 )
 
 target_link_libraries(charm glfw glad)

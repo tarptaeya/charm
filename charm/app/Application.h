@@ -20,11 +20,11 @@
 namespace charm {
 
 class Window;
-class AbstractGameLoop;
+class IGameLoop;
 
 class Application {
     GLFWwindow* m_window = nullptr;
-    AbstractGameLoop* m_game_loop = nullptr;
+    IGameLoop* m_game_loop = nullptr;
     Registry<Shader> m_shaders;
     Registry<Material> m_materials;
     Registry<Geometry> m_geometries;

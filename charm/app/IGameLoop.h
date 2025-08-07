@@ -1,14 +1,11 @@
 #pragma once
 
-#include "camera/Camera.h"
-
 namespace charm {
 
-class AbstractGameObject {
+class IGameLoop {
 public:
-    virtual ~AbstractGameObject() = default;
-    virtual void update(double delta_time) { }
-    virtual void render(Camera&) { }
+    virtual ~IGameLoop() = 0;
+    virtual void update(double delta_time) = 0;
     virtual void on_key_input(int key, int scancode, int action, int mods) { }
     virtual void on_mouse_button(int button, int action, int mods) { }
 };

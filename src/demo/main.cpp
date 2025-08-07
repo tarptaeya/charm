@@ -3,7 +3,7 @@
 
 using namespace charm;
 
-class BoxObject : public AbstractGameObject {
+class BoxObject : public IGameObject {
     Geometry& m_geometry;
     Material& m_material;
     Matrix4f m_transform;
@@ -35,8 +35,8 @@ public:
     }
 };
 
-class RootObject : public AbstractGameObject {
-    std::vector<std::unique_ptr<AbstractGameObject>> m_objects;
+class RootObject : public IGameObject {
+    std::vector<std::unique_ptr<IGameObject>> m_objects;
 
 public:
     ~RootObject() = default;
@@ -56,7 +56,7 @@ public:
     }
 };
 
-class GameLoop : public AbstractGameLoop {
+class GameLoop : public IGameLoop {
     Camera m_camera;
     Renderer m_renderer;
     std::vector<Entity> m_entities;

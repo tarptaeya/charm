@@ -5,9 +5,9 @@
 #include <cmath>
 #include <glad/gl.h>
 
-#include "app/AbstractGameLoop.h"
 #include "app/AppOptions.h"
 #include "app/Application.h"
+#include "app/IGameLoop.h"
 #include "camera/Camera.h"
 #include "ecs/Component.h"
 #include "ecs/Entity.h"
@@ -26,4 +26,4 @@
 #include "io/ppm/PPMReader.h"
 #include "math/Matrix4f.h"
 #include "math/Vector4f.h"
-#include "objects/AbstractGameObject.h"
+#include "objects/IGameObject.h"
