@@ -3,11 +3,65 @@
 
 using namespace charm;
 
+class BoxObject : public GameObject {
+    Geometry& m_geometry;
+    Material& m_material;
+    Matrix4f m_transform;
+
+public:
+    BoxObject(const Matrix4f& transform)
+        : m_geometry(charmGeometries.get("box"))
+        , m_material(charmMaterials.get("basic"))
+        , m_transform(transform)
+    {
+    }
+
+    ~BoxObject() override { }
+
+    void render(Camera& camera) override
+    {
+        m_material.use();
+        m_material.set_uniform("u_model", m_transform);
+        m_material.set_uniform("u_view", camera.get_view());
+        m_material.set_uniform("u_projection", camera.get_projection());
+
+        glBindVertexArray(m_geometry.get_vertex_array());
+        glDrawElements(GL_TRIANGLES, m_geometry.get_count(), GL_UNSIGNED_INT, nullptr);
+    }
+
+    void set_transform(const Matrix4f& transform)
+    {
+        m_transform = transform;
+    }
+};
+
+class RootObject : public GameObject {
+    std::vector<std::unique_ptr<GameObject>> m_objects;
+
+public:
+    ~RootObject() = default;
+
+    void render(Camera& camera) override
+    {
+        for (auto& object : m_objects) {
+            object->render(camera);
+        }
+    }
+
+    template <typename T, typename... Args>
+    void add_object(Args&&... args)
+    {
+        auto object = std::make_unique<T>(std::forward<Args>(args)...);
+        m_objects.push_back(std::move(object));
+    }
+};
+
 class GameAdapter : public AppAdapter {
     Camera m_camera;
     Renderer m_renderer;
     std::vector<Entity> m_entities;
     Texture2D m_texture;
+    RootObject m_root_object;
 
 public:
     GameAdapter()
@@ -33,13 +87,10 @@ public:
         };
 
         for (int i = 0; i < 10; ++i) {
-            Entity entity;
-            entity.add_component<MeshRendererComponent>(charmGeometries.get("box"), charmMaterials.get("basic"));
             Matrix4f transform = Matrix4f::identity();
             transform *= Matrix4f::translation(positions[i][0], positions[i][1], positions[i][2]);
             transform *= Matrix4f::rotation_x(i * 20) * Matrix4f::rotation_y(i * 10) * Matrix4f::rotation_z(i * 30);
-            entity.get_component<TransformComponent>()->set_transform(transform);
-            m_entities.push_back(std::move(entity));
+            m_root_object.add_object<BoxObject>(transform);
         }
 
         m_texture = Texture2DBuilder("assets/container.ppm").set_texture_unit(GL_TEXTURE0).build();
@@ -73,9 +124,7 @@ public:
             m_camera.set_view(Matrix4f::look_at(position, position + front, Vector4f(0, 1, 0)));
         }
 
-        for (Entity& entity : m_entities) {
-            m_renderer.render(entity, m_camera);
-        }
+        m_root_object.render(m_camera);
     }
 
     void on_key_input(int key, int scancode, int action, int mods) override

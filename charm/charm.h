@@ -28,3 +28,4 @@
 #include "io/ppm/PPMReader.h"
 #include "math/Matrix4f.h"
 #include "math/Vector4f.h"
+#include "objects/GameObject.h"
