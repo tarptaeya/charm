@@ -1,5 +1,9 @@
 #pragma once
 
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+#include <glad/gl.h>
+
 #include "AppOptions.h"
 #include "Registry.h"
 #include "graphics/geometry/Geometry.h"
@@ -18,7 +22,7 @@ class Window;
 class AppAdapter;
 
 class Application {
-    Window* m_window = nullptr;
+    GLFWwindow* m_window = nullptr;
     AppAdapter* m_adapter = nullptr;
     Registry<Shader> m_shaders;
     Registry<Material> m_materials;

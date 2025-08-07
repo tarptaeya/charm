@@ -1,10 +1,5 @@
 #include "Application.h"
 #include "AppAdapter.h"
-#include "Window.h"
-
-#define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-#include <glad/gl.h>
 
 namespace charm {
 
@@ -17,11 +12,24 @@ Application::Application(const AppOptions& options)
         std::exit(1);
     }
 
-    m_window = new Window(options);
-    glfwSetKeyCallback(m_window->m_handle, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+
+    m_window = glfwCreateWindow(options.window_width, options.window_height, options.window_title.c_str(), nullptr, nullptr);
+    if (!m_window) {
+        std::cerr << "[error] window creation failed" << std::endl;
+        std::exit(1);
+    }
+
+    glfwMakeContextCurrent(m_window);
+    gladLoadGL(glfwGetProcAddress);
+
+    glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
         charmApp->m_adapter->on_key_input(key, scancode, action, mods);
     });
-    glfwSetMouseButtonCallback(m_window->m_handle, [](GLFWwindow* window, int button, int action, int mods) {
+    glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
         charmApp->m_adapter->on_mouse_button(button, action, mods);
     });
 }
@@ -29,7 +37,7 @@ Application::Application(const AppOptions& options)
 Application::~Application()
 {
     delete m_adapter;
-    delete m_window;
+    glfwDestroyWindow(m_window);
     glfwTerminate();
 }
 
@@ -51,14 +59,14 @@ Registry<Geometry>& Application::get_geometry_registry()
 int Application::exec()
 {
     double prev_time = glfwGetTime();
-    while (!m_window->should_close()) {
+    while (!glfwWindowShouldClose(m_window)) {
         double curr_time = glfwGetTime();
         double delta_time = curr_time - prev_time;
         prev_time = curr_time;
         m_adapter->update(delta_time);
 
         glfwPollEvents();
-        m_window->swap_buffers();
+        glfwSwapBuffers(m_window);
     }
 
     delete this;

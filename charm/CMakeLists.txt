@@ -1,7 +1,6 @@
 add_library(
     charm
     app/Application.cpp
-    app/Window.cpp
     camera/Camera.cpp
     ecs/components/MeshRendererComponent.cpp
     ecs/components/TransformComponent.cpp
