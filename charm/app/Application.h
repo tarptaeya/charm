@@ -12,6 +12,7 @@
 #include <iostream>
 
 #define charmApp charm::Application::get_instance()
+#define charmWindow charmApp->get_window()
 #define charmShaders charmApp->get_shader_registry()
 #define charmMaterials charmApp->get_material_registry()
 #define charmGeometries charmApp->get_geometry_registry()
@@ -38,6 +39,7 @@ public:
     Application(const Application&) = delete;
     Application& operator=(const Application&) = delete;
 
+    GLFWwindow* get_window() const;
     Registry<Shader>& get_shader_registry();
     Registry<Material>& get_material_registry();
     Registry<Geometry>& get_geometry_registry();

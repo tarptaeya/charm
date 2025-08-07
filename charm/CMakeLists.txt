@@ -16,7 +16,6 @@ add_library(
     graphics/textures/Texture2DBuilder.cpp
     graphics/Renderer.cpp
     io/FileIO.cpp
-    io/Input.cpp
     io/ppm/PPMReader.cpp
     math/Matrix4f.cpp
     math/Vector4f.cpp

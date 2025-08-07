@@ -41,6 +41,11 @@ Application::~Application()
     glfwTerminate();
 }
 
+GLFWwindow* Application::get_window() const
+{
+    return m_window;
+}
+
 Registry<Shader>& Application::get_shader_registry()
 {
     return m_shaders;

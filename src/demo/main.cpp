@@ -110,16 +110,16 @@ public:
         Vector4f front(0, 0, -1);
 
         float speed = 1.5 * delta_time;
-        if (Input::is_key_pressed(GLFW_KEY_W)) {
+        if (glfwGetKey(charmWindow, GLFW_KEY_W) == GLFW_PRESS) {
             position[2] -= speed;
             m_camera.set_view(Matrix4f::look_at(position, position + front, Vector4f(0, 1, 0)));
-        } else if (Input::is_key_pressed(GLFW_KEY_S)) {
+        } else if (glfwGetKey(charmWindow, GLFW_KEY_S) == GLFW_PRESS) {
             position[2] += speed;
             m_camera.set_view(Matrix4f::look_at(position, position + front, Vector4f(0, 1, 0)));
-        } else if (Input::is_key_pressed(GLFW_KEY_A)) {
+        } else if (glfwGetKey(charmWindow, GLFW_KEY_A) == GLFW_PRESS) {
             position[0] -= speed;
             m_camera.set_view(Matrix4f::look_at(position, position + front, Vector4f(0, 1, 0)));
-        } else if (Input::is_key_pressed(GLFW_KEY_D)) {
+        } else if (glfwGetKey(charmWindow, GLFW_KEY_D) == GLFW_PRESS) {
             position[0] += speed;
             m_camera.set_view(Matrix4f::look_at(position, position + front, Vector4f(0, 1, 0)));
         }

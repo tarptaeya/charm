@@ -23,7 +23,6 @@
 #include "graphics/textures/Texture2D.h"
 #include "graphics/textures/Texture2DBuilder.h"
 #include "io/FileIO.h"
-#include "io/Input.h"
 #include "io/ppm/PPMReader.h"
 #include "math/Matrix4f.h"
 #include "math/Vector4f.h"
