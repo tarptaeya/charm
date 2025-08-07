@@ -21,8 +21,7 @@ void Renderer::render(Entity& entity, Camera& camera)
     material.set_uniform("u_view", camera.get_view());
     material.set_uniform("u_projection", camera.get_projection());
 
-    glBindVertexArray(geometry.get_vertex_array());
-    glDrawElements(GL_TRIANGLES, geometry.get_count(), GL_UNSIGNED_INT, nullptr);
+    geometry.draw();
 }
 
 void Renderer::render(IGameObject& object, Camera& camera)

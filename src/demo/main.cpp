@@ -25,8 +25,7 @@ public:
         m_material.set_uniform("u_view", camera.get_view());
         m_material.set_uniform("u_projection", camera.get_projection());
 
-        glBindVertexArray(m_geometry.get_vertex_array());
-        glDrawElements(GL_TRIANGLES, m_geometry.get_count(), GL_UNSIGNED_INT, nullptr);
+        m_geometry.draw();
     }
 
     void set_transform(const Matrix4f& transform)

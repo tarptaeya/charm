@@ -42,14 +42,10 @@ Geometry& Geometry::operator=(Geometry&& other)
     return *this;
 }
 
-GLuint Geometry::get_vertex_array() const
+void Geometry::draw()
 {
-    return m_vertex_array;
-}
-
-int Geometry::get_count() const
-{
-    return m_count;
+    glBindVertexArray(m_vertex_array);
+    glDrawElements(GL_TRIANGLES, m_count, GL_UNSIGNED_INT, nullptr);
 }
 
 void Geometry::set_vertex_array(GLuint vertex_array)

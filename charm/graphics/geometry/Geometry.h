@@ -21,8 +21,7 @@ public:
     Geometry(Geometry&&);
     Geometry& operator=(Geometry&&);
 
-    GLuint get_vertex_array() const;
-    int get_count() const;
+    void draw();
 
 protected:
     void set_vertex_array(GLuint);
