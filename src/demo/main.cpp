@@ -124,6 +124,7 @@ public:
             m_camera.set_view(Matrix4f::look_at(position, position + front, Vector4f(0, 1, 0)));
         }
 
+        m_root_object.update(delta_time);
         m_root_object.render(m_camera);
     }
 
