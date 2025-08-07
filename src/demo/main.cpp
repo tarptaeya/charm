@@ -3,7 +3,7 @@
 
 using namespace charm;
 
-class BoxObject : public GameObject {
+class BoxObject : public AbstractGameObject {
     Geometry& m_geometry;
     Material& m_material;
     Matrix4f m_transform;
@@ -35,8 +35,8 @@ public:
     }
 };
 
-class RootObject : public GameObject {
-    std::vector<std::unique_ptr<GameObject>> m_objects;
+class RootObject : public AbstractGameObject {
+    std::vector<std::unique_ptr<AbstractGameObject>> m_objects;
 
 public:
     ~RootObject() = default;
@@ -56,7 +56,7 @@ public:
     }
 };
 
-class GameAdapter : public AppAdapter {
+class GameLoop : public AbstractGameLoop {
     Camera m_camera;
     Renderer m_renderer;
     std::vector<Entity> m_entities;
@@ -64,7 +64,7 @@ class GameAdapter : public AppAdapter {
     RootObject m_root_object;
 
 public:
-    GameAdapter()
+    GameLoop()
     {
         glEnable(GL_DEPTH_TEST);
 
@@ -99,7 +99,7 @@ public:
         m_camera.set_view(Matrix4f::look_at(Vector4f(0, 0, 3), Vector4f(0, 0, 0), Vector4f(0, 1, 0)));
     }
 
-    ~GameAdapter() override = default;
+    ~GameLoop() override = default;
 
     void update(double delta_time) override
     {
@@ -146,6 +146,6 @@ int main()
     options.window_height = 720;
     options.window_title = "Charmed Demo";
 
-    Application::create<GameAdapter>(options);
+    Application::create<GameLoop>(options);
     return charmApp->exec();
 }

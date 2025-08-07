@@ -5,7 +5,7 @@
 #include <cmath>
 #include <glad/gl.h>
 
-#include "app/AppAdapter.h"
+#include "app/AbstractGameLoop.h"
 #include "app/AppOptions.h"
 #include "app/Application.h"
 #include "camera/Camera.h"
@@ -26,4 +26,4 @@
 #include "io/ppm/PPMReader.h"
 #include "math/Matrix4f.h"
 #include "math/Vector4f.h"
-#include "objects/GameObject.h"
+#include "objects/AbstractGameObject.h"

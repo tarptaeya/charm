@@ -20,11 +20,11 @@
 namespace charm {
 
 class Window;
-class AppAdapter;
+class AbstractGameLoop;
 
 class Application {
     GLFWwindow* m_window = nullptr;
-    AppAdapter* m_adapter = nullptr;
+    AbstractGameLoop* m_game_loop = nullptr;
     Registry<Shader> m_shaders;
     Registry<Material> m_materials;
     Registry<Geometry> m_geometries;
@@ -53,7 +53,7 @@ public:
         }
 
         s_instance = new Application(options);
-        s_instance->m_adapter = new T;
+        s_instance->m_game_loop = new T;
     }
 
     template <typename T>

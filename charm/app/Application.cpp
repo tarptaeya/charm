@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "AppAdapter.h"
+#include "AbstractGameLoop.h"
 
 namespace charm {
 
@@ -27,16 +27,16 @@ Application::Application(const AppOptions& options)
     gladLoadGL(glfwGetProcAddress);
 
     glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-        charmApp->m_adapter->on_key_input(key, scancode, action, mods);
+        charmApp->m_game_loop->on_key_input(key, scancode, action, mods);
     });
     glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
-        charmApp->m_adapter->on_mouse_button(button, action, mods);
+        charmApp->m_game_loop->on_mouse_button(button, action, mods);
     });
 }
 
 Application::~Application()
 {
-    delete m_adapter;
+    delete m_game_loop;
     glfwDestroyWindow(m_window);
     glfwTerminate();
 }
@@ -68,7 +68,7 @@ int Application::exec()
         double curr_time = glfwGetTime();
         double delta_time = curr_time - prev_time;
         prev_time = curr_time;
-        m_adapter->update(delta_time);
+        m_game_loop->update(delta_time);
 
         glfwPollEvents();
         glfwSwapBuffers(m_window);
