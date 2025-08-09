@@ -3,6 +3,13 @@
 
 using namespace charm;
 
+class IGameObject {
+public:
+    virtual ~IGameObject() = default;
+    virtual void update(double delta_time) { }
+    virtual void render(Camera&) { }
+};
+
 class BoxObject : public IGameObject {
     Geometry& m_geometry;
     Material& m_material;

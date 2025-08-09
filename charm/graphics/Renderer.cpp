@@ -24,9 +24,4 @@ void Renderer::render(Entity& entity, Camera& camera)
     geometry.draw();
 }
 
-void Renderer::render(IGameObject& object, Camera& camera)
-{
-    object.render(camera);
-}
-
 }

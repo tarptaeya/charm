@@ -20,7 +20,6 @@ add_library(
     io/ppm/PPMReader.cpp
     math/Matrix4f.cpp
     math/Vector4f.cpp
-    objects/IGameObject.cpp
 )
 
 target_link_libraries(charm glfw glad)
