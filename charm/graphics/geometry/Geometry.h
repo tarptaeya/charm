@@ -23,11 +23,7 @@ public:
 
     void draw();
 
-protected:
-    void set_vertex_array(GLuint);
-    void set_vertex_buffer(GLuint);
-    void set_index_buffer(GLuint);
-    void set_count(int);
+    static Geometry box();
 };
 
 }

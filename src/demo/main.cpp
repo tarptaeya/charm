@@ -77,7 +77,7 @@ public:
         charmShaders.add("basic.vertex", Shader(GL_VERTEX_SHADER, FileIO::read_text("assets/basic.vertex.glsl")));
         charmShaders.add("basic.fragment", Shader(GL_FRAGMENT_SHADER, FileIO::read_text("assets/basic.fragment.glsl")));
         charmMaterials.add("basic", Material(Program(charmShaders.get("basic.vertex"), charmShaders.get("basic.fragment"))));
-        charmGeometries.add("box", BoxGeometry());
+        charmGeometries.add("box", Geometry::box());
 
         float positions[10][3] = {
             { 0, 0, 0 },

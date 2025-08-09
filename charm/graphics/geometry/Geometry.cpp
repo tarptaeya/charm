@@ -48,30 +48,73 @@ void Geometry::draw()
     glDrawElements(GL_TRIANGLES, m_count, GL_UNSIGNED_INT, nullptr);
 }
 
-void Geometry::set_vertex_array(GLuint vertex_array)
+Geometry Geometry::box()
 {
-    if (m_vertex_array != 0)
-        glDeleteVertexArrays(1, &m_vertex_array);
-    m_vertex_array = vertex_array;
-}
+    GLuint vertex_array;
+    glGenVertexArrays(1, &vertex_array);
+    glBindVertexArray(vertex_array);
 
-void Geometry::set_vertex_buffer(GLuint vertex_buffer)
-{
-    if (m_vertex_buffer != 0)
-        glDeleteBuffers(1, &m_vertex_buffer);
-    m_vertex_buffer = vertex_buffer;
-}
+    GLuint vertex_buffer;
+    glGenBuffers(1, &vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    // clang-format off
+    float data[] = {
+        -0.5, 0.5, 0.5, 0, 0, 0, 0, 1,
+        0.5, 0.5, 0.5, 1, 0, 0, 0, 1,
+        0.5, -0.5, 0.5, 1, 1, 0, 0, 1,
+        -0.5, -0.5, 0.5, 0, 1, 0, 0, 1,
 
-void Geometry::set_index_buffer(GLuint index_buffer)
-{
-    if (m_index_buffer != 0)
-        glDeleteBuffers(1, &m_index_buffer);
-    m_index_buffer = index_buffer;
-}
+        -0.5, 0.5, -0.5, 1, 0, 0, 0, -1,
+        0.5, 0.5, -0.5, 0, 0, 0, 0, -1,
+        0.5, -0.5, -0.5, 0, 1, 0, 0, -1,
+        -0.5, -0.5, -0.5, 1, 1, 0, 0, -1,
 
-void Geometry::set_count(int count)
-{
-    m_count = count;
+        -0.5, 0.5, -0.5, 0, 0, 0, 1, 0,
+        0.5, 0.5, -0.5, 1, 0, 0, 1, 0,
+        0.5, 0.5, 0.5, 1, 1, 0, 1, 0,
+        -0.5, 0.5, 0.5, 0, 1, 0, 1, 0,
+
+        -0.5, -0.5, -0.5, 1, 0, 0, -1, 0,
+        0.5, -0.5, -0.5, 0, 0, 0, -1, 0,
+        0.5, -0.5, 0.5, 0, 1, 0, -1, 0,
+        -0.5, -0.5, 0.5, 1, 1, 0, -1, 0,
+
+        -0.5, 0.5, 0.5, 1, 0, -1, 0, 0,
+        -0.5, -0.5, 0.5, 1, 1, -1, 0, 0,
+        -0.5, -0.5, -0.5, 0, 1, -1, 0, 0,
+        -0.5, 0.5, -0.5, 0, 0, -1, 0, 0,
+
+        0.5, 0.5, 0.5, 0, 0, 1, 0, 0,
+        0.5, -0.5, 0.5, 0, 1, 1, 0, 0,
+        0.5, -0.5, -0.5, 1, 1, 1, 0, 0,
+        0.5, 0.5, -0.5, 1, 0, 1, 0, 0,
+    };
+    // clang-format on
+    glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * sizeof(float), nullptr);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, false, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, false, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+
+    GLuint index_buffer;
+    glGenBuffers(1, &index_buffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
+    // clang-format off
+    unsigned int indices[] = {
+        0, 2, 1, 0, 3, 2,
+        4, 5, 6, 4, 6, 7,
+        8, 10, 9, 8, 11, 10,
+        12, 13, 14, 12, 14, 15,
+        19, 17, 16, 19, 18, 17,
+        20, 22, 23, 20, 21, 22,
+    };
+    // clang-format on
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    return Geometry(vertex_array, vertex_buffer, index_buffer, 36);
 }
 
 }
