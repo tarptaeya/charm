@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector4f.h"
+#include "Vector3f.h"
 
 namespace charm {
 
@@ -72,7 +72,7 @@ public:
      */
     static Matrix4f perspective(float fov, float aspect_ratio, float near, float far);
 
-    static Matrix4f look_at(const Vector4f& position, const Vector4f& target, const Vector4f& world_up);
+    static Matrix4f look_at(const Vector3f& position, const Vector3f& target, const Vector3f& world_up);
 };
 
 }

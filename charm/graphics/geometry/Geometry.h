@@ -1,18 +1,18 @@
 #pragma once
 
 #include <glad/gl.h>
+#include <vector>
 
 namespace charm {
 
 class Geometry {
     GLuint m_vertex_array = 0;
-    GLuint m_vertex_buffer = 0;
-    GLuint m_index_buffer = 0;
     int m_count = 0;
+    std::vector<GLuint> m_buffers;
 
 public:
     explicit Geometry() = default;
-    explicit Geometry(GLuint vertex_array, GLuint vertex_buffer, GLuint index_buffer, int count);
+    explicit Geometry(GLuint vertex_array, int count, const std::vector<GLuint>& buffers);
     ~Geometry();
 
     Geometry(const Geometry&) = delete;

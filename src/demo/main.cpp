@@ -17,7 +17,7 @@ class BoxObject : public IGameObject {
 
 public:
     BoxObject(const Matrix4f& transform)
-        : m_geometry(charmGeometries.get("box"))
+        : m_geometry(charmGeometries.get("model"))
         , m_material(charmMaterials.get("basic"))
         , m_transform(transform)
     {
@@ -78,6 +78,7 @@ public:
         charmShaders.add("basic.fragment", Shader(GL_FRAGMENT_SHADER, FileIO::read_text("assets/basic.fragment.glsl")));
         charmMaterials.add("basic", Material(Program(charmShaders.get("basic.vertex"), charmShaders.get("basic.fragment"))));
         charmGeometries.add("box", Geometry::box());
+        charmGeometries.add("model", OBJReader::read_geometry("assets/beast.obj"));
 
         float positions[10][3] = {
             { 0, 0, 0 },
@@ -96,13 +97,14 @@ public:
             Matrix4f transform = Matrix4f::identity();
             transform *= Matrix4f::translation(positions[i][0], positions[i][1], positions[i][2]);
             transform *= Matrix4f::rotation_x(i * 20) * Matrix4f::rotation_y(i * 10) * Matrix4f::rotation_z(i * 30);
+            transform *= Matrix4f::scaling(0.003);
             m_root_object.add_object<BoxObject>(transform);
         }
 
         m_texture = Texture2DBuilder("assets/container.ppm").set_texture_unit(GL_TEXTURE0).build();
 
         m_camera.set_projection(Matrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100));
-        m_camera.set_view(Matrix4f::look_at(Vector4f(0, 0, 3), Vector4f(0, 0, 0), Vector4f(0, 1, 0)));
+        m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
     }
 
     ~GameLoop() override = default;
@@ -112,22 +114,22 @@ public:
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.5, 0.6, 0.7, 1.0);
 
-        static Vector4f position(0, 0, 3);
-        Vector4f front(0, 0, -1);
+        static Vector3f position(0, 0, 3);
+        Vector3f front(0, 0, -1);
 
         float speed = 1.5 * delta_time;
         if (glfwGetKey(charmWindow, GLFW_KEY_W) == GLFW_PRESS) {
             position[2] -= speed;
-            m_camera.set_view(Matrix4f::look_at(position, position + front, Vector4f(0, 1, 0)));
+            m_camera.set_view(Matrix4f::look_at(position, position + front, Vector3f(0, 1, 0)));
         } else if (glfwGetKey(charmWindow, GLFW_KEY_S) == GLFW_PRESS) {
             position[2] += speed;
-            m_camera.set_view(Matrix4f::look_at(position, position + front, Vector4f(0, 1, 0)));
+            m_camera.set_view(Matrix4f::look_at(position, position + front, Vector3f(0, 1, 0)));
         } else if (glfwGetKey(charmWindow, GLFW_KEY_A) == GLFW_PRESS) {
             position[0] -= speed;
-            m_camera.set_view(Matrix4f::look_at(position, position + front, Vector4f(0, 1, 0)));
+            m_camera.set_view(Matrix4f::look_at(position, position + front, Vector3f(0, 1, 0)));
         } else if (glfwGetKey(charmWindow, GLFW_KEY_D) == GLFW_PRESS) {
             position[0] += speed;
-            m_camera.set_view(Matrix4f::look_at(position, position + front, Vector4f(0, 1, 0)));
+            m_camera.set_view(Matrix4f::look_at(position, position + front, Vector3f(0, 1, 0)));
         }
 
         m_root_object.update(delta_time);

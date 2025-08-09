@@ -264,11 +264,11 @@ Matrix4f Matrix4f::perspective(float fov, float aspect_ratio, float near, float 
     // clang-format on
 }
 
-Matrix4f Matrix4f::look_at(const Vector4f& position, const Vector4f& target, const Vector4f& world_up)
+Matrix4f Matrix4f::look_at(const Vector3f& position, const Vector3f& target, const Vector3f& world_up)
 {
-    Vector4f direction = (position - target).normalized();
-    Vector4f right = Vector4f::cross(world_up, direction).normalized();
-    Vector4f up = Vector4f::cross(direction, right).normalized();
+    Vector3f direction = (position - target).normalized();
+    Vector3f right = Vector3f::cross(world_up, direction).normalized();
+    Vector3f up = Vector3f::cross(direction, right).normalized();
 
     // clang-format off
     Matrix4f change_of_basis({

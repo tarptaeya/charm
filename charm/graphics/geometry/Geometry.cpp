@@ -2,11 +2,10 @@
 
 namespace charm {
 
-Geometry::Geometry(GLuint vertex_array, GLuint vertex_buffer, GLuint index_buffer, int count)
+Geometry::Geometry(GLuint vertex_array, int count, const std::vector<GLuint>& buffers)
     : m_vertex_array(vertex_array)
-    , m_vertex_buffer(vertex_buffer)
-    , m_index_buffer(index_buffer)
     , m_count(count)
+    , m_buffers(buffers)
 {
 }
 
@@ -14,19 +13,17 @@ Geometry::~Geometry()
 {
     if (m_vertex_array != 0)
         glDeleteVertexArrays(1, &m_vertex_array);
-    if (m_vertex_buffer != 0)
-        glDeleteBuffers(1, &m_vertex_buffer);
-    if (m_index_buffer != 0)
-        glDeleteBuffers(1, &m_index_buffer);
+
+    if (m_buffers.size() > 0)
+        glDeleteBuffers(m_buffers.size(), &m_buffers[0]);
 }
 
 Geometry::Geometry(Geometry&& other)
 {
     m_vertex_array = other.m_vertex_array;
-    m_vertex_buffer = other.m_vertex_buffer;
-    m_index_buffer = other.m_index_buffer;
     m_count = other.m_count;
-    other.m_vertex_array = other.m_vertex_buffer = other.m_index_buffer = other.m_count = 0;
+    other.m_vertex_array = other.m_count = 0;
+    m_buffers = std::move(other.m_buffers);
 }
 
 Geometry& Geometry::operator=(Geometry&& other)
@@ -34,11 +31,16 @@ Geometry& Geometry::operator=(Geometry&& other)
     if (this == &other)
         return *this;
 
+    if (m_vertex_array != 0)
+        glDeleteVertexArrays(1, &m_vertex_array);
+
+    if (m_buffers.size() > 0)
+        glDeleteBuffers(m_buffers.size(), &m_buffers[0]);
+
     m_vertex_array = other.m_vertex_array;
-    m_vertex_buffer = other.m_vertex_buffer;
-    m_index_buffer = other.m_index_buffer;
     m_count = other.m_count;
-    other.m_vertex_array = other.m_vertex_buffer = other.m_index_buffer = other.m_count = 0;
+    other.m_vertex_array = other.m_count = 0;
+    m_buffers = std::move(other.m_buffers);
     return *this;
 }
 
@@ -114,7 +116,8 @@ Geometry Geometry::box()
     // clang-format on
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    return Geometry(vertex_array, vertex_buffer, index_buffer, 36);
+    std::vector<GLuint> buffers { vertex_buffer, index_buffer };
+    return Geometry(vertex_array, 36, buffers);
 }
 
 }
