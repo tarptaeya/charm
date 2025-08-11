@@ -11,14 +11,12 @@ public:
 };
 
 class BoxObject : public IGameObject {
-    Geometry& m_geometry;
     Material& m_material;
     Matrix4f m_transform;
 
 public:
     BoxObject(const Matrix4f& transform)
-        : m_geometry(charmGeometries.get("model"))
-        , m_material(charmMaterials.get("basic"))
+        : m_material(charmMaterials.get("basic"))
         , m_transform(transform)
     {
     }
@@ -32,7 +30,9 @@ public:
         m_material.set_uniform("u_view", camera.get_view());
         m_material.set_uniform("u_projection", camera.get_projection());
 
-        m_geometry.draw();
+        for (int i = 0; i < 1; ++i) {
+            charmGeometries.get("model." + std::to_string(i)).draw();
+        }
     }
 
     void set_transform(const Matrix4f& transform)
@@ -78,7 +78,35 @@ public:
         charmShaders.add("basic.fragment", Shader(GL_FRAGMENT_SHADER, FileIO::read_text("assets/basic.fragment.glsl")));
         charmMaterials.add("basic", Material(Program(charmShaders.get("basic.vertex"), charmShaders.get("basic.fragment"))));
         charmGeometries.add("box", Geometry::box());
-        charmGeometries.add("model", OBJReader::read_geometry("assets/beast.obj"));
+
+        {
+            ch3db::Model model = ch3db::Model::read("assets/model.ch3db");
+            int index = 0;
+            for (const auto& mesh : model.meshes) {
+                unsigned int vertex_array;
+                glGenVertexArrays(1, &vertex_array);
+                glBindVertexArray(vertex_array);
+
+                unsigned int vertex_buffer;
+                glGenBuffers(1, &vertex_buffer);
+                glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+                glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8 * mesh.vertices.size(), &mesh.vertices[0], GL_STATIC_DRAW);
+
+                glEnableVertexAttribArray(0);
+                glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * sizeof(float), 0);
+                glEnableVertexAttribArray(1);
+                glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+                glEnableVertexAttribArray(2);
+                glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+                unsigned int index_buffer;
+                glGenBuffers(1, &index_buffer);
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
+                glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh.indices.size(), &mesh.indices[0], GL_STATIC_DRAW);
+
+                charmGeometries.add("model." + std::to_string(index++), Geometry(vertex_array, mesh.indices.size(), { vertex_buffer, index_buffer }));
+            }
+        }
 
         float positions[10][3] = {
             { 0, 0, 0 },
@@ -97,7 +125,7 @@ public:
             Matrix4f transform = Matrix4f::identity();
             transform *= Matrix4f::translation(positions[i][0], positions[i][1], positions[i][2]);
             transform *= Matrix4f::rotation_x(i * 20) * Matrix4f::rotation_y(i * 10) * Matrix4f::rotation_z(i * 30);
-            transform *= Matrix4f::scaling(0.003);
+            transform *= Matrix4f::scaling(0.0075);
             m_root_object.add_object<BoxObject>(transform);
         }
 

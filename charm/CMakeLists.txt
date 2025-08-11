@@ -4,6 +4,7 @@ add_library(
     app/IGameLoop.cpp
     camera/Camera.cpp
     charm_utils.cpp
+    ch3db.cpp
     ecs/components/MeshRendererComponent.cpp
     ecs/components/TransformComponent.cpp
     ecs/Component.cpp
@@ -16,6 +17,7 @@ add_library(
     graphics/textures/Texture2D.cpp
     graphics/textures/Texture2DBuilder.cpp
     graphics/Renderer.cpp
+    io/BinaryIO.cpp
     io/FileIO.cpp
     io/obj/OBJReader.cpp
     io/ppm/PPMReader.cpp

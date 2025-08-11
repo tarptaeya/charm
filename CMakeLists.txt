@@ -15,6 +15,7 @@ include_directories(deps/glfw/include deps/glad/include charm)
 add_subdirectory(deps)
 add_subdirectory(charm)
 add_subdirectory(src)
+add_subdirectory(tools)
 
 enable_testing()
 add_subdirectory(test)
