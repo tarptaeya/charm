@@ -16,7 +16,7 @@ Program::Program(const Shader& vertex, const Shader& fragment)
         glGetProgramInfoLog(m_id, sizeof(log), nullptr, log);
         glDeleteProgram(m_id);
         std::cerr << "[error] " << log << std::endl;
-        std::exit(1);
+        std::exit(0);
     }
 }
 

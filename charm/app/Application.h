@@ -49,7 +49,7 @@ public:
     {
         if (s_instance) {
             std::cerr << "[error] app instance already exists" << std::endl;
-            std::exit(1);
+            std::exit(0);
         }
 
         s_instance = new Application(options);

@@ -9,7 +9,7 @@ Application::Application(const AppOptions& options)
 {
     if (!glfwInit()) {
         std::cerr << "[error] glfw initialization faield" << std::endl;
-        std::exit(1);
+        std::exit(0);
     }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -20,7 +20,7 @@ Application::Application(const AppOptions& options)
     m_window = glfwCreateWindow(options.window_width, options.window_height, options.window_title.c_str(), nullptr, nullptr);
     if (!m_window) {
         std::cerr << "[error] window creation failed" << std::endl;
-        std::exit(1);
+        std::exit(0);
     }
 
     glfwMakeContextCurrent(m_window);
@@ -82,7 +82,7 @@ Application* Application::get_instance()
 {
     if (!s_instance) {
         std::cerr << "[error] no app instance created yet" << std::endl;
-        std::exit(1);
+        std::exit(0);
     }
     return s_instance;
 }

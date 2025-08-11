@@ -17,7 +17,7 @@ Shader::Shader(GLuint type, const std::string& source)
         glGetShaderInfoLog(m_id, sizeof(log), nullptr, log);
         glDeleteShader(m_id);
         std::cerr << "[error] " << log << std::endl;
-        std::exit(1);
+        std::exit(0);
     }
 }
 

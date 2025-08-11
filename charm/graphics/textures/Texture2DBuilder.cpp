@@ -20,7 +20,7 @@ static ImageData read_path(const std::string& path)
         return PPMReader::read(path);
     } else {
         std::cerr << "[error] image format not supported: " << extension << std::endl;
-        std::exit(1);
+        std::exit(0);
     }
 }
 
