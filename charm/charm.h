@@ -15,6 +15,8 @@
 #include "ecs/components/MeshRendererComponent.h"
 #include "ecs/components/TransformComponent.h"
 #include "graphics/Renderer.h"
+#include "graphics/framebuffer/Framebuffer.h"
+#include "graphics/framebuffer/FramebufferBuilder.h"
 #include "graphics/geometry/Geometry.h"
 #include "graphics/material/Material.h"
 #include "graphics/shaders/Program.h"

@@ -8,6 +8,8 @@ add_library(
     ecs/components/TransformComponent.cpp
     ecs/Component.cpp
     ecs/Entity.cpp
+    graphics/framebuffer/Framebuffer.cpp
+    graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
     graphics/material/Material.cpp
     graphics/shaders/Program.cpp
