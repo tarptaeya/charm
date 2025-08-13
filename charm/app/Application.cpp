@@ -17,6 +17,8 @@ Application::Application(const AppOptions& options)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
+    m_width = options.window_width;
+    m_height = options.window_height;
     m_window = glfwCreateWindow(options.window_width, options.window_height, options.window_title.c_str(), nullptr, nullptr);
     if (!m_window) {
         std::cerr << "[error] window creation failed" << std::endl;
@@ -32,6 +34,10 @@ Application::Application(const AppOptions& options)
     glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
         charmApp->m_game_loop->on_mouse_button(button, action, mods);
     });
+    glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
+        charmApp->m_width = width;
+        charmApp->m_height = height;
+    });
 }
 
 Application::~Application()
@@ -44,6 +50,16 @@ Application::~Application()
 GLFWwindow* Application::get_window() const
 {
     return m_window;
+}
+
+int Application::get_width() const
+{
+    return m_width;
+}
+
+int Application::get_height() const
+{
+    return m_height;
 }
 
 Registry<Shader>& Application::get_shader_registry()
@@ -68,6 +84,9 @@ int Application::exec()
         double curr_time = glfwGetTime();
         double delta_time = curr_time - prev_time;
         prev_time = curr_time;
+
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, m_width, m_height);
         m_game_loop->update(delta_time);
 
         glfwPollEvents();

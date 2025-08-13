@@ -23,7 +23,11 @@ class Window;
 class IGameLoop;
 
 class Application {
+    friend class Input;
+
     GLFWwindow* m_window = nullptr;
+    int m_width = 0;
+    int m_height = 0;
     IGameLoop* m_game_loop = nullptr;
     Registry<Shader> m_shaders;
     Registry<Material> m_materials;
@@ -32,14 +36,14 @@ class Application {
 
     explicit Application(const AppOptions&);
 
-    friend class Input;
-
 public:
     ~Application();
     Application(const Application&) = delete;
     Application& operator=(const Application&) = delete;
 
     GLFWwindow* get_window() const;
+    int get_width() const;
+    int get_height() const;
     Registry<Shader>& get_shader_registry();
     Registry<Material>& get_material_registry();
     Registry<Geometry>& get_geometry_registry();
