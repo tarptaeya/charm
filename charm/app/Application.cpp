@@ -17,8 +17,6 @@ Application::Application(const AppOptions& options)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 
-    m_width = options.window_width;
-    m_height = options.window_height;
     m_window = glfwCreateWindow(options.window_width, options.window_height, options.window_title.c_str(), nullptr, nullptr);
     if (!m_window) {
         std::cerr << "[error] window creation failed" << std::endl;
@@ -34,7 +32,9 @@ Application::Application(const AppOptions& options)
     glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
         charmApp->m_game_loop->on_mouse_button(button, action, mods);
     });
-    glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
+
+    glfwGetFramebufferSize(m_window, &m_width, &m_height);
+    glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
         charmApp->m_width = width;
         charmApp->m_height = height;
     });
