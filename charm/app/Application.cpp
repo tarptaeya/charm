@@ -67,9 +67,9 @@ Registry<Shader>& Application::get_shader_registry()
     return m_shaders;
 }
 
-Registry<Material>& Application::get_material_registry()
+Registry<Program>& Application::get_program_registry()
 {
-    return m_materials;
+    return m_programs;
 }
 
 Registry<Geometry>& Application::get_geometry_registry()

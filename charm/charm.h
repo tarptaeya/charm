@@ -18,7 +18,6 @@
 #include "graphics/framebuffer/Framebuffer.h"
 #include "graphics/framebuffer/FramebufferBuilder.h"
 #include "graphics/geometry/Geometry.h"
-#include "graphics/material/Material.h"
 #include "graphics/shaders/Program.h"
 #include "graphics/shaders/Shader.h"
 #include "graphics/textures/ImageData.h"

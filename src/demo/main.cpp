@@ -11,12 +11,12 @@ public:
 };
 
 class BoxObject : public IGameObject {
-    Material& m_material;
+    Program& m_program;
     Matrix4f m_transform;
 
 public:
     BoxObject(const Matrix4f& transform)
-        : m_material(charmMaterials.get("basic"))
+        : m_program(charmShaderPrograms.get("basic"))
         , m_transform(transform)
     {
     }
@@ -25,10 +25,10 @@ public:
 
     void render(Camera& camera) override
     {
-        m_material.use();
-        m_material.set_uniform("u_model", m_transform);
-        m_material.set_uniform("u_view", camera.get_view());
-        m_material.set_uniform("u_projection", camera.get_projection());
+        m_program.use();
+        m_program.set_uniform("u_model", m_transform);
+        m_program.set_uniform("u_view", camera.get_view());
+        m_program.set_uniform("u_projection", camera.get_projection());
 
         for (int i = 0; i < 1; ++i) {
             charmGeometries.get("model." + std::to_string(i)).draw();
@@ -80,9 +80,15 @@ public:
         charmShaders.add("basic.fragment", Shader(GL_FRAGMENT_SHADER, FileIO::read_text("assets/basic.fragment.glsl")));
         charmShaders.add("screen.vertex", Shader(GL_VERTEX_SHADER, FileIO::read_text("assets/screen.vertex.glsl")));
         charmShaders.add("screen.fragment", Shader(GL_FRAGMENT_SHADER, FileIO::read_text("assets/screen.fragment.glsl")));
-        charmMaterials.add("basic", Material(Program(charmShaders.get("basic.vertex"), charmShaders.get("basic.fragment"))));
-        charmMaterials.add("screen", Material(Program(charmShaders.get("screen.vertex"), charmShaders.get("screen.fragment"))));
         charmGeometries.add("box", Geometry::box());
+        charmShaderPrograms.add("basic",
+            Program(
+                Shader(GL_VERTEX_SHADER, FileIO::read_text("assets/basic.vertex.glsl")),
+                Shader(GL_FRAGMENT_SHADER, FileIO::read_text("assets/basic.fragment.glsl"))));
+        charmShaderPrograms.add("screen",
+            Program(
+                Shader(GL_VERTEX_SHADER, FileIO::read_text("assets/screen.vertex.glsl")),
+                Shader(GL_FRAGMENT_SHADER, FileIO::read_text("assets/screen.fragment.glsl"))));
 
         {
             ch3db::Model model = ch3db::Model::read("assets/model.ch3db");
@@ -235,7 +241,7 @@ public:
         glClearColor(0.3, 0.5, 0.7, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        charmMaterials.get("screen").use();
+        charmShaderPrograms.get("screen").use();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_main_framebuffer.get_color_texture());
         charmGeometries.get("screen-quad").draw();

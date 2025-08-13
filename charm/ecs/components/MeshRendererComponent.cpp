@@ -2,10 +2,10 @@
 
 namespace charm {
 
-MeshRendererComponent::MeshRendererComponent(Entity& entity, Geometry& geometry, Material& material)
+MeshRendererComponent::MeshRendererComponent(Entity& entity, Geometry& geometry, Program& material)
     : Component(entity)
     , m_geometry(geometry)
-    , m_material(material)
+    , m_program(material)
 {
 }
 
@@ -14,9 +14,9 @@ Geometry& MeshRendererComponent::get_geometry()
     return m_geometry;
 }
 
-Material& MeshRendererComponent::get_material()
+Program& MeshRendererComponent::get_program()
 {
-    return m_material;
+    return m_program;
 }
 
 }
