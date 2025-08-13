@@ -13,13 +13,13 @@ void Renderer::render(Entity& entity, Camera& camera)
 
     TransformComponent* transform_component = entity.get_component<TransformComponent>();
     Geometry& geometry = mesh_renderer_component->get_geometry();
-    Program& program = mesh_renderer_component->get_program();
+    Shader& shader = mesh_renderer_component->get_shader();
 
-    program.use();
+    shader.use();
 
-    program.set_uniform("u_model", transform_component->get_transform());
-    program.set_uniform("u_view", camera.get_view());
-    program.set_uniform("u_projection", camera.get_projection());
+    shader.set_uniform("u_model", transform_component->get_transform());
+    shader.set_uniform("u_view", camera.get_view());
+    shader.set_uniform("u_projection", camera.get_projection());
 
     geometry.draw();
 }

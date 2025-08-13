@@ -11,7 +11,6 @@ add_library(
     graphics/framebuffer/Framebuffer.cpp
     graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
-    graphics/shaders/Program.cpp
     graphics/shaders/Shader.cpp
     graphics/textures/ImageData.cpp
     graphics/textures/Texture2D.cpp

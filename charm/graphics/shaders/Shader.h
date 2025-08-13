@@ -1,17 +1,19 @@
 #pragma once
 
+#include "math/Matrix4f.h"
 #include <glad/gl.h>
 #include <string>
+#include <unordered_map>
 
 namespace charm {
 
 class Shader {
-    GLuint m_id = 0;
-    friend class Program;
+    GLuint m_program = 0;
+    std::unordered_map<std::string, int> m_uniform_locations;
 
 public:
     Shader() = default;
-    Shader(GLuint type, const std::string& source);
+    Shader(const std::string& vertex_source, const std::string& fragment_source);
     ~Shader();
 
     Shader(const Shader&) = delete;
@@ -19,6 +21,10 @@ public:
 
     Shader(Shader&&);
     Shader& operator=(Shader&&);
+
+    void use();
+    void set_uniform(const std::string&, const Matrix4f&);
+    void set_uniform(const std::string&, int);
 };
 
 }

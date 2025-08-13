@@ -7,14 +7,12 @@
 #include "AppOptions.h"
 #include "Registry.h"
 #include "graphics/geometry/Geometry.h"
-#include "graphics/shaders/Program.h"
 #include "graphics/shaders/Shader.h"
 #include <iostream>
 
 #define charmApp charm::Application::get_instance()
 #define charmWindow charmApp->get_window()
 #define charmShaders charmApp->get_shader_registry()
-#define charmShaderPrograms charmApp->get_program_registry()
 #define charmGeometries charmApp->get_geometry_registry()
 
 namespace charm {
@@ -30,7 +28,6 @@ class Application {
     int m_height = 0;
     IGameLoop* m_game_loop = nullptr;
     Registry<Shader> m_shaders;
-    Registry<Program> m_programs;
     Registry<Geometry> m_geometries;
     static Application* s_instance;
 
@@ -45,7 +42,6 @@ public:
     int get_width() const;
     int get_height() const;
     Registry<Shader>& get_shader_registry();
-    Registry<Program>& get_program_registry();
     Registry<Geometry>& get_geometry_registry();
 
     template <typename T>
