@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Entity.h"
 #include "camera/Camera.h"
-#include "ecs/Entity.h"
 
 namespace charm {
 

@@ -1,6 +1,6 @@
 #include "Renderer.h"
-#include "ecs/components/MeshRendererComponent.h"
-#include "ecs/components/TransformComponent.h"
+#include "components/MeshRendererComponent.h"
+#include "components/TransformComponent.h"
 #include "math/Matrix4f.h"
 
 namespace charm {

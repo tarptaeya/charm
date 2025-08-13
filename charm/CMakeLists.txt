@@ -3,11 +3,12 @@ add_library(
     app/Application.cpp
     app/IGameLoop.cpp
     camera/Camera.cpp
-    ch3db.cpp
+    ch3db/ch3db.cpp
     ecs/components/MeshRendererComponent.cpp
     ecs/components/TransformComponent.cpp
     ecs/Component.cpp
     ecs/Entity.cpp
+    ecs/Renderer.cpp
     graphics/framebuffer/Framebuffer.cpp
     graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
@@ -15,13 +16,12 @@ add_library(
     graphics/textures/ImageData.cpp
     graphics/textures/Texture2D.cpp
     graphics/textures/Texture2DBuilder.cpp
-    graphics/Renderer.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp
     io/ppm/PPMReader.cpp
     math/Matrix4f.cpp
     math/Vector3f.cpp
-    misc.cpp
+    misc/misc.cpp
 )
 
 target_link_libraries(charm glfw glad)
