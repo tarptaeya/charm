@@ -89,7 +89,7 @@ void begin(int x, int y, int width, int height)
     s_state.vertices.clear();
     s_state.indices.clear();
 
-    s_state.add_rect(x, y, width, height, { 0.5, 0.6, 0.7 });
+    s_state.add_rect(x, y, width, height, { 0.4, 0.5, 0.6 });
 }
 
 void end()

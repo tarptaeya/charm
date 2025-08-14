@@ -61,6 +61,16 @@ void Framebuffer::bind()
     glViewport(0, 0, m_width, m_height);
 }
 
+int Framebuffer::get_width() const
+{
+    return m_width;
+}
+
+int Framebuffer::get_height() const
+{
+    return m_height;
+}
+
 unsigned int Framebuffer::get_color_texture() const
 {
     return m_color_texture;

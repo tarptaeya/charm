@@ -169,8 +169,9 @@ public:
 
     void update_hud_framebuffer(double delta_time)
     {
+        glDisable(GL_DEPTH_TEST);
         glClearColor(0.78, 0.80, 0.82, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);
 
         charmShaders.get("ui").use();
         charmShaders.get("ui").set_uniform("u_projection",
@@ -182,8 +183,10 @@ public:
                 -1,         1,          0, 1,
                 // clang-format on
             }));
-        imui::begin(22, 22, 400, 600);
+        imui::begin(22, 22, m_hud_framebuffer.get_width() / 3, m_hud_framebuffer.get_height() - 22 * 2);
         imui::end();
+
+        glEnable(GL_DEPTH_TEST);
     }
 
     void update_screen_framebuffer(double delta_time)
