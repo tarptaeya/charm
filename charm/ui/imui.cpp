@@ -6,8 +6,13 @@ namespace charm::imui {
 
 #define EIGHT_KILO_BYTES 8192
 
+struct Color {
+    float r, g, b;
+};
+
 struct Vertex {
     float x, y;
+    Color color;
 };
 
 struct State {
@@ -28,14 +33,14 @@ struct State {
         }
     }
 
-    void add_rect(float x, float y, float width, float height)
+    void add_rect(float x, float y, float width, float height, Color color)
     {
         unsigned int index = vertices.size();
 
-        vertices.push_back({ x, y });
-        vertices.push_back({ x + width, y });
-        vertices.push_back({ x + width, y + height });
-        vertices.push_back({ x, y + height });
+        vertices.push_back({ x, y, color });
+        vertices.push_back({ x + width, y, color });
+        vertices.push_back({ x + width, y + height, color });
+        vertices.push_back({ x, y + height, color });
 
         indices.push_back(index);
         indices.push_back(index + 3);
@@ -70,7 +75,9 @@ void begin(int x, int y, int width, int height)
         glBufferData(GL_ARRAY_BUFFER, s_state.array_buffer_capacity, nullptr, GL_DYNAMIC_DRAW);
 
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, false, 5 * sizeof(float), 0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 5 * sizeof(float), (void*)(2 * sizeof(float)));
 
         glGenBuffers(1, &s_state.index_buffer);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, s_state.index_buffer);
@@ -82,7 +89,7 @@ void begin(int x, int y, int width, int height)
     s_state.vertices.clear();
     s_state.indices.clear();
 
-    s_state.add_rect(x, y, width, height);
+    s_state.add_rect(x, y, width, height, { 0.5, 0.6, 0.7 });
 }
 
 void end()

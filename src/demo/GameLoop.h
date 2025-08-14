@@ -184,8 +184,6 @@ public:
             }));
         imui::begin(22, 22, 400, 600);
         imui::end();
-
-        std::cout << 1 / delta_time << std::endl;
     }
 
     void update_screen_framebuffer(double delta_time)
