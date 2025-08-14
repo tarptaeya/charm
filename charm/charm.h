@@ -27,4 +27,7 @@
 #include "io/ppm/PPMReader.h"
 #include "math/Matrix4f.h"
 #include "math/Vector3f.h"
+#include "misc/Rect.h"
 #include "misc/misc.h"
+#include "ui/IElement.h"
+#include "ui/Panel.h"

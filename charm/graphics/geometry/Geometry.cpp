@@ -24,6 +24,7 @@ Geometry::Geometry(Geometry&& other)
     m_count = other.m_count;
     other.m_vertex_array = other.m_count = 0;
     m_buffers = std::move(other.m_buffers);
+    other.m_buffers.clear();
 }
 
 Geometry& Geometry::operator=(Geometry&& other)
@@ -41,6 +42,7 @@ Geometry& Geometry::operator=(Geometry&& other)
     m_count = other.m_count;
     other.m_vertex_array = other.m_count = 0;
     m_buffers = std::move(other.m_buffers);
+    other.m_buffers.clear();
     return *this;
 }
 

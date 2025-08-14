@@ -64,10 +64,10 @@ public:
             glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
             // clang-format off
             float vertices[] = {
-                -0.5, -0.5, 0, 0,
-                -0.5, 0.5, 0, 1,
-                0.5, 0.5, 1, 1,
-                0.5, -0.5, 1, 0,
+                -1, -1, 0, 0,
+                -1, 1, 0, 1,
+                1, 1, 1, 1,
+                1, -1, 1, 0,
             };
             // clang-format on
             glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
@@ -168,6 +168,8 @@ public:
 
     void update_hud_framebuffer(double delta_time)
     {
+        glClearColor(0.1, 0.5, 0.1, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void update_screen_framebuffer(double delta_time)
@@ -177,7 +179,7 @@ public:
 
         charmShaders.get("screen").use();
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_main_framebuffer.get_color_texture());
+        glBindTexture(GL_TEXTURE_2D, m_hud_framebuffer.get_color_texture());
         charmGeometries.get("screen-quad").draw();
     }
 
