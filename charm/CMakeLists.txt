@@ -22,7 +22,7 @@ add_library(
     math/Matrix4f.cpp
     math/Vector3f.cpp
     misc/misc.cpp
-    ui/Panel.cpp
+    ui/imui.cpp
 )
 
 target_link_libraries(charm glfw glad)

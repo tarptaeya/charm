@@ -21,6 +21,7 @@ public:
         glEnable(GL_DEPTH_TEST);
 
         charmShaders.add("basic", Shader(FileIO::read_text("assets/basic.vertex.glsl"), FileIO::read_text("assets/basic.fragment.glsl")));
+        charmShaders.add("ui", Shader(FileIO::read_text("assets/ui.vertex.glsl"), FileIO::read_text("assets/ui.fragment.glsl")));
         charmShaders.add("screen", Shader(FileIO::read_text("assets/screen.vertex.glsl"), FileIO::read_text("assets/screen.fragment.glsl")));
         charmGeometries.add("box", Geometry::box());
 
@@ -168,8 +169,23 @@ public:
 
     void update_hud_framebuffer(double delta_time)
     {
-        glClearColor(0.1, 0.5, 0.1, 1.0);
+        glClearColor(0.78, 0.80, 0.82, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        charmShaders.get("ui").use();
+        charmShaders.get("ui").set_uniform("u_projection",
+            Matrix4f({
+                // clang-format off
+                2 / 1024.0, 0,          0, 0,
+                0,          -2 / 720.0, 0, 0,
+                0,          0,          1, 0,
+                -1,         1,          0, 1,
+                // clang-format on
+            }));
+        imui::begin(22, 22, 400, 600);
+        imui::end();
+
+        std::cout << 1 / delta_time << std::endl;
     }
 
     void update_screen_framebuffer(double delta_time)
