@@ -15,6 +15,8 @@ FontMetadata FontIO::parse_metadata(const std::string& path)
     }
 
     FontMetadata metadata;
+    f >> metadata.bitmap_width >> metadata.bitmap_height;
+
     std::string line;
     while (std::getline(f, line)) {
         std::stringstream ss(line);

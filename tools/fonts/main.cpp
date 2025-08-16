@@ -28,6 +28,7 @@ int main(int argc, const char** argv)
     stbi_write_png("bitmap.png", width, height, 1, bitmap, width);
 
     std::ofstream f("font.txt");
+    f << width << " " << height << std::endl;
     for (int i = 0; i < num_char; ++i) {
         char c = start_char + i;
         f << c << " "

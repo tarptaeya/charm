@@ -2,9 +2,9 @@
 
 Converts ttf font to bitmap file and font metadata (bitmap.png + font.txt)
 
-Font metadata contains information about position of each character in the bitmap. Each
-line of metadata (font.txt) file consists of space separated char, x0, y0, x1, y1, xoffset,
-yoffset, and xadvance.
+Font metadata contains information about position of each character in the bitmap. First line
+of the metadata file (font.txt) contains width and height of the bitmap font, after that each
+line consists of space separated char, x0, y0, x1, y1, xoffset, yoffset, and xadvance.
 
 #### Sample usage
 ```

@@ -122,7 +122,9 @@ public:
         m_bitmap = Texture2DBuilder("assets/bitmap.png")
                        .set_texture_unit(GL_TEXTURE1)
                        .build();
+
         m_fontmetadata = FontIO::parse_metadata("assets/font.txt");
+        std::cout << m_fontmetadata.bitmap_width << " " << m_fontmetadata.bitmap_height << std::endl;
 
         m_camera.set_projection(Matrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100));
         m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
