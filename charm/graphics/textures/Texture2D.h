@@ -1,6 +1,5 @@
 #pragma once
 
-#include "ImageData.h"
 #include <glad/gl.h>
 
 namespace charm {

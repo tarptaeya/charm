@@ -13,14 +13,12 @@ add_library(
     graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
     graphics/shaders/Shader.cpp
-    graphics/textures/ImageData.cpp
     graphics/textures/Texture2D.cpp
     graphics/textures/Texture2DBuilder.cpp
     graphics/textures/stb_image.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp
     io/FontIO.cpp
-    io/ppm/PPMReader.cpp
     math/Matrix4f.cpp
     math/Vector3f.cpp
     misc/misc.cpp
