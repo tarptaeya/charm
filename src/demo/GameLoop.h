@@ -116,10 +116,10 @@ public:
             m_root_object.add_object<TestObject>(transform);
         }
 
-        m_texture = Texture2DBuilder("assets/DuckCM.ppm")
+        m_texture = Texture2DBuilder("assets/DuckCM.png")
                         .set_texture_unit(GL_TEXTURE0)
                         .build();
-        m_bitmap = Texture2DBuilder("assets/bitmap.ppm")
+        m_bitmap = Texture2DBuilder("assets/bitmap.png")
                        .set_texture_unit(GL_TEXTURE1)
                        .build();
         m_fontmetadata = FontIO::parse_metadata("assets/font.txt");
