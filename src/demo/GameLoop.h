@@ -124,7 +124,6 @@ public:
                        .build();
 
         m_fontmetadata = FontIO::parse_metadata("assets/font.txt");
-        std::cout << m_fontmetadata.bitmap_width << " " << m_fontmetadata.bitmap_height << std::endl;
 
         m_camera.set_projection(Matrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100));
         m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
@@ -182,7 +181,9 @@ public:
         glClearColor(0.78, 0.80, 0.82, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        m_bitmap.bind();
         charmShaders.get("ui").use();
+        charmShaders.get("ui").set_uniform("u_font_texture", 1);
         charmShaders.get("ui").set_uniform("u_projection",
             Matrix4f({
                 // clang-format off
@@ -192,21 +193,10 @@ public:
                 -1,         1,          0, 1,
                 // clang-format on
             }));
-        imui::begin(22, 22, m_hud_framebuffer.get_width() / 3, m_hud_framebuffer.get_height() - 22 * 2);
+        imui::begin(22, 22, m_hud_framebuffer.get_width() / 3, m_hud_framebuffer.get_height() - 22 * 2, m_fontmetadata);
+        imui::label("Hello world");
         imui::end();
 
-#if 1
-#pragma region FontTest
-        glClearColor(0.78, 0.80, 0.82, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        m_bitmap.bind();
-        charmShaders.get("font-test").use();
-        charmShaders.get("font-test").set_uniform("u_font_texture", 1);
-        charmGeometries.get("screen-quad").draw();
-
-#pragma endregion
-#endif
         glEnable(GL_DEPTH_TEST);
     }
 

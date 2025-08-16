@@ -1,5 +1,6 @@
 #include "imui.h"
 #include <glad/gl.h>
+#include <iostream>
 #include <vector>
 
 namespace charm::imui {
@@ -10,9 +11,15 @@ struct Color {
     float r, g, b;
 };
 
+struct Texcoord {
+    float u, v;
+};
+
 struct Vertex {
     float x, y;
-    Color color;
+    Color color = { 0 };
+    int active_texture = 0;
+    Texcoord texcoord = { 0 };
 };
 
 struct State {
@@ -23,6 +30,7 @@ struct State {
     size_t index_buffer_capacity = EIGHT_KILO_BYTES;
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
+    FontMetadata font_metadata;
 
     ~State()
     {
@@ -33,14 +41,19 @@ struct State {
         }
     }
 
-    void add_rect(float x, float y, float width, float height, Color color)
+    void add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright)
     {
         unsigned int index = vertices.size();
 
-        vertices.push_back({ x, y, color });
-        vertices.push_back({ x + width, y, color });
-        vertices.push_back({ x + width, y + height, color });
-        vertices.push_back({ x, y + height, color });
+        float u1 = texcoord_topleft.u;
+        float v1 = texcoord_topleft.v;
+        float u2 = texcoord_bottomright.u;
+        float v2 = texcoord_bottomright.v;
+
+        vertices.push_back({ x, y, color, active_texture, { u1, v1 } });
+        vertices.push_back({ x + width, y, color, active_texture, { u2, v1 } });
+        vertices.push_back({ x + width, y + height, color, active_texture, { u2, v2 } });
+        vertices.push_back({ x, y + height, color, active_texture, { u1, v2 } });
 
         indices.push_back(index);
         indices.push_back(index + 3);
@@ -62,7 +75,7 @@ size_t next_power_of_two(size_t x)
 
 static State s_state;
 
-void begin(int x, int y, int width, int height)
+void begin(int x, int y, int width, int height, const FontMetadata& metadata)
 {
     static bool initialized = false;
     if (!initialized) {
@@ -75,9 +88,13 @@ void begin(int x, int y, int width, int height)
         glBufferData(GL_ARRAY_BUFFER, s_state.array_buffer_capacity, nullptr, GL_DYNAMIC_DRAW);
 
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 2, GL_FLOAT, false, 5 * sizeof(float), 0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, false, sizeof(Vertex), 0);
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, color));
+        glEnableVertexAttribArray(2);
+        glVertexAttribIPointer(2, 1, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, active_texture));
+        glEnableVertexAttribArray(3);
+        glVertexAttribPointer(3, 2, GL_FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, texcoord));
 
         glGenBuffers(1, &s_state.index_buffer);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, s_state.index_buffer);
@@ -88,8 +105,9 @@ void begin(int x, int y, int width, int height)
 
     s_state.vertices.clear();
     s_state.indices.clear();
+    s_state.font_metadata = metadata;
 
-    s_state.add_rect(x, y, width, height, { 0.4, 0.5, 0.6 });
+    s_state.add_rect(x, y, width, height, { 0.4, 0.5, 0.6 }, 0, { 0, 0 }, { 0, 0 });
 }
 
 void end()
@@ -118,6 +136,26 @@ void end()
     glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * s_state.indices.size(), &s_state.indices[0]);
 
     glDrawElements(GL_TRIANGLES, s_state.indices.size(), GL_UNSIGNED_INT, nullptr);
+}
+
+void label(const std::string& text)
+{
+    for (char c : text) {
+        const auto& info = s_state.font_metadata.info[c];
+
+        float u1 = info.x0 / (float)s_state.font_metadata.bitmap_width;
+        float v1 = 1 - info.y0 / (float)s_state.font_metadata.bitmap_height;
+        float u2 = info.x1 / (float)s_state.font_metadata.bitmap_width;
+        float v2 = 1 - info.y1 / (float)s_state.font_metadata.bitmap_height;
+
+        static bool once = false;
+        if (!once) {
+            once = true;
+            std::cout << c << " " << u1 << " " << v1 << std::endl;
+        }
+
+        s_state.add_rect(info.x0, info.y0, info.x1 - info.x0, info.y1 - info.y0, { 0.8, 0.2, 0.3 }, 1, { u1, v1 }, { u2, v2 });
+    }
 }
 
 }
