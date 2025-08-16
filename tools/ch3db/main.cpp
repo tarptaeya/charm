@@ -43,7 +43,7 @@ int main(int argc, const char** argv)
     }
 
     Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(argv[1], aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_LimitBoneWeights);
+    const aiScene* scene = importer.ReadFile(argv[1], aiProcess_Triangulate | aiProcess_LimitBoneWeights);
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
         std::cerr << "[error] " << importer.GetErrorString() << std::endl;
         std::exit(0);

@@ -11,6 +11,8 @@ class GameLoop : public IGameLoop {
     Renderer m_renderer;
     std::vector<Entity> m_entities;
     Texture2D m_texture;
+    Texture2D m_bitmap;
+    FontMetadata m_fontmetadata;
     RootObject m_root_object;
     Framebuffer m_main_framebuffer;
     Framebuffer m_hud_framebuffer;
@@ -23,6 +25,7 @@ public:
         charmShaders.add("basic", Shader(FileIO::read_text("assets/basic.vertex.glsl"), FileIO::read_text("assets/basic.fragment.glsl")));
         charmShaders.add("ui", Shader(FileIO::read_text("assets/ui.vertex.glsl"), FileIO::read_text("assets/ui.fragment.glsl")));
         charmShaders.add("screen", Shader(FileIO::read_text("assets/screen.vertex.glsl"), FileIO::read_text("assets/screen.fragment.glsl")));
+        charmShaders.add("font-test", Shader(FileIO::read_text("assets/font-test.vertex.glsl"), FileIO::read_text("assets/font-test.fragment.glsl")));
         charmGeometries.add("box", Geometry::box());
 
         {
@@ -116,6 +119,10 @@ public:
         m_texture = Texture2DBuilder("assets/DuckCM.ppm")
                         .set_texture_unit(GL_TEXTURE0)
                         .build();
+        m_bitmap = Texture2DBuilder("assets/bitmap.ppm")
+                       .set_texture_unit(GL_TEXTURE1)
+                       .build();
+        m_fontmetadata = FontIO::parse_metadata("assets/font.txt");
 
         m_camera.set_projection(Matrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100));
         m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
@@ -186,6 +193,18 @@ public:
         imui::begin(22, 22, m_hud_framebuffer.get_width() / 3, m_hud_framebuffer.get_height() - 22 * 2);
         imui::end();
 
+#if 1
+#pragma region FontTest
+        glClearColor(0.78, 0.80, 0.82, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        m_bitmap.bind();
+        charmShaders.get("font-test").use();
+        charmShaders.get("font-test").set_uniform("u_font_texture", 1);
+        charmGeometries.get("screen-quad").draw();
+
+#pragma endregion
+#endif
         glEnable(GL_DEPTH_TEST);
     }
 

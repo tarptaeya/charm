@@ -16,8 +16,10 @@ add_library(
     graphics/textures/ImageData.cpp
     graphics/textures/Texture2D.cpp
     graphics/textures/Texture2DBuilder.cpp
+    graphics/textures/stb_image.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp
+    io/FontIO.cpp
     io/ppm/PPMReader.cpp
     math/Matrix4f.cpp
     math/Vector3f.cpp
