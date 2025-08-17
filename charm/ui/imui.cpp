@@ -30,6 +30,8 @@ struct State {
     size_t index_buffer_capacity = EIGHT_KILO_BYTES;
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
+    float xcursor = 0;
+    float ycursor = 0;
     FontMetadata font_metadata;
 
     ~State()
@@ -106,6 +108,8 @@ void begin(int x, int y, int width, int height, const FontMetadata& metadata)
     s_state.vertices.clear();
     s_state.indices.clear();
     s_state.font_metadata = metadata;
+    s_state.xcursor = x;
+    s_state.ycursor = y;
 
     s_state.add_rect(x, y, width, height, { 0.4, 0.5, 0.6 }, 0, { 0, 0 }, { 0, 0 });
 }
@@ -138,8 +142,15 @@ void end()
     glDrawElements(GL_TRIANGLES, s_state.indices.size(), GL_UNSIGNED_INT, nullptr);
 }
 
-void label(const std::string& text)
+void label(const std::string& text, float font_size)
 {
+    float bitmap_pixel_height = 64;
+
+    s_state.ycursor += font_size;
+    int xcurr = s_state.xcursor;
+    int ycurr = s_state.ycursor;
+    static bool debug = false;
+
     for (char c : text) {
         const auto& info = s_state.font_metadata.info[c];
 
@@ -148,14 +159,15 @@ void label(const std::string& text)
         float u2 = info.x1 / (float)s_state.font_metadata.bitmap_width;
         float v2 = 1 - info.y1 / (float)s_state.font_metadata.bitmap_height;
 
-        static bool once = false;
-        if (!once) {
-            once = true;
-            std::cout << c << " " << u1 << " " << v1 << std::endl;
-        }
-
-        s_state.add_rect(info.x0, info.y0, info.x1 - info.x0, info.y1 - info.y0, { 0.8, 0.2, 0.3 }, 1, { u1, v1 }, { u2, v2 });
+        float x = xcurr + info.xoffset * font_size / s_state.font_metadata.bitmap_pixel_height;
+        float y = ycurr + info.yoffset * font_size / s_state.font_metadata.bitmap_pixel_height;
+        float width = (info.x1 - info.x0) * font_size / s_state.font_metadata.bitmap_pixel_height;
+        float height = (info.y1 - info.y0) * font_size / s_state.font_metadata.bitmap_pixel_height;
+        s_state.add_rect(x, y, width, height, { 1, 0, 0 }, 1, { u1, v1 }, { u2, v2 });
+        xcurr += info.xadvance * font_size / s_state.font_metadata.bitmap_pixel_height;
     }
+
+    debug = true;
 }
 
 }

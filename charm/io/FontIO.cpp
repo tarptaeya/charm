@@ -15,13 +15,12 @@ FontMetadata FontIO::parse_metadata(const std::string& path)
     }
 
     FontMetadata metadata;
-    f >> metadata.bitmap_width >> metadata.bitmap_height;
+    f >> metadata.bitmap_width >> metadata.bitmap_height >> metadata.bitmap_pixel_height;
 
     std::string line;
     while (std::getline(f, line)) {
         std::stringstream ss(line);
-        char c;
-        ss >> c;
+        char c = ss.get();
         int x0, y0, x1, y1;
         int xoffset, yoffset, xadvance;
         ss >> x0 >> y0 >> x1 >> y1 >> xoffset >> yoffset >> xadvance;

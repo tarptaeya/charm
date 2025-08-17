@@ -14,11 +14,7 @@ void main()
         FragColor = vec4(v_color, 1);
     } else if (v_active_texture == 1) {
         vec4 color = texture(u_font_texture, v_texcoord);
-        if (color.r > 0.3) {
-            FragColor = vec4(v_color, 1.0);
-        } else {
-            discard;
-        }
+        FragColor = vec4(color.r * v_color, color.r * color.r);
     }
     
 }

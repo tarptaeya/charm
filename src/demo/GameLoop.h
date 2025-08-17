@@ -178,6 +178,8 @@ public:
     void update_hud_framebuffer(double delta_time)
     {
         glDisable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClearColor(0.78, 0.80, 0.82, 1.0);
         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -194,9 +196,13 @@ public:
                 // clang-format on
             }));
         imui::begin(22, 22, m_hud_framebuffer.get_width() / 3, m_hud_framebuffer.get_height() - 22 * 2, m_fontmetadata);
-        imui::label("Hello world");
+        imui::label("Hello, World!", 48);
+        imui::label("This is message 1.", 48);
+        imui::label("This is message 2!", 48);
+        imui::label("Should this be messsage 3!?", 48);
         imui::end();
 
+        glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
     }
 
