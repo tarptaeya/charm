@@ -5,3 +5,4 @@ install(TARGETS glad)
 install(DIRECTORY glad/include/glad DESTINATION include FILES_MATCHING PATTERN "*.h")
 
 add_subdirectory(assimp)
+add_subdirectory(freetype)

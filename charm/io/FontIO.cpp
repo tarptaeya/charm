@@ -21,13 +21,13 @@ FontMetadata FontIO::parse_metadata(const std::string& path)
     while (std::getline(f, line)) {
         std::stringstream ss(line);
         char c = ss.get();
-        int x0, y0, x1, y1;
+        int x, y, width, height;
         int xoffset, yoffset, xadvance;
-        ss >> x0 >> y0 >> x1 >> y1 >> xoffset >> yoffset >> xadvance;
-        metadata.info[c].x0 = x0;
-        metadata.info[c].y0 = y0;
-        metadata.info[c].x1 = x1;
-        metadata.info[c].y1 = y1;
+        ss >> x >> y >> width >> height >> xoffset >> yoffset >> xadvance;
+        metadata.info[c].x0 = x;
+        metadata.info[c].y0 = y;
+        metadata.info[c].x1 = x + width;
+        metadata.info[c].y1 = y + height;
         metadata.info[c].xoffset = xoffset;
         metadata.info[c].yoffset = yoffset;
         metadata.info[c].xadvance = xadvance;
