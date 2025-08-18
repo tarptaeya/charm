@@ -166,8 +166,6 @@ void label(const std::string& text, float font_size)
         s_state.add_rect(x, y, width, height, { 1, 0, 0 }, 1, { u1, v1 }, { u2, v2 });
         xcurr += info.xadvance * font_size / s_state.font_metadata.bitmap_pixel_height;
     }
-
-    debug = true;
 }
 
 }

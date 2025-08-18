@@ -196,10 +196,10 @@ public:
                 // clang-format on
             }));
         imui::begin(22, 22, m_hud_framebuffer.get_width() / 3, m_hud_framebuffer.get_height() - 22 * 2, m_fontmetadata);
-        imui::label("Hello, World!", 48);
-        imui::label("This is message 1.", 48);
-        imui::label("This is message 2!", 48);
-        imui::label("Should this be messsage 3!?", 48);
+        imui::label("Hello, World!", 42);
+        imui::label("This is message 1.", 42);
+        imui::label("This is message 2!", 42);
+        imui::label("Should this be messsage 1 + 2!?", 42);
         imui::end();
 
         glDisable(GL_BLEND);

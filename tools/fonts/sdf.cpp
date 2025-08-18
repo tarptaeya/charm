@@ -15,7 +15,7 @@ struct CharacterInfo {
     int width, height; // width, height of bbox in texture atlas
     int xoffset;
     int yoffset;
-    int xadvance;
+    float xadvance;
     unsigned char* bitmap_buffer;
 };
 
@@ -51,8 +51,8 @@ int main(int argc, const char** argv)
         info.width = face->glyph->bitmap.width;
         info.height = face->glyph->bitmap.rows;
         info.xoffset = face->glyph->bitmap_left;
-        info.yoffset = face->glyph->bitmap_top;
-        info.xadvance = face->glyph->advance.x / 64; // Freetype metrics are expressed in 26.6 pixel format (i.e. 1/64th of pixel)
+        info.yoffset = -face->glyph->bitmap_top;
+        info.xadvance = face->glyph->advance.x / 64.0; // Freetype metrics are expressed in 26.6 pixel format (i.e. 1/64th of pixel)
         info.bitmap_buffer = static_cast<unsigned char*>(malloc(info.width * info.height));
         std::memcpy(info.bitmap_buffer, face->glyph->bitmap.buffer, info.width * info.height);
         all_info.push_back(info);
