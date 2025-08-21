@@ -18,10 +18,10 @@ add_library(
     graphics/textures/stb_image.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp
-    io/FontIO.cpp
     math/Matrix4f.cpp
     math/Vector3f.cpp
     misc/misc.cpp
+    ui/FontMetadata.cpp
     ui/imui.cpp
 )
 

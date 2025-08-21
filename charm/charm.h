@@ -23,7 +23,6 @@
 #include "graphics/textures/Texture2DBuilder.h"
 #include "io/BinaryIO.h"
 #include "io/FileIO.h"
-#include "io/FontIO.h"
 #include "math/Matrix4f.h"
 #include "math/Vector3f.h"
 #include "misc/Rect.h"

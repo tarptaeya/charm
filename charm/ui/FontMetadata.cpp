@@ -1,12 +1,11 @@
-#include "FontIO.h"
-
+#include "FontMetadata.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 
 namespace charm {
 
-FontMetadata FontIO::parse_metadata(const std::string& path)
+FontMetadata FontMetadata::parse(const std::string& path)
 {
     std::ifstream f(path);
     if (!f.is_open()) {
