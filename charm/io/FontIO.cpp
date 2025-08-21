@@ -24,10 +24,10 @@ FontMetadata FontIO::parse_metadata(const std::string& path)
         int x, y, width, height;
         int xoffset, yoffset, xadvance;
         ss >> x >> y >> width >> height >> xoffset >> yoffset >> xadvance;
-        metadata.info[c].x0 = x;
-        metadata.info[c].y0 = y;
-        metadata.info[c].x1 = x + width;
-        metadata.info[c].y1 = y + height;
+        metadata.info[c].x = x;
+        metadata.info[c].y = y;
+        metadata.info[c].width = width;
+        metadata.info[c].height = height;
         metadata.info[c].xoffset = xoffset;
         metadata.info[c].yoffset = yoffset;
         metadata.info[c].xadvance = xadvance;

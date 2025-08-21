@@ -154,15 +154,15 @@ void label(const std::string& text, float font_size)
     for (char c : text) {
         const auto& info = s_state.font_metadata.info[c];
 
-        float u1 = info.x0 / (float)s_state.font_metadata.bitmap_width;
-        float v1 = 1 - info.y0 / (float)s_state.font_metadata.bitmap_height;
-        float u2 = info.x1 / (float)s_state.font_metadata.bitmap_width;
-        float v2 = 1 - info.y1 / (float)s_state.font_metadata.bitmap_height;
+        float u1 = info.x / (float)s_state.font_metadata.bitmap_width;
+        float v1 = 1 - info.y / (float)s_state.font_metadata.bitmap_height;
+        float u2 = (info.x + info.width) / (float)s_state.font_metadata.bitmap_width;
+        float v2 = 1 - (info.y + info.height) / (float)s_state.font_metadata.bitmap_height;
 
         float x = xcurr + info.xoffset * font_size / s_state.font_metadata.bitmap_pixel_height;
         float y = ycurr + info.yoffset * font_size / s_state.font_metadata.bitmap_pixel_height;
-        float width = (info.x1 - info.x0) * font_size / s_state.font_metadata.bitmap_pixel_height;
-        float height = (info.y1 - info.y0) * font_size / s_state.font_metadata.bitmap_pixel_height;
+        float width = info.width * font_size / s_state.font_metadata.bitmap_pixel_height;
+        float height = info.height * font_size / s_state.font_metadata.bitmap_pixel_height;
         s_state.add_rect(x, y, width, height, { 1, 0, 0 }, 1, { u1, v1 }, { u2, v2 });
         xcurr += info.xadvance * font_size / s_state.font_metadata.bitmap_pixel_height;
     }
