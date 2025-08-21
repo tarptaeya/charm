@@ -8,8 +8,6 @@ class Texture2D {
     unsigned int m_texture_id = 0;
     GLenum m_texture_unit = GL_TEXTURE0;
 
-    friend class Texture2DBuilder;
-
 public:
     Texture2D() = default;
     Texture2D(GLenum m_texture_unit, unsigned int texture_id);
