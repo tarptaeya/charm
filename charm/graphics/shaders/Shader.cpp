@@ -23,6 +23,11 @@ unsigned int create_gl_shader(GLenum type, const std::string& source)
     return shader;
 }
 
+Shader::Shader(GLuint program)
+    : m_program(program)
+{
+}
+
 Shader::Shader(const std::string& vertex_source, const std::string& fragment_source)
 {
     unsigned int vertex_shader = create_gl_shader(GL_VERTEX_SHADER, vertex_source);
@@ -67,6 +72,11 @@ Shader& Shader::operator=(Shader&& other)
     m_program = other.m_program;
     other.m_program = 0;
     return *this;
+}
+
+GLuint Shader::get_gl_program() const
+{
+    return m_program;
 }
 
 void Shader::use()

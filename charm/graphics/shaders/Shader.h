@@ -13,6 +13,7 @@ class Shader {
 
 public:
     Shader() = default;
+    Shader(GLuint program);
     Shader(const std::string& vertex_source, const std::string& fragment_source);
     ~Shader();
 
@@ -21,6 +22,8 @@ public:
 
     Shader(Shader&&);
     Shader& operator=(Shader&&);
+
+    [[nodiscard]] GLuint get_gl_program() const;
 
     void use();
     void set_uniform(const std::string&, const Matrix4f&);
