@@ -71,12 +71,12 @@ int Framebuffer::get_height() const
     return m_height;
 }
 
-unsigned int Framebuffer::get_color_texture() const
+unsigned int Framebuffer::get_gl_color_texture() const
 {
     return m_color_texture;
 }
 
-unsigned int Framebuffer::get_depth_stencil_texture() const
+unsigned int Framebuffer::get_gl_depth_stencil_texture() const
 {
     return m_depth_stencil_texture;
 }

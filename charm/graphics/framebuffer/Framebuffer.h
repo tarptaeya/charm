@@ -26,8 +26,8 @@ public:
     void bind();
     int get_width() const;
     int get_height() const;
-    unsigned int get_color_texture() const;
-    unsigned int get_depth_stencil_texture() const;
+    unsigned int get_gl_color_texture() const;
+    unsigned int get_gl_depth_stencil_texture() const;
 };
 
 }

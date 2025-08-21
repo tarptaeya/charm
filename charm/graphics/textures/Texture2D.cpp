@@ -44,4 +44,14 @@ void Texture2D::bind()
     glBindTexture(GL_TEXTURE_2D, m_texture_id);
 }
 
+unsigned int Texture2D::get_gl_texture() const
+{
+    return m_texture_id;
+}
+
+GLenum Texture2D::get_texture_unit() const
+{
+    return m_texture_unit;
+}
+
 }

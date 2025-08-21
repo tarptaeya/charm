@@ -213,7 +213,7 @@ public:
 
         charmShaders.get("screen").use();
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_hud_framebuffer.get_color_texture());
+        glBindTexture(GL_TEXTURE_2D, m_hud_framebuffer.get_gl_color_texture());
         charmGeometries.get("screen-quad").draw();
     }
 
