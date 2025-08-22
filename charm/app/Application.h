@@ -45,7 +45,7 @@ public:
     Registry<Geometry>& get_geometry_registry();
 
     template <typename T>
-    static void create(const AppOptions& options)
+    static void create(const AppOptions& options, void (*on_init)())
     {
         if (s_instance) {
             std::cerr << "[error] app instance already exists" << std::endl;
@@ -53,14 +53,15 @@ public:
         }
 
         s_instance = new Application(options);
+        on_init();
         s_instance->m_game_loop = new T;
     }
 
     template <typename T>
-    static void create()
+    static void create(void (*on_init)())
     {
         AppOptions options;
-        create<T>(options);
+        create<T>(options, on_init);
     }
 
     int exec();
