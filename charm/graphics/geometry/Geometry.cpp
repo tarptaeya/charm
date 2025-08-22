@@ -46,7 +46,7 @@ Geometry& Geometry::operator=(Geometry&& other)
     return *this;
 }
 
-void Geometry::draw()
+void Geometry::draw() const
 {
     glBindVertexArray(m_vertex_array);
     glDrawElements(GL_TRIANGLES, m_count, GL_UNSIGNED_INT, nullptr);

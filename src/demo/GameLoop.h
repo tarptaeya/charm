@@ -28,35 +28,6 @@ public:
         charmShaders.add("font-test", Shader(FileIO::read_text("assets/font-test.vertex.glsl"), FileIO::read_text("assets/font-test.fragment.glsl")));
         charmGeometries.add("box", Geometry::box());
 
-        {
-            ch3db::Model model = ch3db::Model::read("assets/model.ch3db");
-            int index = 0;
-            for (const auto& mesh : model.meshes) {
-                unsigned int vertex_array;
-                glGenVertexArrays(1, &vertex_array);
-                glBindVertexArray(vertex_array);
-
-                unsigned int vertex_buffer;
-                glGenBuffers(1, &vertex_buffer);
-                glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-                glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8 * mesh.vertices.size(), &mesh.vertices[0], GL_STATIC_DRAW);
-
-                glEnableVertexAttribArray(0);
-                glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * sizeof(float), 0);
-                glEnableVertexAttribArray(1);
-                glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-                glEnableVertexAttribArray(2);
-                glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-
-                unsigned int index_buffer;
-                glGenBuffers(1, &index_buffer);
-                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
-                glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * mesh.indices.size(), &mesh.indices[0], GL_STATIC_DRAW);
-
-                charmGeometries.add("model." + std::to_string(index++), Geometry(vertex_array, mesh.indices.size(), { vertex_buffer, index_buffer }));
-            }
-        }
-
         // screen geometry
         {
             unsigned int vertex_array;
@@ -213,7 +184,7 @@ public:
 
         charmShaders.get("screen").use();
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_hud_framebuffer.get_gl_color_texture());
+        glBindTexture(GL_TEXTURE_2D, m_main_framebuffer.get_gl_color_texture());
         charmGeometries.get("screen-quad").draw();
     }
 

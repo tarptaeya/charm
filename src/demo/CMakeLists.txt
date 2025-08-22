@@ -1,3 +1,5 @@
+include_directories(.)
+
 add_executable(
     demo
     main.cpp

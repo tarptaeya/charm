@@ -21,7 +21,7 @@ public:
     Geometry(Geometry&&);
     Geometry& operator=(Geometry&&);
 
-    void draw();
+    void draw() const;
 
     static Geometry box();
 };

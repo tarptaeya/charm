@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Duck.h"
 #include "IGameObject.h"
 #include "charm.h"
 
@@ -23,8 +24,8 @@ public:
         m_shader.set_uniform("u_view", camera.get_view());
         m_shader.set_uniform("u_projection", camera.get_projection());
 
-        for (int i = 0; i < 1; ++i) {
-            charmGeometries.get("model." + std::to_string(i)).draw();
+        for (const charm::Geometry& geometry : Duck::get_instance()) {
+            geometry.draw();
         }
     }
 
