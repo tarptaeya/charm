@@ -18,7 +18,7 @@
 namespace charm {
 
 class Window;
-class IGameLoop;
+class AppAdapter;
 
 class Application {
     friend class Input;
@@ -26,7 +26,7 @@ class Application {
     GLFWwindow* m_window = nullptr;
     int m_width = 0;
     int m_height = 0;
-    IGameLoop* m_game_loop = nullptr;
+    AppAdapter* m_game_loop = nullptr;
     Registry<Shader> m_shaders;
     Registry<Geometry> m_geometries;
     static Application* s_instance;

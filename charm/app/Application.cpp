@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "IGameLoop.h"
+#include "AppAdapter.h"
 
 namespace charm {
 

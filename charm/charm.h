@@ -5,9 +5,9 @@
 #include <cmath>
 #include <glad/gl.h>
 
+#include "app/AppAdapter.h"
 #include "app/AppOptions.h"
 #include "app/Application.h"
-#include "app/IGameLoop.h"
 #include "camera/Camera.h"
 #include "ch3db/ch3db.h"
 #include "ecs/Component.h"

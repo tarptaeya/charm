@@ -6,7 +6,7 @@
 
 using namespace charm;
 
-class GameLoop : public IGameLoop {
+class GameLoop : public AppAdapter {
     Camera m_camera;
     Renderer m_renderer;
     std::vector<Entity> m_entities;
