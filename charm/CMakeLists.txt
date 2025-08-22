@@ -23,6 +23,7 @@ add_library(
     misc/misc.cpp
     ui/FontMetadata.cpp
     ui/imui.cpp
+    ui/UIPanel.cpp
 )
 
 target_link_libraries(charm glfw glad)

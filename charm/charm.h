@@ -28,4 +28,5 @@
 #include "misc/Rect.h"
 #include "misc/misc.h"
 #include "ui/FontMetadata.h"
+#include "ui/UIPanel.h"
 #include "ui/imui.h"
