@@ -3,7 +3,6 @@ include_directories(.)
 add_executable(
     demo
     main.cpp
-    GameLoop.cpp
     DemoAdapter.cpp
     Duck.cpp
     ScreenGeometry.cpp

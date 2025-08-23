@@ -1,4 +1,4 @@
-#include "GameLoop.h"
+#include "DemoAdapter.h"
 #include "charm.h"
 #include <iostream>
 
@@ -19,5 +19,5 @@ int main()
     charmShaders.add("font-test", Shader(FileIO::read_text("assets/font-test.vertex.glsl"), FileIO::read_text("assets/font-test.fragment.glsl")));
     charmGeometries.add("box", Geometry::box());
 
-    return charmApp.exec<GameLoop>();
+    return charmApp.exec<DemoAdapter>();
 }

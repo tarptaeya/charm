@@ -7,30 +7,14 @@
 class TestObject : public IGameObject {
     charm::Shader& m_shader;
     charm::Matrix4f m_transform;
+    charm::Texture2D m_texture;
 
 public:
-    TestObject(const charm::Matrix4f& transform)
-        : m_shader(charmShaders.get("basic"))
-        , m_transform(transform)
-    {
-    }
+    TestObject(const charm::Matrix4f& transform);
 
-    ~TestObject() override { }
+    ~TestObject() override;
 
-    void render(charm::Camera& camera) override
-    {
-        m_shader.use();
-        m_shader.set_uniform("u_model", m_transform);
-        m_shader.set_uniform("u_view", camera.get_view());
-        m_shader.set_uniform("u_projection", camera.get_projection());
+    void render(charm::Camera& camera) override;
 
-        for (const charm::Geometry& geometry : Duck::get_instance()) {
-            geometry.draw();
-        }
-    }
-
-    void set_transform(const charm::Matrix4f& transform)
-    {
-        m_transform = transform;
-    }
+    void set_transform(const charm::Matrix4f& transform);
 };
