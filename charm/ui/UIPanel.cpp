@@ -59,6 +59,9 @@ void UIPanel::draw(int x, int y, int width, int height)
     m_state.indices.clear();
     m_state.xcursor = m_state.ycursor = 0;
 
+#pragma region draw__begin_draw
+#pragma endregion
+
     if (m_state.vertices.size() == 0 || m_state.indices.size() == 0)
         return;
 

@@ -30,3 +30,5 @@
 #include "ui/FontMetadata.h"
 #include "ui/UIPanel.h"
 #include "ui/imui.h"
+
+#define FONT_TEXTURE_UNIT GL_TEXTURE1

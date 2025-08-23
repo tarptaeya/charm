@@ -23,4 +23,6 @@ private:
     void update_hud_framebuffer(double delta_time);
     void update_screen_framebuffer(double delta_time);
     void update_main_framebuffer(double delta_time);
+
+    void blit_framebuffer_to_screen(unsigned int texture_handle);
 };

@@ -1,4 +1,5 @@
 #include "DemoAdapter.h"
+#include "FPSCounter.h"
 #include "ScreenGeometry.h"
 
 using namespace charm;
@@ -6,7 +7,7 @@ using namespace charm;
 DemoAdapter::DemoAdapter()
 {
     m_font_bitmap = Texture2DBuilder("assets/bitmap.png")
-                        .set_texture_unit(GL_TEXTURE1)
+                        .set_texture_unit(FONT_TEXTURE_UNIT)
                         .build();
 
     m_font_metadata = FontMetadata::parse("assets/font.txt");
@@ -70,6 +71,8 @@ void DemoAdapter::update_hud_framebuffer(double delta_time)
     glClearColor(0.78, 0.80, 0.82, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    blit_framebuffer_to_screen(m_main_framebuffer.get_gl_color_texture());
+
     m_font_bitmap.bind();
     charmShaders.get("ui").use();
     charmShaders.get("ui").set_uniform("u_font_texture", 1);
@@ -82,11 +85,10 @@ void DemoAdapter::update_hud_framebuffer(double delta_time)
                 -1,         1,          0, 1,
             // clang-format on
         }));
-    imui::begin(22, 22, m_hud_framebuffer.get_width() / 3, m_hud_framebuffer.get_height() - 22 * 2, m_font_metadata);
-    imui::label("Hello, World!", 42);
-    imui::label("This is message 1.", 42);
-    imui::label("This is message 2!", 42);
-    imui::label("Should this be messsage 1 + 2!?", 42);
+    imui::begin(22, 22, 300, 100, m_font_metadata);
+
+    FPSCounter::get_instance().push(delta_time);
+    imui::label("FPS: " + std::to_string((int)FPSCounter::get_instance().get()), 42);
     imui::end();
 
     glDisable(GL_BLEND);
@@ -98,8 +100,13 @@ void DemoAdapter::update_screen_framebuffer(double delta_time)
     glClearColor(0.3, 0.5, 0.7, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    blit_framebuffer_to_screen(m_hud_framebuffer.get_gl_color_texture());
+}
+
+void DemoAdapter::blit_framebuffer_to_screen(unsigned int texture_handle)
+{
     charmShaders.get("screen").use();
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_hud_framebuffer.get_gl_color_texture());
+    glBindTexture(GL_TEXTURE_2D, texture_handle);
     ScreenGeometry::get_instance().get_geometry().draw();
 }
