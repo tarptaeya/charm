@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ScreenGeometry.h"
 #include "charm.h"
 #include "game_objects/RootObject.h"
 #include "game_objects/TestObject.h"
@@ -21,65 +22,6 @@ public:
     GameLoop()
     {
         glEnable(GL_DEPTH_TEST);
-
-        // screen geometry
-        {
-            unsigned int vertex_array;
-            glGenVertexArrays(1, &vertex_array);
-            glBindVertexArray(vertex_array);
-
-            unsigned int vertex_buffer;
-            glGenBuffers(1, &vertex_buffer);
-            glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-            // clang-format off
-            float vertices[] = {
-                -1, -1, 0, 0,
-                -1, 1, 0, 1,
-                1, 1, 1, 1,
-                1, -1, 1, 0,
-            };
-            // clang-format on
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-            glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 2, GL_FLOAT, false, 4 * sizeof(float), 0);
-            glEnableVertexAttribArray(1);
-            glVertexAttribPointer(1, 2, GL_FLOAT, false, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-
-            unsigned int index_buffer;
-            glGenBuffers(1, &index_buffer);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer);
-            // clang-format off
-            unsigned int indices[] = {
-                0, 2, 1,
-                0, 3, 2,
-            };
-            // clang-format on
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-            charmGeometries.add("screen-quad", Geometry(vertex_array, 6, { vertex_buffer, index_buffer }));
-        }
-
-        float positions[10][3] = {
-            { 0, 0, 0 },
-            { 2, 5, -15 },
-            { -1.5, -2.2, -2.5 },
-            { -3.8, -2.0, -12.3 },
-            { 2.4, -0.4, -3.5 },
-            { -1.7, 3.0, -7.5 },
-            { 1.3, -2.0, -2.5 },
-            { 1.5, 2.0, -2.5 },
-            { 1.5, 0.2, -1.5 },
-            { -1.3, 1.0, -1.5 }
-        };
-
-        for (int i = 0; i < 10; ++i) {
-            Matrix4f transform = Matrix4f::identity();
-            transform *= Matrix4f::translation(positions[i][0], positions[i][1], positions[i][2]);
-            transform *= Matrix4f::rotation_x(i * 20) * Matrix4f::rotation_y(i * 10) * Matrix4f::rotation_z(i * 30);
-            transform *= Matrix4f::scaling(0.0075);
-            m_root_object.add_object<TestObject>(transform);
-        }
 
         m_texture = Texture2DBuilder("assets/DuckCM.png")
                         .set_texture_unit(GL_TEXTURE0)
@@ -179,7 +121,7 @@ public:
         charmShaders.get("screen").use();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_main_framebuffer.get_gl_color_texture());
-        charmGeometries.get("screen-quad").draw();
+        ScreenGeometry::get_instance().get_geometry().draw();
     }
 
     void on_key_input(int key, int scancode, int action, int mods) override

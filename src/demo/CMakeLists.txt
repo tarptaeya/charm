@@ -6,6 +6,7 @@ add_executable(
     GameLoop.cpp
     DemoAdapter.cpp
     Duck.cpp
+    ScreenGeometry.cpp
     game_objects/RootObject.cpp
     game_objects/TestObject.cpp
 )
