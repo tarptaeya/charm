@@ -3,9 +3,14 @@
 
 namespace charm {
 
-Application* Application::s_instance = nullptr;
+Application::~Application()
+{
+    if (m_window)
+        glfwDestroyWindow(m_window);
+    glfwTerminate();
+}
 
-Application::Application(const AppOptions& options)
+void Application::initialize(const AppOptions& options)
 {
     if (!glfwInit()) {
         std::cerr << "[error] glfw initialization faield" << std::endl;
@@ -27,24 +32,15 @@ Application::Application(const AppOptions& options)
     gladLoadGL(glfwGetProcAddress);
 
     glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-        charmApp->m_game_loop->on_key_input(key, scancode, action, mods);
     });
     glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
-        charmApp->m_game_loop->on_mouse_button(button, action, mods);
     });
 
     glfwGetFramebufferSize(m_window, &m_width, &m_height);
     glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
-        charmApp->m_width = width;
-        charmApp->m_height = height;
+        charmApp.m_width = width;
+        charmApp.m_height = height;
     });
-}
-
-Application::~Application()
-{
-    delete m_game_loop;
-    glfwDestroyWindow(m_window);
-    glfwTerminate();
 }
 
 GLFWwindow* Application::get_window() const
@@ -72,33 +68,10 @@ Registry<Geometry>& Application::get_geometry_registry()
     return m_geometries;
 }
 
-int Application::exec()
+Application& Application::get_instance()
 {
-    double prev_time = glfwGetTime();
-    while (!glfwWindowShouldClose(m_window)) {
-        double curr_time = glfwGetTime();
-        double delta_time = curr_time - prev_time;
-        prev_time = curr_time;
-
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glViewport(0, 0, m_width, m_height);
-        m_game_loop->update(delta_time);
-
-        glfwPollEvents();
-        glfwSwapBuffers(m_window);
-    }
-
-    delete this;
-    return 0;
-}
-
-Application* Application::get_instance()
-{
-    if (!s_instance) {
-        std::cerr << "[error] no app instance created yet" << std::endl;
-        std::exit(0);
-    }
-    return s_instance;
+    static Application application;
+    return application;
 }
 
 }

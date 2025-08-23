@@ -50,7 +50,7 @@ public:
         update_hud_framebuffer(delta_time);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glViewport(0, 0, charmApp->get_width(), charmApp->get_height());
+        glViewport(0, 0, charmApp.get_width(), charmApp.get_height());
         update_screen_framebuffer(delta_time);
     }
 
@@ -122,15 +122,5 @@ public:
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_main_framebuffer.get_gl_color_texture());
         ScreenGeometry::get_instance().get_geometry().draw();
-    }
-
-    void on_key_input(int key, int scancode, int action, int mods) override
-    {
-    }
-
-    void on_mouse_button(int button, int action, int mods) override
-    {
-        if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
-            std::cout << "opening context menu..." << std::endl;
     }
 };

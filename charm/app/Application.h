@@ -11,9 +11,9 @@
 #include <iostream>
 
 #define charmApp charm::Application::get_instance()
-#define charmWindow charmApp->get_window()
-#define charmShaders charmApp->get_shader_registry()
-#define charmGeometries charmApp->get_geometry_registry()
+#define charmWindow charmApp.get_window()
+#define charmShaders charmApp.get_shader_registry()
+#define charmGeometries charmApp.get_geometry_registry()
 
 namespace charm {
 
@@ -26,17 +26,17 @@ class Application {
     GLFWwindow* m_window = nullptr;
     int m_width = 0;
     int m_height = 0;
-    AppAdapter* m_game_loop = nullptr;
     Registry<Shader> m_shaders;
     Registry<Geometry> m_geometries;
-    static Application* s_instance;
 
-    explicit Application(const AppOptions&);
+    Application() = default;
 
 public:
     ~Application();
     Application(const Application&) = delete;
     Application& operator=(const Application&) = delete;
+
+    void initialize(const AppOptions&);
 
     GLFWwindow* get_window() const;
     int get_width() const;
@@ -44,29 +44,30 @@ public:
     Registry<Shader>& get_shader_registry();
     Registry<Geometry>& get_geometry_registry();
 
-    template <typename T>
-    static void create(const AppOptions& options, void (*on_init)())
+    template <class T, typename... Args>
+    int exec(Args&... args)
     {
-        if (s_instance) {
-            std::cerr << "[error] app instance already exists" << std::endl;
-            std::exit(0);
+        static_assert(std::is_base_of<AppAdapter, T>::value, "T should be a subclass of Adapter");
+
+        T adapter(std::forward<Args>(args)...);
+        double prev_time = glfwGetTime();
+        while (!glfwWindowShouldClose(m_window)) {
+            double curr_time = glfwGetTime();
+            double delta_time = curr_time - prev_time;
+            prev_time = curr_time;
+
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glViewport(0, 0, m_width, m_height);
+            adapter.update(delta_time);
+
+            glfwPollEvents();
+            glfwSwapBuffers(m_window);
         }
 
-        s_instance = new Application(options);
-        on_init();
-        s_instance->m_game_loop = new T;
+        return 0;
     }
 
-    template <typename T>
-    static void create(void (*on_init)())
-    {
-        AppOptions options;
-        create<T>(options, on_init);
-    }
-
-    int exec();
-
-    static Application* get_instance();
+    static Application& get_instance();
 };
 
 }
