@@ -34,8 +34,6 @@ class ImmediateUI {
     std::vector<unsigned int> m_indices;
 
 public:
-    float xcursor = 0;
-    float ycursor = 0;
     FontMetadata font_metadata;
 
     ImmediateUI() = default;

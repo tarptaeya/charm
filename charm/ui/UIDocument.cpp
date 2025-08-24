@@ -1,22 +1,22 @@
-#include "UIPanel.h"
+#include "UIDocument.h"
 
 namespace charm {
 
-UIPanel::UIPanel(const FontMetadata& font_metadata)
+UIDocument::UIDocument(const FontMetadata& font_metadata)
     : m_immediate_ui(font_metadata)
 {
 }
 
-UIPanel::~UIPanel()
+UIDocument::~UIDocument()
 {
 }
 
-UIPanel::UIPanel(UIPanel&& other)
+UIDocument::UIDocument(UIDocument&& other)
     : m_immediate_ui(std::move(other.m_immediate_ui))
 {
 }
 
-UIPanel& UIPanel::operator=(UIPanel&& other)
+UIDocument& UIDocument::operator=(UIDocument&& other)
 {
     if (this == &other)
         return *this;
@@ -26,14 +26,18 @@ UIPanel& UIPanel::operator=(UIPanel&& other)
     return *this;
 }
 
-void UIPanel::draw(int x, int y, int width, int height)
+void UIDocument::draw(int x, int y, int width, int height)
 {
 
     m_immediate_ui.begin(x, y, width, height);
     m_immediate_ui.add_rect(x, y, width, height, { 0.9, 0.9, 0.9 }, 0, { 0, 0 }, { 0, 0 });
 
+    int element_height = height / m_children.size();
+    int curr_y = y;
     for (const auto& child : m_children) {
-        child->draw(x, y, width, height, m_immediate_ui);
+        child->set_bounds(x, curr_y, width, height);
+        curr_y += element_height;
+        child->draw(m_immediate_ui);
     }
 
     m_immediate_ui.commit();

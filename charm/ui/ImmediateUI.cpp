@@ -88,8 +88,6 @@ void ImmediateUI::begin(int x, int y, int width, int height)
 {
     m_vertices.clear();
     m_indices.clear();
-    xcursor = x;
-    ycursor = y;
 }
 
 void ImmediateUI::commit()

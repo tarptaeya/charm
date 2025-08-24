@@ -24,7 +24,8 @@ add_library(
     ui/FontMetadata.cpp
     ui/imui.cpp
     ui/ImmediateUI.cpp
-    ui/UIPanel.cpp
+    ui/UIDocument.cpp
+    ui/elements/UIElement.cpp
     ui/elements/label/UILabel.cpp
 )
 
