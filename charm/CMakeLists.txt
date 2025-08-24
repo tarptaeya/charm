@@ -23,6 +23,7 @@ add_library(
     misc/misc.cpp
     ui/FontMetadata.cpp
     ui/imui.cpp
+    ui/ImmediateUI.cpp
     ui/UIPanel.cpp
 )
 
