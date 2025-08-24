@@ -31,6 +31,11 @@ void UIPanel::draw(int x, int y, int width, int height)
 
     m_immediate_ui.begin(x, y, width, height);
     m_immediate_ui.add_rect(x, y, width, height, { 0.9, 0.9, 0.9 }, 0, { 0, 0 }, { 0, 0 });
+
+    for (const auto& child : m_children) {
+        child->draw(x, y, width, height, m_immediate_ui);
+    }
+
     m_immediate_ui.commit();
 }
 

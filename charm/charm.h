@@ -28,7 +28,10 @@
 #include "misc/Rect.h"
 #include "misc/misc.h"
 #include "ui/FontMetadata.h"
+#include "ui/ImmediateUI.h"
 #include "ui/UIPanel.h"
+#include "ui/elements/UIElement.h"
+#include "ui/elements/label/UILabel.h"
 #include "ui/imui.h"
 
 #define FONT_TEXTURE_UNIT GL_TEXTURE1

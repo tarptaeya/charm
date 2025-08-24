@@ -19,6 +19,10 @@ DemoAdapter::DemoAdapter()
     m_font_metadata = FontMetadata::parse("assets/font.txt");
 
     m_ui_panel = charm::UIPanel(m_font_metadata);
+    m_ui_panel.add<UILabel>("Hello world.");
+    m_ui_panel.add<UILabel>("I am Label 1.");
+    m_ui_panel.add<UILabel>("I am Label 2.");
+    m_ui_panel.add<UILabel>("I am a very very long label!");
 }
 
 DemoAdapter::~DemoAdapter()

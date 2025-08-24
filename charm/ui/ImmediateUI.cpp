@@ -12,6 +12,7 @@ static size_t next_power_of_two(size_t x)
 }
 
 ImmediateUI::ImmediateUI(const FontMetadata& font_metadata)
+    : font_metadata(font_metadata)
 {
     glGenVertexArrays(1, &m_vertex_array);
     glBindVertexArray(m_vertex_array);
@@ -33,8 +34,6 @@ ImmediateUI::ImmediateUI(const FontMetadata& font_metadata)
     glGenBuffers(1, &m_index_buffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_capacity, nullptr, GL_DYNAMIC_DRAW);
-
-    m_font_metadata = font_metadata;
 }
 
 ImmediateUI::~ImmediateUI()
@@ -57,7 +56,7 @@ ImmediateUI::ImmediateUI(ImmediateUI&& other)
     m_index_buffer_capacity = other.m_index_buffer_capacity;
     m_vertices = std::move(other.m_vertices);
     m_indices = std::move(other.m_indices);
-    m_font_metadata = std::move(other.m_font_metadata);
+    font_metadata = std::move(other.font_metadata);
 }
 
 ImmediateUI& ImmediateUI::operator=(ImmediateUI&& other)
@@ -80,7 +79,7 @@ ImmediateUI& ImmediateUI::operator=(ImmediateUI&& other)
     m_index_buffer_capacity = other.m_index_buffer_capacity;
     m_vertices = std::move(other.m_vertices);
     m_indices = std::move(other.m_indices);
-    m_font_metadata = std::move(other.m_font_metadata);
+    font_metadata = std::move(other.font_metadata);
 
     return *this;
 }
@@ -89,7 +88,8 @@ void ImmediateUI::begin(int x, int y, int width, int height)
 {
     m_vertices.clear();
     m_indices.clear();
-    xcursor = ycursor = 0;
+    xcursor = x;
+    ycursor = y;
 }
 
 void ImmediateUI::commit()

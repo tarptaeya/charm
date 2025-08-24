@@ -32,11 +32,11 @@ class ImmediateUI {
     size_t m_index_buffer_capacity = EIGHT_KILO_BYTES;
     std::vector<Vertex> m_vertices;
     std::vector<unsigned int> m_indices;
-    FontMetadata m_font_metadata;
 
 public:
     float xcursor = 0;
     float ycursor = 0;
+    FontMetadata font_metadata;
 
     ImmediateUI() = default;
     ImmediateUI(const FontMetadata&);

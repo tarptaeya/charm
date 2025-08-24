@@ -25,6 +25,7 @@ add_library(
     ui/imui.cpp
     ui/ImmediateUI.cpp
     ui/UIPanel.cpp
+    ui/elements/label/UILabel.cpp
 )
 
 target_link_libraries(charm glfw glad)
