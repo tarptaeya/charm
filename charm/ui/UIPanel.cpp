@@ -11,6 +11,16 @@ static size_t next_power_of_two(size_t x)
     return ans;
 }
 
+UIPanel::State::~State()
+{
+    if (vertex_array != 0)
+        glDeleteVertexArrays(1, &vertex_array);
+    if (array_buffer != 0)
+        glDeleteBuffers(1, &array_buffer);
+    if (index_buffer != 0)
+        glDeleteBuffers(1, &index_buffer);
+}
+
 UIPanel::UIPanel(const FontMetadata& font_metadata)
 {
     glGenVertexArrays(1, &m_state.vertex_array);
@@ -43,12 +53,17 @@ UIPanel::~UIPanel()
 
 UIPanel::UIPanel(UIPanel&& other)
 {
+    m_state = std::move(other.m_state);
+    other.m_state.vertex_array = other.m_state.array_buffer = other.m_state.index_buffer = 0;
 }
 
 UIPanel& UIPanel::operator=(UIPanel&& other)
 {
     if (this == &other)
         return *this;
+
+    m_state = std::move(other.m_state);
+    other.m_state.vertex_array = other.m_state.array_buffer = other.m_state.index_buffer = 0;
 
     return *this;
 }
@@ -60,6 +75,9 @@ void UIPanel::draw(int x, int y, int width, int height)
     m_state.xcursor = m_state.ycursor = 0;
 
 #pragma region draw__begin_draw
+
+    add_rect(x, y, width, height, { 0.9, 0.9, 0.9 }, 0, { 0, 0 }, { 0, 0 });
+
 #pragma endregion
 
     if (m_state.vertices.size() == 0 || m_state.indices.size() == 0)
@@ -83,6 +101,28 @@ void UIPanel::draw(int x, int y, int width, int height)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_state.index_buffer);
     glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * m_state.indices.size(), &m_state.indices[0]);
     glDrawElements(GL_TRIANGLES, m_state.indices.size(), GL_UNSIGNED_INT, nullptr);
+}
+
+void UIPanel::add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright)
+{
+    unsigned int index = m_state.vertices.size();
+
+    float u1 = texcoord_topleft.u;
+    float v1 = texcoord_topleft.v;
+    float u2 = texcoord_bottomright.u;
+    float v2 = texcoord_bottomright.v;
+
+    m_state.vertices.push_back({ x, y, color, active_texture, { u1, v1 } });
+    m_state.vertices.push_back({ x + width, y, color, active_texture, { u2, v1 } });
+    m_state.vertices.push_back({ x + width, y + height, color, active_texture, { u2, v2 } });
+    m_state.vertices.push_back({ x, y + height, color, active_texture, { u1, v2 } });
+
+    m_state.indices.push_back(index);
+    m_state.indices.push_back(index + 3);
+    m_state.indices.push_back(index + 1);
+    m_state.indices.push_back(index + 1);
+    m_state.indices.push_back(index + 3);
+    m_state.indices.push_back(index + 2);
 }
 
 }

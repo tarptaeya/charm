@@ -6,17 +6,19 @@ using namespace charm;
 
 DemoAdapter::DemoAdapter()
 {
+    m_camera.set_projection(Matrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100));
+    m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
+
+    m_main_framebuffer = FramebufferBuilder().create(1024, 720);
+    m_hud_framebuffer = FramebufferBuilder().create(1024, 720);
+
     m_font_bitmap = Texture2DBuilder("assets/bitmap.png")
                         .set_texture_unit(FONT_TEXTURE_UNIT)
                         .build();
 
     m_font_metadata = FontMetadata::parse("assets/font.txt");
 
-    m_camera.set_projection(Matrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100));
-    m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
-
-    m_main_framebuffer = FramebufferBuilder().create(1024, 720);
-    m_hud_framebuffer = FramebufferBuilder().create(1024, 720);
+    m_ui_panel = charm::UIPanel(m_font_metadata);
 }
 
 DemoAdapter::~DemoAdapter()
@@ -85,11 +87,14 @@ void DemoAdapter::update_hud_framebuffer(double delta_time)
                 -1,         1,          0, 1,
             // clang-format on
         }));
-    imui::begin(22, 22, 300, 100, m_font_metadata);
+
+    imui::begin(22, 22, 300, 64, m_font_metadata);
 
     FPSCounter::get_instance().push(delta_time);
     imui::label("FPS: " + std::to_string((int)FPSCounter::get_instance().get()), 42);
     imui::end();
+
+    m_ui_panel.draw(22, 100, 300, 500);
 
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);

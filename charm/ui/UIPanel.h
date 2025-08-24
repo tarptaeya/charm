@@ -37,11 +37,14 @@ class UIPanel {
         float xcursor = 0;
         float ycursor = 0;
         FontMetadata font_metadata;
+
+        ~State();
     };
 
     State m_state = { 0 };
 
 public:
+    UIPanel() = default;
     UIPanel(const FontMetadata& font_metadata);
     ~UIPanel();
 
@@ -52,6 +55,7 @@ public:
     UIPanel& operator=(UIPanel&&);
 
     void draw(int x, int y, int width, int height);
+    void add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright);
 };
 
 }
