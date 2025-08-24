@@ -25,24 +25,19 @@ class ImmediateUI {
         Texcoord texcoord = { 0 };
     };
 
-    struct State {
-        unsigned int vertex_array = 0;
-        unsigned int array_buffer = 0;
-        unsigned int index_buffer = 0;
-        size_t array_buffer_capacity = EIGHT_KILO_BYTES;
-        size_t index_buffer_capacity = EIGHT_KILO_BYTES;
-        std::vector<Vertex> vertices;
-        std::vector<unsigned int> indices;
-        float xcursor = 0;
-        float ycursor = 0;
-        FontMetadata font_metadata;
-
-        ~State();
-    };
-
-    State m_state = { 0 };
+    unsigned int m_vertex_array = 0;
+    unsigned int m_array_buffer = 0;
+    unsigned int m_index_buffer = 0;
+    size_t m_array_buffer_capacity = EIGHT_KILO_BYTES;
+    size_t m_index_buffer_capacity = EIGHT_KILO_BYTES;
+    std::vector<Vertex> m_vertices;
+    std::vector<unsigned int> m_indices;
+    FontMetadata m_font_metadata;
 
 public:
+    float xcursor = 0;
+    float ycursor = 0;
+
     ImmediateUI() = default;
     ImmediateUI(const FontMetadata&);
     ~ImmediateUI();
