@@ -5,9 +5,6 @@ namespace charm::ui {
 Label::Label(const std::string& text)
     : m_text(text)
 {
-    m_min_width = 0;
-    m_min_height = m_font_size;
-    m_expand_width = m_expand_height = false;
 }
 
 Label::~Label()
@@ -45,6 +42,26 @@ void Label::draw(ImmediateUI& api)
         api.add_rect(x, y, width, height, { 1, 0, 0 }, 1, { u1, v1 }, { u2, v2 });
         xcurr += advance;
     }
+}
+
+float Label::get_min_width(const ImmediateUI& api) const
+{
+    float xcurr = 0;
+    for (char c : m_text) {
+        const auto& info = api.font_metadata.info[c];
+        float x = xcurr + info.xoffset * m_font_size / api.font_metadata.bitmap_pixel_height;
+        float width = info.width * m_font_size / api.font_metadata.bitmap_pixel_height;
+        float advance = info.xadvance * m_font_size / api.font_metadata.bitmap_pixel_height;
+
+        xcurr += advance;
+    }
+
+    return xcurr;
+}
+
+float Label::get_min_height(const ImmediateUI& api) const
+{
+    return m_font_size;
 }
 
 std::pair<bool, int> Label::calculate_overflow_index(const ImmediateUI& api) const

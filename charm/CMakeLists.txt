@@ -26,6 +26,7 @@ add_library(
     ui/ImmediateUI.cpp
     ui/Document.cpp
     ui/elements/Element.cpp
+    ui/elements/hboxcontainer/HBoxContainer.cpp
     ui/elements/label/Label.cpp
 )
 

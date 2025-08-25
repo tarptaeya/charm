@@ -2,24 +2,24 @@
 
 namespace charm::ui {
 
-float Element::get_min_width() const
+float Element::get_min_width(const ImmediateUI& api) const
 {
-    return m_min_width;
+    return 0;
 }
 
-float Element::get_min_height() const
+float Element::get_min_height(const ImmediateUI& api) const
 {
-    return m_min_height;
+    return 0;
 }
 
-bool Element::get_is_width_expandable() const
+bool Element::get_is_width_expandable(const ImmediateUI& api) const
 {
-    return m_expand_width;
+    return false;
 }
 
-bool Element::get_is_height_expandable() const
+bool Element::get_is_height_expandable(const ImmediateUI& api) const
 {
-    return m_expand_height;
+    return false;
 }
 
 float Element::get_width() const
@@ -32,7 +32,7 @@ float Element::get_height() const
     return m_height;
 }
 
-void Element::set_bounds(float x, float y, float width, float height)
+void Element::set_bounds(float x, float y, float width, float height, const ImmediateUI& api)
 {
     m_x = x;
     m_y = y;

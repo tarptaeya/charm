@@ -21,12 +21,15 @@ DemoAdapter::DemoAdapter()
     m_font_metadata = FontMetadata::parse("assets/font.txt");
 
     m_document = charm::ui::Document(m_font_metadata);
+
     m_document.add<ui::Label>("Hello world.");
     m_document.add<ui::Label>("I am Label 1.");
     m_document.add<ui::Label>("I am Label 2.");
     m_document.add<ui::Label>("I am a very very long label!");
-    m_document.add<ui::Label>("I am another label!");
-    m_document.add<ui::Label>("I am another long label :-)");
+
+    auto& hbox = m_document.add<ui::HBoxContainer>();
+    hbox.add<ui::Label>("First");
+    hbox.add<ui::Label>("Second");
 }
 
 DemoAdapter::~DemoAdapter()
@@ -89,20 +92,20 @@ void DemoAdapter::update_hud_framebuffer(double delta_time)
     charmShaders.get("ui").set_uniform("u_projection",
         Matrix4f({
             // clang-format off
-                2 / 1024.0, 0,          0, 0,
-                0,          -2 / 720.0, 0, 0,
-                0,          0,          1, 0,
-                -1,         1,          0, 1,
+                2.f / charmApp.get_width(), 0,                            0, 0,
+                0,                          -2.f / charmApp.get_height(), 0, 0,
+                0,                          0,                            1, 0,
+                -1,                         1,                            0, 1,
             // clang-format on
         }));
 
-    imui::begin(22, 22, 300, 64, m_font_metadata);
+    imui::begin(22, 22, charmApp.get_width() / 2, 64, m_font_metadata);
 
     FPSCounter::get_instance().push(delta_time);
     imui::label("FPS: " + std::to_string((int)FPSCounter::get_instance().get()), 42);
     imui::end();
 
-    m_document.draw(22, 100, 300, 500);
+    m_document.draw(22, 100, charmApp.get_width() / 2, charmApp.get_height() - 100 - 22);
 
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);

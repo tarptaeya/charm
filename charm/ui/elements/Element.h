@@ -17,21 +17,17 @@ public:
         m_children.push_back(std::make_unique<T>(std::forward<Args>(args)...));
     }
 
-    float get_min_width() const;
-    float get_min_height() const;
-    bool get_is_width_expandable() const;
-    bool get_is_height_expandable() const;
+    virtual float get_min_width(const ImmediateUI& api) const;
+    virtual float get_min_height(const ImmediateUI& api) const;
+    virtual bool get_is_width_expandable(const ImmediateUI& api) const;
+    virtual bool get_is_height_expandable(const ImmediateUI& api) const;
 
     float get_width() const;
     float get_height() const;
-    void set_bounds(float x, float y, float width, float height);
+    virtual void set_bounds(float x, float y, float width, float height, const ImmediateUI& api);
 
 protected:
     std::vector<std::unique_ptr<Element>> m_children;
-    float m_min_width = 0;
-    float m_min_height = 0;
-    bool m_expand_width = false;
-    bool m_expand_height = false;
 
     float m_x = 0;
     float m_y = 0;

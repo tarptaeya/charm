@@ -19,6 +19,9 @@ public:
 
     void draw(ImmediateUI& api) override;
 
+    float get_min_width(const ImmediateUI& api) const override;
+    float get_min_height(const ImmediateUI& api) const override;
+
 private:
     std::pair<bool, int> calculate_overflow_index(const ImmediateUI& api) const;
 };

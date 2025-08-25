@@ -31,6 +31,7 @@
 #include "ui/FontMetadata.h"
 #include "ui/ImmediateUI.h"
 #include "ui/elements/Element.h"
+#include "ui/elements/hboxcontainer/HBoxContainer.h"
 #include "ui/elements/label/Label.h"
 #include "ui/imui.h"
 

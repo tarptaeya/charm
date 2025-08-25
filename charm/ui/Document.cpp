@@ -35,7 +35,7 @@ void Document::draw(int x, int y, int width, int height)
     int element_height = height / m_children.size();
     int curr_y = y;
     for (const auto& child : m_children) {
-        child->set_bounds(x, curr_y, width, height);
+        child->set_bounds(x, curr_y, width, height, m_immediate_ui);
         curr_y += element_height;
         child->draw(m_immediate_ui);
     }
