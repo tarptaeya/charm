@@ -1,22 +1,22 @@
-#include "UIDocument.h"
+#include "Document.h"
 
-namespace charm {
+namespace charm::ui {
 
-UIDocument::UIDocument(const FontMetadata& font_metadata)
+Document::Document(const FontMetadata& font_metadata)
     : m_immediate_ui(font_metadata)
 {
 }
 
-UIDocument::~UIDocument()
+Document::~Document()
 {
 }
 
-UIDocument::UIDocument(UIDocument&& other)
+Document::Document(Document&& other)
     : m_immediate_ui(std::move(other.m_immediate_ui))
 {
 }
 
-UIDocument& UIDocument::operator=(UIDocument&& other)
+Document& Document::operator=(Document&& other)
 {
     if (this == &other)
         return *this;
@@ -26,7 +26,7 @@ UIDocument& UIDocument::operator=(UIDocument&& other)
     return *this;
 }
 
-void UIDocument::draw(int x, int y, int width, int height)
+void Document::draw(int x, int y, int width, int height)
 {
 
     m_immediate_ui.begin(x, y, width, height);

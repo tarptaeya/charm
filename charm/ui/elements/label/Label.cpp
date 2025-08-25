@@ -1,8 +1,8 @@
-#include "UILabel.h"
+#include "Label.h"
 
-namespace charm {
+namespace charm::ui {
 
-UILabel::UILabel(const std::string& text)
+Label::Label(const std::string& text)
     : m_text(text)
 {
     m_min_width = 0;
@@ -10,11 +10,11 @@ UILabel::UILabel(const std::string& text)
     m_expand_width = m_expand_height = false;
 }
 
-UILabel::~UILabel()
+Label::~Label()
 {
 }
 
-void UILabel::draw(ImmediateUI& api)
+void Label::draw(ImmediateUI& api)
 {
     float xcurr = m_x;
     float ycurr = m_y + m_font_size;
@@ -47,7 +47,7 @@ void UILabel::draw(ImmediateUI& api)
     }
 }
 
-std::pair<bool, int> UILabel::calculate_overflow_index(const ImmediateUI& api) const
+std::pair<bool, int> Label::calculate_overflow_index(const ImmediateUI& api) const
 {
     float xcurr = m_x;
 

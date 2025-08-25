@@ -3,11 +3,11 @@
 #include "ui/ImmediateUI.h"
 #include <vector>
 
-namespace charm {
+namespace charm::ui {
 
-class UIElement {
+class Element {
 public:
-    virtual ~UIElement() { }
+    virtual ~Element() { }
 
     virtual void draw(ImmediateUI& api) = 0;
 
@@ -27,7 +27,7 @@ public:
     void set_bounds(float x, float y, float width, float height);
 
 protected:
-    std::vector<std::unique_ptr<UIElement>> m_children;
+    std::vector<std::unique_ptr<Element>> m_children;
     float m_min_width = 0;
     float m_min_height = 0;
     bool m_expand_width = false;

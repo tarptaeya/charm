@@ -24,9 +24,9 @@ add_library(
     ui/FontMetadata.cpp
     ui/imui.cpp
     ui/ImmediateUI.cpp
-    ui/UIDocument.cpp
-    ui/elements/UIElement.cpp
-    ui/elements/label/UILabel.cpp
+    ui/Document.cpp
+    ui/elements/Element.cpp
+    ui/elements/label/Label.cpp
 )
 
 target_link_libraries(charm glfw glad)

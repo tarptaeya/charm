@@ -20,13 +20,13 @@ DemoAdapter::DemoAdapter()
 
     m_font_metadata = FontMetadata::parse("assets/font.txt");
 
-    m_ui_document = charm::UIDocument(m_font_metadata);
-    m_ui_document.add<UILabel>("Hello world.");
-    m_ui_document.add<UILabel>("I am Label 1.");
-    m_ui_document.add<UILabel>("I am Label 2.");
-    m_ui_document.add<UILabel>("I am a very very long label!");
-    m_ui_document.add<UILabel>("I am another label!");
-    m_ui_document.add<UILabel>("I am another long label :-)");
+    m_document = charm::ui::Document(m_font_metadata);
+    m_document.add<ui::Label>("Hello world.");
+    m_document.add<ui::Label>("I am Label 1.");
+    m_document.add<ui::Label>("I am Label 2.");
+    m_document.add<ui::Label>("I am a very very long label!");
+    m_document.add<ui::Label>("I am another label!");
+    m_document.add<ui::Label>("I am another long label :-)");
 }
 
 DemoAdapter::~DemoAdapter()
@@ -102,7 +102,7 @@ void DemoAdapter::update_hud_framebuffer(double delta_time)
     imui::label("FPS: " + std::to_string((int)FPSCounter::get_instance().get()), 42);
     imui::end();
 
-    m_ui_document.draw(22, 100, 300, 500);
+    m_document.draw(22, 100, 300, 500);
 
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);

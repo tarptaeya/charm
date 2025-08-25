@@ -12,7 +12,7 @@ class DemoAdapter : public charm::AppAdapter {
     charm::Framebuffer m_hud_framebuffer;
 
     RootObject m_root_object;
-    charm::UIDocument m_ui_document;
+    charm::ui::Document m_document;
 
 public:
     DemoAdapter();

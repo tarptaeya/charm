@@ -27,11 +27,11 @@
 #include "math/Vector3f.h"
 #include "misc/Rect.h"
 #include "misc/misc.h"
+#include "ui/Document.h"
 #include "ui/FontMetadata.h"
 #include "ui/ImmediateUI.h"
-#include "ui/UIDocument.h"
-#include "ui/elements/UIElement.h"
-#include "ui/elements/label/UILabel.h"
+#include "ui/elements/Element.h"
+#include "ui/elements/label/Label.h"
 #include "ui/imui.h"
 
 #define FONT_TEXTURE_UNIT GL_TEXTURE1

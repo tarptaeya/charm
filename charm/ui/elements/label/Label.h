@@ -1,21 +1,21 @@
 #pragma once
 
-#include "ui/elements/UIElement.h"
+#include "ui/elements/Element.h"
 #include <string>
 #include <utility>
 
-namespace charm {
+namespace charm::ui {
 
-class UILabel : public UIElement {
+class Label : public Element {
     std::string m_text;
     float m_font_size = 24;
 
 public:
-    UILabel(const std::string&);
-    ~UILabel() override;
+    Label(const std::string&);
+    ~Label() override;
 
-    UILabel(const UILabel&) = delete;
-    UILabel& operator=(const UILabel&) = delete;
+    Label(const Label&) = delete;
+    Label& operator=(const Label&) = delete;
 
     void draw(ImmediateUI& api) override;
 
