@@ -7,26 +7,28 @@ namespace charm::ui {
 
 class Element {
 public:
+    Element(ImmediateUI& context);
     virtual ~Element() { }
 
-    virtual void draw(ImmediateUI& api) = 0;
+    virtual void draw() = 0;
 
     template <class T, typename... Args>
     void add(Args&&... args)
     {
-        m_children.push_back(std::make_unique<T>(std::forward<Args>(args)...));
+        m_children.push_back(std::make_unique<T>(m_context, std::forward<Args>(args)...));
     }
 
-    virtual float get_min_width(const ImmediateUI& api) const;
-    virtual float get_min_height(const ImmediateUI& api) const;
-    virtual bool get_is_width_expandable(const ImmediateUI& api) const;
-    virtual bool get_is_height_expandable(const ImmediateUI& api) const;
+    virtual float get_min_width() const;
+    virtual float get_min_height() const;
+    virtual bool get_is_width_expandable() const;
+    virtual bool get_is_height_expandable() const;
 
     float get_width() const;
     float get_height() const;
-    virtual void set_bounds(float x, float y, float width, float height, const ImmediateUI& api);
+    virtual void set_bounds(float x, float y, float width, float height);
 
 protected:
+    ImmediateUI& m_context;
     std::vector<std::unique_ptr<Element>> m_children;
 
     float m_x = 0;
