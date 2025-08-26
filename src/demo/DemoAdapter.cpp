@@ -4,6 +4,8 @@
 
 using namespace charm;
 
+int count = 0;
+
 DemoAdapter::DemoAdapter()
 {
     glfwSwapInterval(0);
@@ -23,17 +25,23 @@ DemoAdapter::DemoAdapter()
     m_document = charm::ui::Document(m_font_metadata);
 
     m_document.add<ui::Label>("Hello world.");
-    m_document.add<ui::Label>("I am Label 1.");
-    m_document.add<ui::Label>("I am Label 2.");
+    m_document.add<ui::Label>("I am Label");
     m_document.add<ui::Label>("I am a very very long label!");
 
+    auto& counter_label = m_document.add<ui::Label>("Current count: 0");
+
     auto& hbox = m_document.add<ui::HBoxContainer>();
-    hbox.add<ui::Label>("Do you confirm?");
-    auto& button = hbox.add<ui::Button>("Of course");
-    button.set_on_click_handler([&button] {
-        static int count = 0;
+
+    auto& increment_button = hbox.add<ui::Button>("Increment");
+    increment_button.set_on_click_handler([&increment_button, &counter_label] {
         ++count;
-        button.set_text("clicked " + std::to_string(count) + " times");
+        counter_label.set_text("Current count: " + std::to_string(count));
+    });
+
+    auto& decrement_button = hbox.add<ui::Button>("Decrement");
+    decrement_button.set_on_click_handler([&decrement_button, &counter_label] {
+        --count;
+        counter_label.set_text("Current count: " + std::to_string(count));
     });
 }
 
