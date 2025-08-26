@@ -30,8 +30,10 @@ DemoAdapter::DemoAdapter()
     auto& hbox = m_document.add<ui::HBoxContainer>();
     hbox.add<ui::Label>("Do you confirm?");
     auto& button = hbox.add<ui::Button>("Of course");
-    button.set_on_click_handler([] {
-        std::cout << "ok confirmed" << std::endl;
+    button.set_on_click_handler([&button] {
+        static int count = 0;
+        ++count;
+        button.set_text("clicked " + std::to_string(count) + " times");
     });
 }
 

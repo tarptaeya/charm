@@ -13,6 +13,8 @@ HBoxContainer::~HBoxContainer()
 
 void HBoxContainer::draw()
 {
+    Element::draw();
+
     int num_child = m_children.size();
     float child_width = m_width / num_child;
     float xcursor = m_x;

@@ -6,11 +6,12 @@
 namespace charm::ui {
 
 class Element {
+
 public:
     Element(ImmediateUI& context);
     virtual ~Element() { }
 
-    virtual void draw() = 0;
+    virtual void draw();
 
     template <class T, typename... Args>
     T& add(Args&&... args)
@@ -36,6 +37,10 @@ protected:
     float m_y = 0;
     float m_width = 0;
     float m_height = 0;
+
+    bool m_is_mouse_hover = false;
+    bool m_is_mouse_pressed = false;
+    bool m_is_mouse_just_pressed = false;
 };
 
 }

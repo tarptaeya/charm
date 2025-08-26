@@ -15,18 +15,19 @@ Button::~Button()
 
 void Button::draw()
 {
-    double mouse_x, mouse_y;
-    glfwGetCursorPos(charmWindow, &mouse_x, &mouse_y);
+    Element::draw();
 
-    if (m_x <= mouse_x && mouse_x <= m_x + m_width && m_y <= mouse_y && mouse_y <= m_y + m_height) {
-        if (glfwGetMouseButton(charmWindow, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_on_click) {
-            m_on_click();
-        }
+    if (m_is_mouse_hover) {
         m_context.add_rect(m_x, m_y, m_width, m_height, { 0.25, 0.55, 0.6 }, 0, { 0, 0 }, { 0, 0 });
     } else {
         m_context.add_rect(m_x, m_y, m_width, m_height, { 0.2, 0.5, 0.5 }, 0, { 0, 0 }, { 0, 0 });
     }
+
     m_label.draw();
+
+    if (m_is_mouse_just_pressed) {
+        m_on_click();
+    }
 }
 
 void Button::set_bounds(float x, float y, float width, float height)
@@ -39,9 +40,14 @@ void Button::set_bounds(float x, float y, float width, float height)
     m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - 2 * label_x_padding + delta, height - 2 * label_y_padding);
 }
 
-void Button::set_on_click_handler(void (*on_click)())
+void Button::set_on_click_handler(std::function<void()> on_click)
 {
     m_on_click = on_click;
+}
+
+void Button::set_text(const std::string& text)
+{
+    m_label.set_text(text);
 }
 
 }

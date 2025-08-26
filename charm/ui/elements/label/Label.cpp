@@ -14,6 +14,8 @@ Label::~Label()
 
 void Label::draw()
 {
+    Element::draw();
+
     float xcurr = m_x;
     float ycurr = m_y + m_font_size;
 
