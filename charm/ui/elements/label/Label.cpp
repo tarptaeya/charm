@@ -65,6 +65,16 @@ float Label::get_min_height() const
     return m_font_size;
 }
 
+std::string Label::get_text() const
+{
+    return m_text;
+}
+
+void Label::set_text(const std::string& text)
+{
+    m_text = text;
+}
+
 std::pair<bool, int> Label::calculate_overflow_index() const
 {
     float xcurr = m_x;

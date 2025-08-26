@@ -1,0 +1,47 @@
+#include "Button.h"
+#include "charm.h"
+
+namespace charm::ui {
+
+Button::Button(ImmediateUI& context, const std::string& text)
+    : Element(context)
+    , m_label(context, text)
+{
+}
+
+Button::~Button()
+{
+}
+
+void Button::draw()
+{
+    double mouse_x, mouse_y;
+    glfwGetCursorPos(charmWindow, &mouse_x, &mouse_y);
+
+    if (m_x <= mouse_x && mouse_x <= m_x + m_width && m_y <= mouse_y && mouse_y <= m_y + m_height) {
+        if (glfwGetMouseButton(charmWindow, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && m_on_click) {
+            m_on_click();
+        }
+        m_context.add_rect(m_x, m_y, m_width, m_height, { 0.25, 0.55, 0.6 }, 0, { 0, 0 }, { 0, 0 });
+    } else {
+        m_context.add_rect(m_x, m_y, m_width, m_height, { 0.2, 0.5, 0.5 }, 0, { 0, 0 }, { 0, 0 });
+    }
+    m_label.draw();
+}
+
+void Button::set_bounds(float x, float y, float width, float height)
+{
+    Element::set_bounds(x, y, width, height);
+    float delta = 5;
+    float label_x_padding = std::max(0.f, (width - m_label.get_min_width() - 2 * delta) / 2);
+    float label_y_padding = std::max(0.f, (height - m_label.get_min_height()) / 2);
+
+    m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - 2 * label_x_padding + delta, height - 2 * label_y_padding);
+}
+
+void Button::set_on_click_handler(void (*on_click)())
+{
+    m_on_click = on_click;
+}
+
+}

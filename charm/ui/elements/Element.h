@@ -13,9 +13,10 @@ public:
     virtual void draw() = 0;
 
     template <class T, typename... Args>
-    void add(Args&&... args)
+    T& add(Args&&... args)
     {
         m_children.push_back(std::make_unique<T>(m_context, std::forward<Args>(args)...));
+        return dynamic_cast<T&>(*m_children.back());
     }
 
     virtual float get_min_width() const;

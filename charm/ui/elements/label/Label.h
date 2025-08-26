@@ -22,6 +22,9 @@ public:
     float get_min_width() const override;
     float get_min_height() const override;
 
+    std::string get_text() const;
+    void set_text(const std::string& text);
+
 private:
     std::pair<bool, int> calculate_overflow_index() const;
 };

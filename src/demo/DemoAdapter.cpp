@@ -28,8 +28,11 @@ DemoAdapter::DemoAdapter()
     m_document.add<ui::Label>("I am a very very long label!");
 
     auto& hbox = m_document.add<ui::HBoxContainer>();
-    hbox.add<ui::Label>("First");
-    hbox.add<ui::Label>("Second");
+    hbox.add<ui::Label>("Do you confirm?");
+    auto& button = hbox.add<ui::Button>("Of course");
+    button.set_on_click_handler([] {
+        std::cout << "ok confirmed" << std::endl;
+    });
 }
 
 DemoAdapter::~DemoAdapter()

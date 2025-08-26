@@ -32,10 +32,10 @@ void Document::draw(int x, int y, int width, int height)
     m_immediate_ui.begin(x, y, width, height);
     m_immediate_ui.add_rect(x, y, width, height, { 0.9, 0.9, 0.9 }, 0, { 0, 0 }, { 0, 0 });
 
-    int element_height = height / m_children.size();
-    int curr_y = y;
+    float element_height = height * 1.0f / m_children.size();
+    float curr_y = y;
     for (const auto& child : m_children) {
-        child->set_bounds(x, curr_y, width, height);
+        child->set_bounds(x, curr_y, width, element_height);
         curr_y += element_height;
         child->draw();
     }
