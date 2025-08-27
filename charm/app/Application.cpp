@@ -7,6 +7,8 @@ Application::~Application()
 {
     if (m_window)
         glfwDestroyWindow(m_window);
+    if (m_cursor)
+        glfwDestroyCursor(m_cursor);
     glfwTerminate();
 }
 
@@ -72,6 +74,20 @@ Application& Application::get_instance()
 {
     static Application application;
     return application;
+}
+
+void Application::set_cursor(int shape)
+{
+    if (m_cursor)
+        glfwDestroyCursor(m_cursor);
+
+    m_cursor = glfwCreateStandardCursor(shape);
+    glfwSetCursor(m_window, m_cursor);
+}
+
+void Application::execute_on_frame_end(int priority, const std::function<void()>& function)
+{
+    m_functions_to_execute_on_frame_end.push_back({ priority, function });
 }
 
 }

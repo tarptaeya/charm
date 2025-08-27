@@ -8,6 +8,8 @@
 #include "Registry.h"
 #include "graphics/geometry/Geometry.h"
 #include "graphics/shaders/Shader.h"
+#include <algorithm>
+#include <functional>
 #include <iostream>
 
 #define charmApp charm::Application::get_instance()
@@ -24,10 +26,12 @@ class Application {
     friend class Input;
 
     GLFWwindow* m_window = nullptr;
+    GLFWcursor* m_cursor = nullptr;
     int m_width = 0;
     int m_height = 0;
     Registry<Shader> m_shaders;
     Registry<Geometry> m_geometries;
+    std::vector<std::pair<int, std::function<void()>>> m_functions_to_execute_on_frame_end;
 
     Application() = default;
 
@@ -60,6 +64,14 @@ public:
             glViewport(0, 0, m_width, m_height);
             adapter.update(delta_time);
 
+            std::sort(m_functions_to_execute_on_frame_end.begin(), m_functions_to_execute_on_frame_end.end(), [](const auto& a, const auto& b) {
+                return a.first < b.first;
+            });
+            for (const auto& [_priority, function] : m_functions_to_execute_on_frame_end) {
+                function();
+            }
+            m_functions_to_execute_on_frame_end.clear();
+
             glfwPollEvents();
             glfwSwapBuffers(m_window);
         }
@@ -68,6 +80,9 @@ public:
     }
 
     static Application& get_instance();
+
+    void set_cursor(int shape);
+    void execute_on_frame_end(int priority, const std::function<void()>&);
 };
 
 }

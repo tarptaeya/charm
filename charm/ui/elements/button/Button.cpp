@@ -50,4 +50,14 @@ void Button::set_text(const std::string& text)
     m_label.set_text(text);
 }
 
+void Button::on_mouse_enter()
+{
+    charmApp.execute_on_frame_end(1, [] { charmApp.set_cursor(GLFW_HAND_CURSOR); });
+}
+
+void Button::on_mouse_exit()
+{
+    charmApp.execute_on_frame_end(0, [] { charmApp.set_cursor(GLFW_ARROW_CURSOR); });
+}
+
 }

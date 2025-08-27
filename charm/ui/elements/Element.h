@@ -29,6 +29,9 @@ public:
     float get_height() const;
     virtual void set_bounds(float x, float y, float width, float height);
 
+    virtual void on_mouse_enter() { }
+    virtual void on_mouse_exit() { }
+
 protected:
     ImmediateUI& m_context;
     std::vector<std::unique_ptr<Element>> m_children;

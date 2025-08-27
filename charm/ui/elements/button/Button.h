@@ -23,6 +23,9 @@ public:
 
     void set_on_click_handler(std::function<void()> on_click);
     void set_text(const std::string& text);
+
+    void on_mouse_enter() override;
+    void on_mouse_exit() override;
 };
 
 }
