@@ -1,7 +1,7 @@
 #pragma once
 
+#include "FontMetadata.h"
 #include "graphics/textures/Texture2D.h"
-#include "ui/FontMetadata.h"
 
 namespace charm {
 

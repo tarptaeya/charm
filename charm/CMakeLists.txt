@@ -10,6 +10,7 @@ add_library(
     ecs/Entity.cpp
     ecs/Renderer.cpp
     graphics/font/Font.cpp
+    graphics/font/FontMetadata.cpp
     graphics/framebuffer/Framebuffer.cpp
     graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
@@ -22,8 +23,6 @@ add_library(
     math/Matrix4f.cpp
     math/Vector3f.cpp
     misc/misc.cpp
-    ui/FontMetadata.cpp
-    ui/imui.cpp
     ui/ImmediateUI.cpp
     ui/Document.cpp
     ui/elements/Element.cpp

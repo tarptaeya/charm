@@ -1,6 +1,5 @@
 #pragma once
 
-#include "FontMetadata.h"
 #include <glad/gl.h>
 #include <iostream>
 #include <vector>

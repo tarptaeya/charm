@@ -16,6 +16,7 @@
 #include "ecs/components/MeshRendererComponent.h"
 #include "ecs/components/TransformComponent.h"
 #include "graphics/font/Font.h"
+#include "graphics/font/FontMetadata.h"
 #include "graphics/framebuffer/Framebuffer.h"
 #include "graphics/framebuffer/FramebufferBuilder.h"
 #include "graphics/geometry/Geometry.h"
@@ -29,13 +30,11 @@
 #include "misc/Rect.h"
 #include "misc/misc.h"
 #include "ui/Document.h"
-#include "ui/FontMetadata.h"
 #include "ui/ImmediateUI.h"
 #include "ui/elements/Element.h"
 #include "ui/elements/button/Button.h"
 #include "ui/elements/hboxcontainer/HBoxContainer.h"
 #include "ui/elements/label/Label.h"
-#include "ui/imui.h"
 
 #define ON_ENTER_ELEMENT_PRIORITY 1000
 #define ON_EXIT_ELEMENT_PRIORITY (ON_ENTER_ELEMENT_PRIORITY - 1)

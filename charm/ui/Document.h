@@ -1,6 +1,5 @@
 #pragma once
 
-#include "FontMetadata.h"
 #include "ImmediateUI.h"
 #include "elements/Element.h"
 #include <glad/gl.h>
