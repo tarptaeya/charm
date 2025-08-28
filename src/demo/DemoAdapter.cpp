@@ -25,7 +25,8 @@ DemoAdapter::DemoAdapter()
     auto& counter_label = m_document.add<ui::Label>("Current count: 0");
     counter_label.set_font_size(25);
 
-    auto& hbox = m_document.add<ui::HBoxContainer>();
+    auto& container = m_document.add<ui::PaddedContainer>(12, 12);
+    auto& hbox = container.add<ui::HBoxContainer>();
 
     auto& increment_button = hbox.add<ui::Button>("Increment");
     increment_button.set_on_click_handler([&increment_button, &counter_label] {
