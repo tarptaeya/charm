@@ -18,22 +18,17 @@ DemoAdapter::DemoAdapter()
 
     m_document = charm::ui::Document();
 
-    m_document.add<ui::Label>("Hello world.");
-    m_document.add<ui::Label>("I am Label");
-    m_document.add<ui::Label>("I am a very very long label!");
+    auto& hbox = m_document.add<ui::PaddedContainer>(4).add<ui::HBoxContainer>();
+    auto& counter_label = hbox.add<ui::Label>("Current count: 0");
+    hbox.add<ui::HBoxContainer>();
 
-    auto& counter_label = m_document.add<ui::Label>("Current count: 0");
-    counter_label.set_font_size(25);
-
-    auto& hbox = m_document.add<ui::HBoxContainer>();
-
-    auto& increment_button = hbox.add<ui::PaddedContainer>(8).add<ui::Button>("Increment");
+    auto& increment_button = hbox.add<ui::PaddedContainer>(0).add<ui::Button>("Increment (+)");
     increment_button.set_on_click_handler([&increment_button, &counter_label] {
         ++count;
         counter_label.set_text("Current count: " + std::to_string(count));
     });
 
-    auto& decrement_button = hbox.add<ui::PaddedContainer>(0, 8, 8, 8).add<ui::Button>("Decrement");
+    auto& decrement_button = hbox.add<ui::PaddedContainer>(4, 0, 0, 0).add<ui::Button>("Decrement (-)");
     decrement_button.set_on_click_handler([&decrement_button, &counter_label] {
         --count;
         counter_label.set_text("Current count: " + std::to_string(count));
@@ -109,7 +104,7 @@ void DemoAdapter::update_hud_framebuffer(double delta_time)
             // clang-format on
         }));
 
-    m_document.draw(22, 22, charmApp.get_width() / 2, charmApp.get_height() - 22 * 2);
+    m_document.draw(charmApp.get_width() / 4, charmApp.get_height() - 22 - 50, charmApp.get_width() / 2, 50);
 
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);

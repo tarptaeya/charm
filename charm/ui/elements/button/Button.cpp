@@ -30,14 +30,23 @@ void Button::draw()
     }
 }
 
+float Button::get_min_width() const
+{
+    return m_label.get_min_width();
+}
+
+float Button::get_min_height() const
+{
+    return m_label.get_min_height();
+}
+
 void Button::set_bounds(float x, float y, float width, float height)
 {
     Element::set_bounds(x, y, width, height);
-    float delta = 5;
-    float label_x_padding = std::max(0.f, (width - m_label.get_min_width() - 2 * delta) / 2);
+    float label_x_padding = std::max(0.f, (width - m_label.get_min_width()) / 2);
     float label_y_padding = std::max(0.f, (height - m_label.get_min_height()) / 2);
 
-    m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - 2 * label_x_padding + delta, height - 2 * label_y_padding);
+    m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - 2 * label_x_padding, height - 2 * label_y_padding);
 }
 
 void Button::set_on_click_handler(std::function<void()> on_click)
