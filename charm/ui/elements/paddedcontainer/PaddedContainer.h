@@ -5,11 +5,16 @@
 namespace charm::ui {
 
 class PaddedContainer : public Element {
-    float m_padding_left_right = 0;
-    float m_padding_top_bottom = 0;
+    float m_padding_left = 0;
+    float m_padding_right = 0;
+    float m_padding_top = 0;
+    float m_padding_bottom = 0;
 
 public:
+    PaddedContainer(ImmediateUI& context, float padding);
     PaddedContainer(ImmediateUI& context, float padding_left_right, float padding_top_bottom);
+    PaddedContainer(ImmediateUI& context, float padding_left, float padding_right, float padding_top, float padding_bottom);
+
     ~PaddedContainer() override;
 
     PaddedContainer(const PaddedContainer&) = delete;

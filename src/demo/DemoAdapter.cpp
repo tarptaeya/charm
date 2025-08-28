@@ -25,16 +25,15 @@ DemoAdapter::DemoAdapter()
     auto& counter_label = m_document.add<ui::Label>("Current count: 0");
     counter_label.set_font_size(25);
 
-    auto& container = m_document.add<ui::PaddedContainer>(12, 12);
-    auto& hbox = container.add<ui::HBoxContainer>();
+    auto& hbox = m_document.add<ui::HBoxContainer>();
 
-    auto& increment_button = hbox.add<ui::Button>("Increment");
+    auto& increment_button = hbox.add<ui::PaddedContainer>(8).add<ui::Button>("Increment");
     increment_button.set_on_click_handler([&increment_button, &counter_label] {
         ++count;
         counter_label.set_text("Current count: " + std::to_string(count));
     });
 
-    auto& decrement_button = hbox.add<ui::Button>("Decrement");
+    auto& decrement_button = hbox.add<ui::PaddedContainer>(0, 8, 8, 8).add<ui::Button>("Decrement");
     decrement_button.set_on_click_handler([&decrement_button, &counter_label] {
         --count;
         counter_label.set_text("Current count: " + std::to_string(count));

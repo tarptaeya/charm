@@ -2,10 +2,30 @@
 
 namespace charm::ui {
 
+PaddedContainer::PaddedContainer(ImmediateUI& context, float padding)
+    : Element(context)
+    , m_padding_left(padding)
+    , m_padding_right(padding)
+    , m_padding_top(padding)
+    , m_padding_bottom(padding)
+{
+}
+
 PaddedContainer::PaddedContainer(ImmediateUI& context, float padding_left_right, float padding_top_bottom)
     : Element(context)
-    , m_padding_left_right(padding_left_right)
-    , m_padding_top_bottom(padding_top_bottom)
+    , m_padding_left(padding_left_right)
+    , m_padding_right(padding_left_right)
+    , m_padding_top(padding_top_bottom)
+    , m_padding_bottom(padding_top_bottom)
+{
+}
+
+PaddedContainer::PaddedContainer(ImmediateUI& context, float padding_left, float padding_right, float padding_top, float padding_bottom)
+    : Element(context)
+    , m_padding_left(padding_left)
+    , m_padding_right(padding_right)
+    , m_padding_top(padding_top)
+    , m_padding_bottom(padding_bottom)
 {
 }
 
@@ -55,12 +75,12 @@ void PaddedContainer::set_bounds(float x, float y, float width, float height)
     Element::set_bounds(x, y, width, height);
 
     int num_children = m_children.size();
-    float child_width = m_width - m_padding_left_right * 2;
-    float available_height = m_height - m_padding_top_bottom * 2;
+    float child_width = m_width - (m_padding_left + m_padding_right);
+    float available_height = m_height - (m_padding_top + m_padding_bottom);
     float child_height = available_height / num_children;
-    float ycursor = y;
+    float ycursor = y + m_padding_top;
     for (const auto& child : m_children) {
-        child->set_bounds(x + m_padding_left_right, ycursor + m_padding_top_bottom, child_width, child_height);
+        child->set_bounds(x + m_padding_left, ycursor, child_width, child_height);
         ycursor += child_height;
     }
 }
