@@ -15,6 +15,7 @@
 #include "ecs/Renderer.h"
 #include "ecs/components/MeshRendererComponent.h"
 #include "ecs/components/TransformComponent.h"
+#include "graphics/font/Font.h"
 #include "graphics/framebuffer/Framebuffer.h"
 #include "graphics/framebuffer/FramebufferBuilder.h"
 #include "graphics/geometry/Geometry.h"
@@ -35,8 +36,6 @@
 #include "ui/elements/hboxcontainer/HBoxContainer.h"
 #include "ui/elements/label/Label.h"
 #include "ui/imui.h"
-
-#define FONT_TEXTURE_UNIT GL_TEXTURE1
 
 #define ON_ENTER_ELEMENT_PRIORITY 1000
 #define ON_EXIT_ELEMENT_PRIORITY (ON_ENTER_ELEMENT_PRIORITY - 1)

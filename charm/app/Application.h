@@ -21,6 +21,7 @@ namespace charm {
 
 class Window;
 class AppAdapter;
+class Font;
 
 class Application {
     friend class Input;
@@ -32,6 +33,7 @@ class Application {
     Registry<Shader> m_shaders;
     Registry<Geometry> m_geometries;
     std::vector<std::pair<int, std::function<void()>>> m_functions_to_execute_on_frame_end;
+    std::unique_ptr<Font> m_font = nullptr;
 
     Application() = default;
 
@@ -83,6 +85,9 @@ public:
 
     void set_cursor(int shape);
     void execute_on_frame_end(int priority, const std::function<void()>&);
+
+    Font& get_font();
+    void set_font(const std::string& texture_path, const std::string& metadata_path);
 };
 
 }

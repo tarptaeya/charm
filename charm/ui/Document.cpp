@@ -1,18 +1,13 @@
 #include "Document.h"
+#include "charm.h"
 
 namespace charm::ui {
-
-Document::Document(const FontMetadata& font_metadata)
-    : m_immediate_ui(font_metadata)
-{
-}
 
 Document::~Document()
 {
 }
 
 Document::Document(Document&& other)
-    : m_immediate_ui(std::move(other.m_immediate_ui))
 {
 }
 
@@ -20,8 +15,6 @@ Document& Document::operator=(Document&& other)
 {
     if (this == &other)
         return *this;
-
-    m_immediate_ui = std::move(other.m_immediate_ui);
 
     return *this;
 }

@@ -34,10 +34,7 @@ class ImmediateUI {
     std::vector<unsigned int> m_indices;
 
 public:
-    FontMetadata font_metadata;
-
-    ImmediateUI() = default;
-    ImmediateUI(const FontMetadata&);
+    ImmediateUI();
     ~ImmediateUI();
 
     ImmediateUI(const ImmediateUI&) = delete;

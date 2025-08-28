@@ -12,6 +12,7 @@ int main()
     options.window_title = "Charmed Demo";
 
     charmApp.initialize(options);
+    charmApp.set_font("assets/bitmap.png", "assets/font.txt");
 
     charmShaders.add("basic", Shader(FileIO::read_text("assets/basic.vertex.glsl"), FileIO::read_text("assets/basic.fragment.glsl")));
     charmShaders.add("ui", Shader(FileIO::read_text("assets/ui.vertex.glsl"), FileIO::read_text("assets/ui.fragment.glsl")));

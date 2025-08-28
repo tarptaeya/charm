@@ -11,8 +11,7 @@ static size_t next_power_of_two(size_t x)
     return ans;
 }
 
-ImmediateUI::ImmediateUI(const FontMetadata& font_metadata)
-    : font_metadata(font_metadata)
+ImmediateUI::ImmediateUI()
 {
     glGenVertexArrays(1, &m_vertex_array);
     glBindVertexArray(m_vertex_array);
@@ -56,7 +55,6 @@ ImmediateUI::ImmediateUI(ImmediateUI&& other)
     m_index_buffer_capacity = other.m_index_buffer_capacity;
     m_vertices = std::move(other.m_vertices);
     m_indices = std::move(other.m_indices);
-    font_metadata = std::move(other.font_metadata);
 }
 
 ImmediateUI& ImmediateUI::operator=(ImmediateUI&& other)
@@ -79,7 +77,6 @@ ImmediateUI& ImmediateUI::operator=(ImmediateUI&& other)
     m_index_buffer_capacity = other.m_index_buffer_capacity;
     m_vertices = std::move(other.m_vertices);
     m_indices = std::move(other.m_indices);
-    font_metadata = std::move(other.font_metadata);
 
     return *this;
 }

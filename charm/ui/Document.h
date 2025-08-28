@@ -15,7 +15,6 @@ class Document {
 
 public:
     Document() = default;
-    Document(const FontMetadata& font_metadata);
     ~Document();
 
     Document(const Document&) = delete;

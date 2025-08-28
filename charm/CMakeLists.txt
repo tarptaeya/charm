@@ -9,6 +9,7 @@ add_library(
     ecs/Component.cpp
     ecs/Entity.cpp
     ecs/Renderer.cpp
+    graphics/font/Font.cpp
     graphics/framebuffer/Framebuffer.cpp
     graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp

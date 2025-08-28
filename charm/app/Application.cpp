@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "AppAdapter.h"
+#include "graphics/font/Font.h"
 
 namespace charm {
 
@@ -88,6 +89,21 @@ void Application::set_cursor(int shape)
 void Application::execute_on_frame_end(int priority, const std::function<void()>& function)
 {
     m_functions_to_execute_on_frame_end.push_back({ priority, function });
+}
+
+Font& Application::get_font()
+{
+    if (!m_font) {
+        std::cerr << "[error] font is not set" << std::endl;
+        std::exit(0);
+    }
+
+    return *m_font.get();
+}
+
+void Application::set_font(const std::string& texture_path, const std::string& metadata_path)
+{
+    m_font = std::make_unique<Font>(texture_path, metadata_path);
 }
 
 }

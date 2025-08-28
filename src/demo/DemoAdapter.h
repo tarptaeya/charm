@@ -6,8 +6,6 @@
 
 class DemoAdapter : public charm::AppAdapter {
     charm::Camera m_camera;
-    charm::Texture2D m_font_bitmap;
-    charm::FontMetadata m_font_metadata;
     charm::Framebuffer m_main_framebuffer;
     charm::Framebuffer m_hud_framebuffer;
 

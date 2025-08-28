@@ -16,19 +16,14 @@ DemoAdapter::DemoAdapter()
     m_main_framebuffer = FramebufferBuilder().create(1024, 720);
     m_hud_framebuffer = FramebufferBuilder().create(1024, 720);
 
-    m_font_bitmap = Texture2DBuilder("assets/bitmap.png")
-                        .set_texture_unit(FONT_TEXTURE_UNIT)
-                        .build();
-
-    m_font_metadata = FontMetadata::parse("assets/font.txt");
-
-    m_document = charm::ui::Document(m_font_metadata);
+    m_document = charm::ui::Document();
 
     m_document.add<ui::Label>("Hello world.");
     m_document.add<ui::Label>("I am Label");
     m_document.add<ui::Label>("I am a very very long label!");
 
     auto& counter_label = m_document.add<ui::Label>("Current count: 0");
+    counter_label.set_font_size(25);
 
     auto& hbox = m_document.add<ui::HBoxContainer>();
 
@@ -99,7 +94,9 @@ void DemoAdapter::update_hud_framebuffer(double delta_time)
 
     blit_framebuffer_to_screen(m_main_framebuffer.get_gl_color_texture());
 
-    m_font_bitmap.bind();
+    float width = m_hud_framebuffer.get_width();
+    float height = m_hud_framebuffer.get_height();
+
     charmShaders.get("ui").use();
     charmShaders.get("ui").set_uniform("u_font_texture", 1);
     charmShaders.get("ui").set_uniform("u_projection",
@@ -112,13 +109,7 @@ void DemoAdapter::update_hud_framebuffer(double delta_time)
             // clang-format on
         }));
 
-    imui::begin(22, 22, charmApp.get_width() / 2, 64, m_font_metadata);
-
-    FPSCounter::get_instance().push(delta_time);
-    imui::label("FPS: " + std::to_string((int)FPSCounter::get_instance().get()), 42);
-    imui::end();
-
-    m_document.draw(22, 100, charmApp.get_width() / 2, charmApp.get_height() - 100 - 22);
+    m_document.draw(22, 22, charmApp.get_width() / 2, charmApp.get_height() - 22 * 2);
 
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);

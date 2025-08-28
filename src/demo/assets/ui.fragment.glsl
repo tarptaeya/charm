@@ -14,7 +14,7 @@ void main()
         FragColor = vec4(v_color, 1);
     } else if (v_active_texture == 1) {
         vec4 color = texture(u_font_texture, v_texcoord);
-        float alpha = smoothstep(0.5 - 0.08, 0.5 + 0.08, color.r);
+        float alpha = smoothstep(0.3, 0.6, color.r);
         FragColor = vec4(v_color, alpha);
     }
     
