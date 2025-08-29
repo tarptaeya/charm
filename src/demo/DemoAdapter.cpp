@@ -117,7 +117,7 @@ void DemoAdapter::update_hud_framebuffer(double delta_time)
 
     auto fps_label = m_document.get_element_by_id<ui::Label>("fps_label");
     FPSCounter::get_instance().push(delta_time);
-    fps_label->set_text("Frames per second: " + std::to_string(FPSCounter::get_instance().get()));
+    fps_label->set_text("Frames per second: " + std::to_string((int)FPSCounter::get_instance().get()));
 
     m_document.draw(charmApp.get_width() / 4, charmApp.get_height() - 22 - 100, charmApp.get_width() / 2, 100);
 

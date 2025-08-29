@@ -26,9 +26,9 @@ public:
     T* get_element_by_id(const std::string& id)
     {
         for (const auto& child : m_children) {
-            T* ans = child->get_element_by_id<T>(id);
+            Element* ans = child->get_element_by_id(id);
             if (ans)
-                return ans;
+                return dynamic_cast<T*>(ans);
         }
         return nullptr;
     }

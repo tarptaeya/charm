@@ -18,6 +18,19 @@ void Element::set_id(const std::string& id)
     m_id = id;
 }
 
+Element* Element::get_element_by_id(const std::string& id)
+{
+    if (m_id == id)
+        return this;
+
+    for (const auto& child : m_children) {
+        auto ans = child->get_element_by_id(id);
+        if (ans)
+            return ans;
+    }
+    return nullptr;
+}
+
 void Element::draw()
 {
     double mouse_x, mouse_y;
