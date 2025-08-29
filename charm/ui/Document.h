@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ImmediateUI.h"
+#include "Context.h"
 #include "elements/Element.h"
 #include <glad/gl.h>
 #include <iostream>
@@ -9,7 +9,7 @@
 namespace charm::ui {
 
 class Document {
-    ImmediateUI m_immediate_ui;
+    Context m_immediate_ui;
     std::vector<std::unique_ptr<Element>> m_children;
 
 public:

@@ -3,7 +3,7 @@
 
 namespace charm::ui {
 
-Element::Element(ImmediateUI& context)
+Element::Element(Context& context)
     : m_context(context)
 {
 }

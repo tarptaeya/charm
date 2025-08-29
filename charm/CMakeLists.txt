@@ -23,7 +23,7 @@ add_library(
     math/Matrix4f.cpp
     math/Vector3f.cpp
     misc/misc.cpp
-    ui/ImmediateUI.cpp
+    ui/Context.cpp
     ui/Document.cpp
     ui/elements/Element.cpp
     ui/elements/button/Button.cpp

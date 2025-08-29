@@ -4,11 +4,11 @@
 #include <iostream>
 #include <vector>
 
-namespace charm {
+namespace charm::ui {
 
 #define EIGHT_KILO_BYTES 8192
 
-class ImmediateUI {
+class Context {
     struct Color {
         float r, g, b;
     };
@@ -33,14 +33,14 @@ class ImmediateUI {
     std::vector<unsigned int> m_indices;
 
 public:
-    ImmediateUI();
-    ~ImmediateUI();
+    Context();
+    ~Context();
 
-    ImmediateUI(const ImmediateUI&) = delete;
-    ImmediateUI& operator=(ImmediateUI&) = delete;
+    Context(const Context&) = delete;
+    Context& operator=(Context&) = delete;
 
-    ImmediateUI(ImmediateUI&&);
-    ImmediateUI& operator=(ImmediateUI&&);
+    Context(Context&&);
+    Context& operator=(Context&&);
 
     void begin(int x, int y, int width, int height);
     void commit();

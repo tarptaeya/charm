@@ -2,7 +2,7 @@
 
 namespace charm::ui {
 
-HBoxContainer::HBoxContainer(ImmediateUI& context)
+HBoxContainer::HBoxContainer(Context& context)
     : Element(context)
 {
     set_is_width_expandable(true);

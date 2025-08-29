@@ -11,7 +11,7 @@ class Label : public Element {
     float m_font_size = 14;
 
 public:
-    Label(ImmediateUI& context, const std::string&);
+    Label(Context& context, const std::string&);
     ~Label() override;
 
     Label(const Label&) = delete;

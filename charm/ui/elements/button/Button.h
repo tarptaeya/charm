@@ -11,7 +11,7 @@ class Button : public Element {
     std::function<void()> m_on_click = nullptr;
 
 public:
-    Button(ImmediateUI& context, const std::string& text);
+    Button(Context& context, const std::string& text);
     ~Button();
 
     Button(const Button&) = delete;

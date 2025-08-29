@@ -3,7 +3,7 @@
 
 namespace charm::ui {
 
-Label::Label(ImmediateUI& context, const std::string& text)
+Label::Label(Context& context, const std::string& text)
     : Element(context)
     , m_text(text)
 {

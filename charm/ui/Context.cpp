@@ -1,6 +1,6 @@
-#include "ImmediateUI.h"
+#include "Context.h"
 
-namespace charm {
+namespace charm::ui {
 
 static size_t next_power_of_two(size_t x)
 {
@@ -11,7 +11,7 @@ static size_t next_power_of_two(size_t x)
     return ans;
 }
 
-ImmediateUI::ImmediateUI()
+Context::Context()
 {
     glGenVertexArrays(1, &m_vertex_array);
     glBindVertexArray(m_vertex_array);
@@ -35,7 +35,7 @@ ImmediateUI::ImmediateUI()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_capacity, nullptr, GL_DYNAMIC_DRAW);
 }
 
-ImmediateUI::~ImmediateUI()
+Context::~Context()
 {
     if (m_vertex_array != 0) {
         glDeleteVertexArrays(1, &m_vertex_array);
@@ -44,7 +44,7 @@ ImmediateUI::~ImmediateUI()
     }
 }
 
-ImmediateUI::ImmediateUI(ImmediateUI&& other)
+Context::Context(Context&& other)
 {
     m_vertex_array = other.m_vertex_array;
     m_array_buffer = other.m_array_buffer;
@@ -57,7 +57,7 @@ ImmediateUI::ImmediateUI(ImmediateUI&& other)
     m_indices = std::move(other.m_indices);
 }
 
-ImmediateUI& ImmediateUI::operator=(ImmediateUI&& other)
+Context& Context::operator=(Context&& other)
 {
     if (this == &other)
         return *this;
@@ -81,13 +81,13 @@ ImmediateUI& ImmediateUI::operator=(ImmediateUI&& other)
     return *this;
 }
 
-void ImmediateUI::begin(int x, int y, int width, int height)
+void Context::begin(int x, int y, int width, int height)
 {
     m_vertices.clear();
     m_indices.clear();
 }
 
-void ImmediateUI::commit()
+void Context::commit()
 {
     if (m_vertices.size() == 0 || m_indices.size() == 0)
         return;
@@ -112,7 +112,7 @@ void ImmediateUI::commit()
     glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 }
 
-void ImmediateUI::add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright)
+void Context::add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright)
 {
     unsigned int index = m_vertices.size();
 

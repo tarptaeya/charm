@@ -11,9 +11,9 @@ class PaddedContainer : public Element {
     float m_padding_bottom = 0;
 
 public:
-    PaddedContainer(ImmediateUI& context, float padding);
-    PaddedContainer(ImmediateUI& context, float padding_left_right, float padding_top_bottom);
-    PaddedContainer(ImmediateUI& context, float padding_left, float padding_right, float padding_top, float padding_bottom);
+    PaddedContainer(Context& context, float padding);
+    PaddedContainer(Context& context, float padding_left_right, float padding_top_bottom);
+    PaddedContainer(Context& context, float padding_left, float padding_right, float padding_top, float padding_bottom);
 
     ~PaddedContainer() override;
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ui/ImmediateUI.h"
+#include "ui/Context.h"
 #include <vector>
 
 namespace charm::ui {
@@ -10,7 +10,7 @@ class Element {
     bool m_is_height_expandable = false;
 
 public:
-    Element(ImmediateUI& context);
+    Element(Context& context);
     virtual ~Element() { }
 
     std::string get_id() const;
@@ -43,7 +43,7 @@ public:
 
 protected:
     std::string m_id;
-    ImmediateUI& m_context;
+    Context& m_context;
     std::vector<std::unique_ptr<Element>> m_children;
 
     float m_x = 0;

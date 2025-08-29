@@ -3,7 +3,7 @@
 
 namespace charm::ui {
 
-Button::Button(ImmediateUI& context, const std::string& text)
+Button::Button(Context& context, const std::string& text)
     : Element(context)
     , m_label(context, text)
 {
