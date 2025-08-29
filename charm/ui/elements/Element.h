@@ -11,7 +11,24 @@ public:
     Element(ImmediateUI& context);
     virtual ~Element() { }
 
+    std::string get_id() const;
+    void set_id(const std::string& id);
+
     virtual void draw();
+
+    template <typename T>
+    T* get_element_by_id(const std::string& id)
+    {
+        if (m_id == id)
+            return dynamic_cast<T*>(this);
+
+        for (const auto& child : m_children) {
+            auto ans = child->get_element_by_id<T>(id);
+            if (ans)
+                return ans;
+        }
+        return nullptr;
+    }
 
     template <class T, typename... Args>
     T& add(Args&&... args)
@@ -33,6 +50,7 @@ public:
     virtual void on_mouse_exit() { }
 
 protected:
+    std::string m_id;
     ImmediateUI& m_context;
     std::vector<std::unique_ptr<Element>> m_children;
 

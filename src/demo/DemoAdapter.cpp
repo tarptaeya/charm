@@ -5,10 +5,11 @@
 using namespace charm;
 
 int count = 0;
+int swap_interval = 0;
 
 DemoAdapter::DemoAdapter()
 {
-    glfwSwapInterval(0);
+    glfwSwapInterval(swap_interval);
 
     m_camera.set_projection(Matrix4f::perspective(M_PI / 3, 1024.0 / 720.0, 0.1, 100));
     m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
@@ -17,6 +18,16 @@ DemoAdapter::DemoAdapter()
     m_hud_framebuffer = FramebufferBuilder().create(1024, 720);
 
     m_document = charm::ui::Document();
+
+    auto& topbox = m_document.add<ui::PaddedContainer>(4).add<ui::HBoxContainer>();
+    auto& fps_label = topbox.add<ui::Label>("");
+    fps_label.set_id("fps_label");
+    topbox.add<ui::HBoxContainer>();
+    auto& toggle_swap_button = topbox.add<ui::PaddedContainer>(0).add<ui::Button>("Toggle Swap Interval");
+    toggle_swap_button.set_on_click_handler([] {
+        swap_interval = 1 - swap_interval;
+        glfwSwapInterval(swap_interval);
+    });
 
     auto& hbox = m_document.add<ui::PaddedContainer>(4).add<ui::HBoxContainer>();
     auto& counter_label = hbox.add<ui::Label>("Current count: 0");
@@ -104,7 +115,11 @@ void DemoAdapter::update_hud_framebuffer(double delta_time)
             // clang-format on
         }));
 
-    m_document.draw(charmApp.get_width() / 4, charmApp.get_height() - 22 - 50, charmApp.get_width() / 2, 50);
+    auto fps_label = m_document.get_element_by_id<ui::Label>("fps_label");
+    FPSCounter::get_instance().push(delta_time);
+    fps_label->set_text("Frames per second: " + std::to_string(FPSCounter::get_instance().get()));
+
+    m_document.draw(charmApp.get_width() / 4, charmApp.get_height() - 22 - 100, charmApp.get_width() / 2, 100);
 
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);

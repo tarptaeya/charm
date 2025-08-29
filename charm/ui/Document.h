@@ -22,6 +22,17 @@ public:
     Document(Document&&);
     Document& operator=(Document&&);
 
+    template <typename T>
+    T* get_element_by_id(const std::string& id)
+    {
+        for (const auto& child : m_children) {
+            T* ans = child->get_element_by_id<T>(id);
+            if (ans)
+                return ans;
+        }
+        return nullptr;
+    }
+
     template <class T, typename... Args>
     T& add(Args&&... args)
     {

@@ -8,6 +8,16 @@ Element::Element(ImmediateUI& context)
 {
 }
 
+std::string Element::get_id() const
+{
+    return m_id;
+}
+
+void Element::set_id(const std::string& id)
+{
+    m_id = id;
+}
+
 void Element::draw()
 {
     double mouse_x, mouse_y;
