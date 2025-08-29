@@ -23,7 +23,8 @@ DemoAdapter::DemoAdapter()
     auto& fps_label = topbox.add<ui::Label>("");
     fps_label.set_id("fps_label");
     topbox.add<ui::HBoxContainer>();
-    auto& toggle_swap_button = topbox.add<ui::PaddedContainer>(0).add<ui::Button>("Toggle Swap Interval");
+    auto& toggle_swap_button = topbox.add<ui::Button>("Toggle Swap Interval");
+    toggle_swap_button.set_is_height_expandable(true);
     toggle_swap_button.set_on_click_handler([] {
         swap_interval = 1 - swap_interval;
         glfwSwapInterval(swap_interval);
@@ -33,13 +34,15 @@ DemoAdapter::DemoAdapter()
     auto& counter_label = hbox.add<ui::Label>("Current count: 0");
     hbox.add<ui::HBoxContainer>();
 
-    auto& increment_button = hbox.add<ui::PaddedContainer>(0).add<ui::Button>("Increment (+)");
+    auto& nested_hbox = hbox.add<ui::HBoxContainer>();
+    nested_hbox.set_is_width_expandable(false);
+    auto& increment_button = nested_hbox.add<ui::PaddedContainer>(0).add<ui::Button>("Increment (+)");
     increment_button.set_on_click_handler([&increment_button, &counter_label] {
         ++count;
         counter_label.set_text("Current count: " + std::to_string(count));
     });
 
-    auto& decrement_button = hbox.add<ui::PaddedContainer>(4, 0, 0, 0).add<ui::Button>("Decrement (-)");
+    auto& decrement_button = nested_hbox.add<ui::PaddedContainer>(4, 0, 0, 0).add<ui::Button>("Decrement (-)");
     decrement_button.set_on_click_handler([&decrement_button, &counter_label] {
         --count;
         counter_label.set_text("Current count: " + std::to_string(count));

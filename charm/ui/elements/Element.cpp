@@ -70,12 +70,22 @@ float Element::get_min_height() const
 
 bool Element::get_is_width_expandable() const
 {
-    return false;
+    return m_is_width_expandable;
+}
+
+void Element::set_is_width_expandable(bool is_expandable)
+{
+    m_is_width_expandable = is_expandable;
 }
 
 bool Element::get_is_height_expandable() const
 {
-    return false;
+    return m_is_height_expandable;
+}
+
+void Element::set_is_height_expandable(bool is_expandable)
+{
+    m_is_height_expandable = is_expandable;
 }
 
 float Element::get_width() const

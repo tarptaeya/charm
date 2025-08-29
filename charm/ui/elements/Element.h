@@ -6,6 +6,8 @@
 namespace charm::ui {
 
 class Element {
+    bool m_is_width_expandable = false;
+    bool m_is_height_expandable = false;
 
 public:
     Element(ImmediateUI& context);
@@ -26,8 +28,11 @@ public:
 
     virtual float get_min_width() const;
     virtual float get_min_height() const;
-    virtual bool get_is_width_expandable() const;
-    virtual bool get_is_height_expandable() const;
+
+    bool get_is_width_expandable() const;
+    void set_is_width_expandable(bool);
+    bool get_is_height_expandable() const;
+    void set_is_height_expandable(bool);
 
     float get_width() const;
     float get_height() const;

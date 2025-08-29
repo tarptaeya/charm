@@ -5,6 +5,8 @@ namespace charm::ui {
 HBoxContainer::HBoxContainer(ImmediateUI& context)
     : Element(context)
 {
+    set_is_width_expandable(true);
+    set_is_height_expandable(true);
 }
 
 HBoxContainer::~HBoxContainer()
@@ -36,16 +38,6 @@ float HBoxContainer::get_min_height() const
         min_height = std::max(min_height, child->get_min_height());
     }
     return min_height;
-}
-
-bool HBoxContainer::get_is_width_expandable() const
-{
-    return true;
-}
-
-bool HBoxContainer::get_is_height_expandable() const
-{
-    return true;
 }
 
 void HBoxContainer::set_bounds(float x, float y, float width, float height)

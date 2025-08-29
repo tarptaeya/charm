@@ -9,6 +9,8 @@ PaddedContainer::PaddedContainer(ImmediateUI& context, float padding)
     , m_padding_top(padding)
     , m_padding_bottom(padding)
 {
+    set_is_width_expandable(true);
+    set_is_height_expandable(true);
 }
 
 PaddedContainer::PaddedContainer(ImmediateUI& context, float padding_left_right, float padding_top_bottom)
@@ -18,6 +20,8 @@ PaddedContainer::PaddedContainer(ImmediateUI& context, float padding_left_right,
     , m_padding_top(padding_top_bottom)
     , m_padding_bottom(padding_top_bottom)
 {
+    set_is_width_expandable(true);
+    set_is_height_expandable(true);
 }
 
 PaddedContainer::PaddedContainer(ImmediateUI& context, float padding_left, float padding_right, float padding_top, float padding_bottom)
@@ -27,6 +31,8 @@ PaddedContainer::PaddedContainer(ImmediateUI& context, float padding_left, float
     , m_padding_top(padding_top)
     , m_padding_bottom(padding_bottom)
 {
+    set_is_width_expandable(true);
+    set_is_height_expandable(true);
 }
 
 PaddedContainer::~PaddedContainer()
@@ -58,16 +64,6 @@ float PaddedContainer::get_min_height() const
         min_height += child->get_min_height();
     }
     return min_height;
-}
-
-bool PaddedContainer::get_is_width_expandable() const
-{
-    return true;
-}
-
-bool PaddedContainer::get_is_height_expandable() const
-{
-    return true;
 }
 
 void PaddedContainer::set_bounds(float x, float y, float width, float height)
