@@ -6,14 +6,24 @@
 #include <iostream>
 #include <vector>
 
+namespace charm {
+
+class Application;
+
+}
+
 namespace charm::ui {
 
 class Document {
     Context m_immediate_ui;
     std::vector<std::unique_ptr<Element>> m_children;
 
-public:
+    friend class charm::Application;
     Document() = default;
+
+    void draw(int x, int y, int width, int height);
+
+public:
     ~Document();
 
     Document(const Document&) = delete;
@@ -40,8 +50,6 @@ public:
         m_children.push_back(std::make_unique<T>(m_immediate_ui, std::forward<Args>(args)...));
         return dynamic_cast<T&>(*m_children.back());
     }
-
-    void draw(int x, int y, int width, int height);
 };
 
 }

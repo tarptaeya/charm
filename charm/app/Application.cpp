@@ -106,4 +106,28 @@ void Application::set_font(const std::string& texture_path, const std::string& m
     m_font = std::make_unique<Font>(texture_path, metadata_path);
 }
 
+void Application::draw_document(ui::Document& document)
+{
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    charmShaders.get("ui").use();
+    charmShaders.get("ui").set_uniform("u_font_texture", 1);
+    charmShaders.get("ui").set_uniform("u_projection",
+        Matrix4f({
+            // clang-format off
+                2.f / m_width, 0,               0, 0,
+                0,             -2.f / m_height, 0, 0,
+                0,             0,               1, 0,
+                -1,            1,               0, 1,
+            // clang-format on
+        }));
+
+    document.draw(0, 0, m_width, m_height);
+
+    glDisable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
+}
+
 }

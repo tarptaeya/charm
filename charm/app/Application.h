@@ -8,6 +8,7 @@
 #include "Registry.h"
 #include "graphics/geometry/Geometry.h"
 #include "graphics/shaders/Shader.h"
+#include "ui/Document.h"
 #include <algorithm>
 #include <functional>
 #include <iostream>
@@ -55,7 +56,9 @@ public:
     {
         static_assert(std::is_base_of<AppAdapter, T>::value, "T should be a subclass of Adapter");
 
-        T adapter(std::forward<Args>(args)...);
+        ui::Document document;
+
+        T adapter(document, std::forward<Args>(args)...);
         double prev_time = glfwGetTime();
         while (!glfwWindowShouldClose(m_window)) {
             double curr_time = glfwGetTime();
@@ -65,6 +68,8 @@ public:
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             glViewport(0, 0, m_width, m_height);
             adapter.update(delta_time);
+
+            draw_document(document);
 
             std::sort(m_functions_to_execute_on_frame_end.begin(), m_functions_to_execute_on_frame_end.end(), [](const auto& a, const auto& b) {
                 return a.first < b.first;
@@ -88,6 +93,8 @@ public:
 
     Font& get_font();
     void set_font(const std::string& texture_path, const std::string& metadata_path);
+
+    void draw_document(ui::Document& document);
 };
 
 }
