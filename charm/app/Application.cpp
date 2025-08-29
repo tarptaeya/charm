@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "AppAdapter.h"
 #include "graphics/font/Font.h"
+#include "io/FileIO.h"
 
 namespace charm {
 
@@ -15,6 +16,11 @@ Application::~Application()
 
 void Application::initialize(const AppOptions& options)
 {
+    if (!options.validate()) {
+        std::cerr << "[error] app options provided are not valid" << std::endl;
+        std::exit(0);
+    }
+
     if (!glfwInit()) {
         std::cerr << "[error] glfw initialization faield" << std::endl;
         std::exit(0);
@@ -44,6 +50,9 @@ void Application::initialize(const AppOptions& options)
         charmApp.m_width = width;
         charmApp.m_height = height;
     });
+
+    initialize_font(options);
+    initialize_default_shaders(options);
 }
 
 GLFWwindow* Application::get_window() const
@@ -128,6 +137,16 @@ void Application::draw_document(ui::Document& document)
 
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
+}
+
+void Application::initialize_font(const AppOptions& options)
+{
+    set_font(options.font_texture_path, options.font_metadata_path);
+}
+
+void Application::initialize_default_shaders(const AppOptions& options)
+{
+    m_shaders.add("ui", Shader(FileIO::read_text(options.ui_vertex_shader_path), FileIO::read_text(options.ui_fragment_shader_path)));
 }
 
 }

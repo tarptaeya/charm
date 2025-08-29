@@ -95,6 +95,9 @@ public:
     void set_font(const std::string& texture_path, const std::string& metadata_path);
 
     void draw_document(ui::Document& document);
+
+    void initialize_font(const AppOptions& options);
+    void initialize_default_shaders(const AppOptions& options);
 };
 
 }
