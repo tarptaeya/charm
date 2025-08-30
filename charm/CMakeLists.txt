@@ -7,15 +7,15 @@ add_library(
     gl/Context.cpp
     gl/Program.cpp
     gl/Shader.cpp
+    gl/Texture.cpp
     gl/VertexArray.cpp
+    gl/stb_image.cpp
     graphics/font/Font.cpp
     graphics/font/FontMetadata.cpp
     graphics/framebuffer/Framebuffer.cpp
     graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
-    graphics/textures/Texture2D.cpp
     graphics/textures/Texture2DBuilder.cpp
-    graphics/textures/stb_image.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp
     math/Matrix4f.cpp

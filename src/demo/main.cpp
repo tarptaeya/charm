@@ -1,5 +1,9 @@
 #include "charm.h"
+#include <execinfo.h>
 #include <iostream>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 using namespace charm;
 
@@ -24,8 +28,24 @@ public:
     }
 };
 
+void signal_handler(int sig)
+{
+    void* array[25];
+    size_t size;
+
+    // Get the backtrace
+    size = backtrace(array, 25);
+
+    // Print the backtrace to the standard error
+    fprintf(stderr, "Error: signal %d:\n", sig);
+    backtrace_symbols_fd(array, size, STDERR_FILENO);
+
+    exit(1);
+}
 int main()
 {
+    signal(SIGTRAP, &signal_handler);
+
     AppOptions options;
     options.window_width = 1024;
     options.window_height = 720;

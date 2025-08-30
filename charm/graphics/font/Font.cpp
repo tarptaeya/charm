@@ -11,7 +11,7 @@ Font::Font(const std::string& texture_path, const std::string& metadata_path)
                     .build();
 }
 
-Texture2D& Font::get_texture()
+gl::Texture& Font::get_texture()
 {
     return m_texture;
 }

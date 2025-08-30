@@ -3,7 +3,9 @@
 #include "Buffer.h"
 #include "Program.h"
 #include "Shader.h"
+#include "Texture.h"
 #include "VertexArray.h"
+#include "defines.h"
 #include "math/Matrix4f.h"
 #include <string>
 
@@ -39,17 +41,13 @@ public:
 
     static void draw_elements(int mode, int count, int type, const void* indices);
 
-    static const int ARRAY_BUFFER;
-    static const int BLEND;
-    static const int DEPTH_TEST;
-    static const int DYNAMIC_DRAW;
-    static const int ELEMENT_ARRAY_BUFFER;
-    static const int FLOAT;
-    static const int FRAGMENT_SHADER;
-    static const int INT;
-    static const int TRIANGLES;
-    static const int UNSIGNED_INT;
-    static const int VERTEX_SHADER;
+    [[nodiscard]] static Texture gen_texture();
+    static void active_texture(unsigned int unit);
+    static void bind(unsigned int target, const Texture& texture);
+    static void tex_parameteri(unsigned int target, unsigned int name, int param);
+    static void tex_image2d(unsigned int target, int level, int internal_format, int width, int height, int border, unsigned int format, unsigned int type, const void* data);
+    static void tex_image2d(unsigned int target, const std::string& path);
+    static void generate_mipmap(unsigned int target);
 };
 
 }

@@ -7,7 +7,7 @@
 class TestObject : public IGameObject {
     charm::gl::Program m_program;
     charm::Matrix4f m_transform;
-    charm::Texture2D m_texture;
+    charm::gl::Texture m_texture;
 
 public:
     TestObject(const charm::Matrix4f& transform);

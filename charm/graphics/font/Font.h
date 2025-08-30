@@ -1,12 +1,12 @@
 #pragma once
 
 #include "FontMetadata.h"
-#include "graphics/textures/Texture2D.h"
+#include "gl/Texture.h"
 
 namespace charm {
 
 class Font {
-    Texture2D m_texture;
+    gl::Texture m_texture;
     FontMetadata m_metadata;
 
 public:
@@ -14,7 +14,7 @@ public:
     Font(const Font&) = delete;
     Font& operator=(const Font&) = delete;
 
-    Texture2D& get_texture();
+    gl::Texture& get_texture();
     FontMetadata& get_metadata();
 };
 

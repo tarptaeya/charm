@@ -23,7 +23,8 @@ void TestObject::render(charm::Camera& camera)
     charm::gl::Context::set_uniform(m_program, "u_view", camera.get_view());
     charm::gl::Context::set_uniform(m_program, "u_projection", camera.get_projection());
 
-    m_texture.bind();
+    charm::gl::Context::bind(GL_TEXTURE_2D, m_texture);
+
     for (const charm::Geometry& geometry : Duck::get_instance()) {
         geometry.draw();
     }

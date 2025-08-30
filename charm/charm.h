@@ -16,7 +16,6 @@
 #include "graphics/framebuffer/Framebuffer.h"
 #include "graphics/framebuffer/FramebufferBuilder.h"
 #include "graphics/geometry/Geometry.h"
-#include "graphics/textures/Texture2D.h"
 #include "graphics/textures/Texture2DBuilder.h"
 #include "io/BinaryIO.h"
 #include "io/FileIO.h"

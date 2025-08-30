@@ -107,8 +107,8 @@ void Application::set_font(const std::string& texture_path, const std::string& m
 
 void Application::draw_document(ui::Document& document)
 {
-    gl::Context::disable(gl::Context::DEPTH_TEST);
-    gl::Context::enable(gl::Context::BLEND);
+    gl::Context::disable(GL_DEPTH_TEST);
+    gl::Context::enable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     gl::Context::use(m_ui_program);
@@ -125,8 +125,8 @@ void Application::draw_document(ui::Document& document)
 
     document.draw(0, 0, m_width, m_height);
 
-    gl::Context::disable(gl::Context::BLEND);
-    gl::Context::enable(gl::Context::DEPTH_TEST);
+    gl::Context::disable(GL_BLEND);
+    gl::Context::enable(GL_DEPTH_TEST);
 }
 
 }

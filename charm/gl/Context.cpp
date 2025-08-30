@@ -5,18 +5,6 @@
 
 namespace charm::gl {
 
-const int Context::ARRAY_BUFFER = GL_ARRAY_BUFFER;
-const int Context::BLEND = GL_BLEND;
-const int Context::DEPTH_TEST = GL_DEPTH_TEST;
-const int Context::DYNAMIC_DRAW = GL_DYNAMIC_DRAW;
-const int Context::ELEMENT_ARRAY_BUFFER = GL_ELEMENT_ARRAY_BUFFER;
-const int Context::FLOAT = GL_FLOAT;
-const int Context::FRAGMENT_SHADER = GL_FRAGMENT_SHADER;
-const int Context::INT = GL_INT;
-const int Context::TRIANGLES = GL_TRIANGLES;
-const int Context::UNSIGNED_INT = GL_UNSIGNED_INT;
-const int Context::VERTEX_SHADER = GL_VERTEX_SHADER;
-
 void Context::disable(int capacity)
 {
     glDisable(capacity);
@@ -147,6 +135,43 @@ void Context::buffer_sub_data(int target, int offset, int size, const void* data
 void Context::draw_elements(int mode, int count, int type, const void* indices)
 {
     glDrawElements(mode, count, type, indices);
+}
+
+Texture Context::gen_texture()
+{
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    return Texture(texture);
+}
+
+void Context::active_texture(unsigned int unit)
+{
+    glActiveTexture(unit);
+}
+
+void Context::bind(unsigned int target, const Texture& texture)
+{
+    glBindTexture(target, texture.get());
+}
+
+void Context::tex_parameteri(unsigned int target, unsigned int name, int param)
+{
+    glTexParameteri(target, name, param);
+}
+
+void Context::tex_image2d(unsigned int target, int level, int internal_format, int width, int height, int border, unsigned int format, unsigned int type, const void* data)
+{
+    glTexImage2D(target, level, internal_format, width, height, border, format, type, data);
+}
+
+void Context::tex_image2d(unsigned int target, const std::string& path)
+{
+    throw std::runtime_error("not implemented");
+}
+
+void Context::generate_mipmap(unsigned int target)
+{
+    glGenerateMipmap(target);
 }
 
 }
