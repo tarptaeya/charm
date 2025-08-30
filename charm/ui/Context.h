@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gl/Context.h"
 #include <glad/gl.h>
 #include <iostream>
 #include <vector>
@@ -24,7 +25,9 @@ class Context {
         Texcoord texcoord = { 0 };
     };
 
-    unsigned int m_vertex_array = 0;
+    gl::Context m_gl;
+
+    gl::VertexArray m_vertex_array;
     unsigned int m_array_buffer = 0;
     unsigned int m_index_buffer = 0;
     size_t m_array_buffer_capacity = EIGHT_KILO_BYTES;

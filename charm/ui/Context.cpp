@@ -13,8 +13,8 @@ static size_t next_power_of_two(size_t x)
 
 Context::Context()
 {
-    glGenVertexArrays(1, &m_vertex_array);
-    glBindVertexArray(m_vertex_array);
+    m_vertex_array = m_gl.gen_vertex_array();
+    m_gl.bind(m_vertex_array);
 
     glGenBuffers(1, &m_array_buffer);
     glBindBuffer(GL_ARRAY_BUFFER, m_array_buffer);
@@ -37,8 +37,7 @@ Context::Context()
 
 Context::~Context()
 {
-    if (m_vertex_array != 0) {
-        glDeleteVertexArrays(1, &m_vertex_array);
+    if (m_vertex_array.get() != 0) {
         glDeleteBuffers(1, &m_array_buffer);
         glDeleteBuffers(1, &m_index_buffer);
     }
@@ -46,10 +45,10 @@ Context::~Context()
 
 Context::Context(Context&& other)
 {
-    m_vertex_array = other.m_vertex_array;
+    m_vertex_array = std::move(other.m_vertex_array);
     m_array_buffer = other.m_array_buffer;
     m_index_buffer = other.m_index_buffer;
-    other.m_vertex_array = other.m_array_buffer = other.m_index_buffer = 0;
+    other.m_array_buffer = other.m_index_buffer = 0;
 
     m_array_buffer_capacity = other.m_array_buffer_capacity;
     m_index_buffer_capacity = other.m_index_buffer_capacity;
@@ -62,16 +61,15 @@ Context& Context::operator=(Context&& other)
     if (this == &other)
         return *this;
 
-    if (m_vertex_array != 0) {
-        glDeleteVertexArrays(1, &m_vertex_array);
+    if (m_vertex_array.get() != 0) {
         glDeleteBuffers(1, &m_array_buffer);
         glDeleteBuffers(1, &m_index_buffer);
     }
 
-    m_vertex_array = other.m_vertex_array;
+    m_vertex_array = std::move(other.m_vertex_array);
     m_array_buffer = other.m_array_buffer;
     m_index_buffer = other.m_index_buffer;
-    other.m_vertex_array = other.m_array_buffer = other.m_index_buffer = 0;
+    other.m_array_buffer = other.m_index_buffer = 0;
 
     m_array_buffer_capacity = other.m_array_buffer_capacity;
     m_index_buffer_capacity = other.m_index_buffer_capacity;
@@ -92,7 +90,7 @@ void Context::commit()
     if (m_vertices.size() == 0 || m_indices.size() == 0)
         return;
 
-    glBindVertexArray(m_vertex_array);
+    m_gl.bind(m_vertex_array);
 
     if (sizeof(Vertex) * m_vertices.size() > m_array_buffer_capacity) {
         m_array_buffer_capacity = next_power_of_two(sizeof(Vertex) * m_vertices.size());

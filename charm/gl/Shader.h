@@ -6,11 +6,12 @@ class Shader {
     unsigned int m_handle = 0;
     friend class Context;
 
-    Shader() = default;
     Shader(unsigned int handle);
 
 public:
+    Shader() = default;
     ~Shader();
+
     Shader(const Shader&) = delete;
     Shader& operator=(const Shader&) = delete;
 

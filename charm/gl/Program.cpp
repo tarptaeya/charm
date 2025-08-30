@@ -11,7 +11,7 @@ Program::Program(unsigned int handle)
 Program::~Program()
 {
     if (m_handle != 0)
-        glDeleteShader(m_handle);
+        glDeleteProgram(m_handle);
 
     m_handle = 0;
 }
