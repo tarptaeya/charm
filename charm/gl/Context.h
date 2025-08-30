@@ -46,7 +46,6 @@ public:
     static void bind(unsigned int target, const Texture& texture);
     static void tex_parameteri(unsigned int target, unsigned int name, int param);
     static void tex_image2d(unsigned int target, int level, int internal_format, int width, int height, int border, unsigned int format, unsigned int type, const void* data);
-    static void tex_image2d(unsigned int target, const std::string& path);
     static void generate_mipmap(unsigned int target);
 };
 

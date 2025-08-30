@@ -1,29 +1,29 @@
-#include "Texture2DBuilder.h"
-#include "gl/stb_image.h"
+#include "TextureBuilder.h"
+#include "stb_image.h"
 #include <algorithm>
 #include <iostream>
 
 namespace charm {
 
-Texture2DBuilder::Texture2DBuilder(const std::string& path)
+TextureBuilder::TextureBuilder(const std::string& path)
     : m_path(path)
 {
     stbi_set_flip_vertically_on_load(true);
 }
 
-Texture2DBuilder& Texture2DBuilder::set_texture_unit(unsigned int texture_unit)
+TextureBuilder& TextureBuilder::set_texture_unit(unsigned int texture_unit)
 {
     m_texture_unit = texture_unit;
     return *this;
 }
 
-Texture2DBuilder& Texture2DBuilder::set_parameteri(unsigned int name, int value)
+TextureBuilder& TextureBuilder::set_parameteri(unsigned int name, int value)
 {
     m_parameteri_map[name] = value;
     return *this;
 }
 
-gl::Texture Texture2DBuilder::build()
+gl::Texture TextureBuilder::build()
 {
     gl::Texture texture = gl::Context::gen_texture();
     gl::Context::active_texture(m_texture_unit);

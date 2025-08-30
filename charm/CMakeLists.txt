@@ -9,18 +9,18 @@ add_library(
     gl/Shader.cpp
     gl/Texture.cpp
     gl/VertexArray.cpp
-    gl/stb_image.cpp
     graphics/font/Font.cpp
     graphics/font/FontMetadata.cpp
     graphics/framebuffer/Framebuffer.cpp
     graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
-    graphics/textures/Texture2DBuilder.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp
     math/Matrix4f.cpp
     math/Vector3f.cpp
     misc/misc.cpp
+    misc/stb_image.cpp
+    misc/TextureBuilder.cpp
     ui/Context.cpp
     ui/Document.cpp
     ui/elements/Element.cpp

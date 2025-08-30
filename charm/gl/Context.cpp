@@ -164,11 +164,6 @@ void Context::tex_image2d(unsigned int target, int level, int internal_format, i
     glTexImage2D(target, level, internal_format, width, height, border, format, type, data);
 }
 
-void Context::tex_image2d(unsigned int target, const std::string& path)
-{
-    throw std::runtime_error("not implemented");
-}
-
 void Context::generate_mipmap(unsigned int target)
 {
     glGenerateMipmap(target);

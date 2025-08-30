@@ -6,7 +6,7 @@ namespace charm {
 Font::Font(const std::string& texture_path, const std::string& metadata_path)
 {
     m_metadata = FontMetadata::parse(metadata_path);
-    m_texture = Texture2DBuilder(texture_path)
+    m_texture = TextureBuilder(texture_path)
                     .set_texture_unit(GL_TEXTURE1)
                     .build();
 }
