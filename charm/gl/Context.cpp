@@ -74,6 +74,27 @@ void Context::use(const Program& program)
     glUseProgram(program.get());
 }
 
+int Context::get_uniform_location(Program& program, const std::string& name)
+{
+    if (!program.m_uniform_locations.count(name)) {
+        program.m_uniform_locations[name] = glGetUniformLocation(program.get(), name.c_str());
+    }
+
+    return program.m_uniform_locations[name];
+}
+
+void Context::set_uniform(Program& program, const std::string& name, const Matrix4f& mat)
+{
+    int location = get_uniform_location(program, name);
+    glUniformMatrix4fv(location, 1, false, mat.get_data());
+}
+
+void Context::set_uniform(Program& program, const std::string& name, int value)
+{
+    int location = get_uniform_location(program, name);
+    glUniform1i(location, value);
+}
+
 VertexArray Context::gen_vertex_array()
 {
     unsigned int vertex_array;

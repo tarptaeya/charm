@@ -4,6 +4,7 @@
 #include "Program.h"
 #include "Shader.h"
 #include "VertexArray.h"
+#include "math/Matrix4f.h"
 #include <string>
 
 namespace charm::gl {
@@ -18,17 +19,20 @@ public:
     static void disable(int capability);
     static void enable(int capability);
 
-    static Shader create_shader(int type, const std::string& source);
-    static Program create_program(const std::string& vertex_source, const std::string& fragment_source);
+    [[nodiscard]] static Shader create_shader(int type, const std::string& source);
+    [[nodiscard]] static Program create_program(const std::string& vertex_source, const std::string& fragment_source);
     static void use(const Program& program);
+    [[nodiscard]] static int get_uniform_location(Program& program, const std::string&);
+    static void set_uniform(Program& program, const std::string&, const Matrix4f&);
+    static void set_uniform(Program& program, const std::string&, int);
 
-    static VertexArray gen_vertex_array();
+    [[nodiscard]] static VertexArray gen_vertex_array();
     static void bind(const VertexArray& vertex_array);
     static void enable_vertex_attrib_array(unsigned int index);
     static void vertex_attrib_pointer(unsigned int index, int size, int type, bool normalized, int stride, const void* pointer);
     static void vertex_attribi_pointer(unsigned int index, int size, int type, int stride, const void* pointer);
 
-    static Buffer gen_buffer();
+    [[nodiscard]] static Buffer gen_buffer();
     static void bind(int type, const Buffer& buffer);
     static void buffer_data(int type, int size, const void* data, int usage);
     static void buffer_sub_data(int target, int offset, int size, const void* data);

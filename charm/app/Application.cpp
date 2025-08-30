@@ -51,8 +51,8 @@ void Application::initialize(const AppOptions& options)
         charmApp.m_height = height;
     });
 
-    initialize_font(options);
-    initialize_default_shaders(options);
+    set_font(options.font_texture_path, options.font_metadata_path);
+    m_ui_program = gl::Context::create_program(FileIO::read_text(options.ui_vertex_shader_path), FileIO::read_text(options.ui_fragment_shader_path));
 }
 
 GLFWwindow* Application::get_window() const
@@ -68,16 +68,6 @@ int Application::get_width() const
 int Application::get_height() const
 {
     return m_height;
-}
-
-Registry<Shader>& Application::get_shader_registry()
-{
-    return m_shaders;
-}
-
-Registry<Geometry>& Application::get_geometry_registry()
-{
-    return m_geometries;
 }
 
 Application& Application::get_instance()
@@ -121,9 +111,9 @@ void Application::draw_document(ui::Document& document)
     gl::Context::enable(gl::Context::BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    charmShaders.get("ui").use();
-    charmShaders.get("ui").set_uniform("u_font_texture", 1);
-    charmShaders.get("ui").set_uniform("u_projection",
+    gl::Context::use(m_ui_program);
+    gl::Context::set_uniform(m_ui_program, "u_font_texture", 1);
+    gl::Context::set_uniform(m_ui_program, "u_projection",
         Matrix4f({
             // clang-format off
                 2.f / m_width, 0,               0, 0,
@@ -137,16 +127,6 @@ void Application::draw_document(ui::Document& document)
 
     gl::Context::disable(gl::Context::BLEND);
     gl::Context::enable(gl::Context::DEPTH_TEST);
-}
-
-void Application::initialize_font(const AppOptions& options)
-{
-    set_font(options.font_texture_path, options.font_metadata_path);
-}
-
-void Application::initialize_default_shaders(const AppOptions& options)
-{
-    m_shaders.add("ui", Shader(FileIO::read_text(options.ui_vertex_shader_path), FileIO::read_text(options.ui_fragment_shader_path)));
 }
 
 }

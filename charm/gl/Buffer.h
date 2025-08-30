@@ -18,7 +18,7 @@ public:
     Buffer(Buffer&&);
     Buffer& operator=(Buffer&&);
 
-    unsigned int get() const;
+    [[nodiscard]] unsigned int get() const;
 };
 
 }

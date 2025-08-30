@@ -15,7 +15,7 @@ public:
     Shader(const Shader&) = delete;
     Shader& operator=(const Shader&) = delete;
 
-    unsigned int get() const;
+    [[nodiscard]] unsigned int get() const;
 };
 
 }

@@ -3,11 +3,6 @@ add_library(
     app/Application.cpp
     camera/Camera.cpp
     ch3db/ch3db.cpp
-    ecs/components/MeshRendererComponent.cpp
-    ecs/components/TransformComponent.cpp
-    ecs/Component.cpp
-    ecs/Entity.cpp
-    ecs/Renderer.cpp
     gl/Buffer.cpp
     gl/Context.cpp
     gl/Program.cpp
@@ -18,7 +13,6 @@ add_library(
     graphics/framebuffer/Framebuffer.cpp
     graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
-    graphics/shaders/Shader.cpp
     graphics/textures/Texture2D.cpp
     graphics/textures/Texture2DBuilder.cpp
     graphics/textures/stb_image.cpp

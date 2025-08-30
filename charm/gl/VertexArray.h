@@ -18,7 +18,7 @@ public:
     VertexArray(VertexArray&&);
     VertexArray& operator=(VertexArray&&);
 
-    unsigned int get() const;
+    [[nodiscard]] unsigned int get() const;
 };
 
 }

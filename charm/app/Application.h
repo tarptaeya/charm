@@ -2,10 +2,7 @@
 
 #define GLFW_INCLUDE_NONE
 #include "AppOptions.h"
-#include "Registry.h"
 #include "gl/Context.h"
-#include "graphics/geometry/Geometry.h"
-#include "graphics/shaders/Shader.h"
 #include "ui/Document.h"
 #include <GLFW/glfw3.h>
 #include <algorithm>
@@ -14,8 +11,6 @@
 
 #define charmApp charm::Application::get_instance()
 #define charmWindow charmApp.get_window()
-#define charmShaders charmApp.get_shader_registry()
-#define charmGeometries charmApp.get_geometry_registry()
 
 namespace charm {
 
@@ -30,10 +25,9 @@ class Application {
     GLFWcursor* m_cursor = nullptr;
     int m_width = 0;
     int m_height = 0;
-    Registry<Shader> m_shaders;
-    Registry<Geometry> m_geometries;
     std::vector<std::pair<int, std::function<void()>>> m_functions_to_execute_on_frame_end;
     std::unique_ptr<Font> m_font = nullptr;
+    gl::Program m_ui_program;
 
     Application() = default;
 
@@ -47,8 +41,6 @@ public:
     GLFWwindow* get_window() const;
     int get_width() const;
     int get_height() const;
-    Registry<Shader>& get_shader_registry();
-    Registry<Geometry>& get_geometry_registry();
 
     template <class T, typename... Args>
     int exec(Args&... args)
@@ -94,9 +86,6 @@ public:
     void set_font(const std::string& texture_path, const std::string& metadata_path);
 
     void draw_document(ui::Document& document);
-
-    void initialize_font(const AppOptions& options);
-    void initialize_default_shaders(const AppOptions& options);
 };
 
 }
