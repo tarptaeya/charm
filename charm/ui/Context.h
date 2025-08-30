@@ -24,8 +24,6 @@ class Context {
         Texcoord texcoord = { 0 };
     };
 
-    gl::Context m_gl;
-
     gl::VertexArray m_vertex_array;
     gl::Buffer m_array_buffer;
     gl::Buffer m_index_buffer;

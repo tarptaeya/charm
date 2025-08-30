@@ -15,22 +15,22 @@ public:
     Context(const Context&) = delete;
     Context& operator=(const Context&) = delete;
 
-    Shader create_shader(int type, const std::string& source) const;
-    Program create_program(const std::string& vertex_source, const std::string& fragment_source) const;
-    void use(const Program& program) const;
+    static Shader create_shader(int type, const std::string& source);
+    static Program create_program(const std::string& vertex_source, const std::string& fragment_source);
+    static void use(const Program& program);
 
-    VertexArray gen_vertex_array() const;
-    void bind(const VertexArray& vertex_array) const;
-    void enable_vertex_attrib_array(unsigned int index) const;
-    void vertex_attrib_pointer(unsigned int index, int size, int type, bool normalized, int stride, const void* pointer) const;
-    void vertex_attribi_pointer(unsigned int index, int size, int type, int stride, const void* pointer) const;
+    static VertexArray gen_vertex_array();
+    static void bind(const VertexArray& vertex_array);
+    static void enable_vertex_attrib_array(unsigned int index);
+    static void vertex_attrib_pointer(unsigned int index, int size, int type, bool normalized, int stride, const void* pointer);
+    static void vertex_attribi_pointer(unsigned int index, int size, int type, int stride, const void* pointer);
 
-    Buffer gen_buffer() const;
-    void bind(int type, const Buffer& buffer) const;
-    void buffer_data(int type, int size, const void* data, int usage) const;
-    void buffer_sub_data(int target, int offset, int size, const void* data) const;
+    static Buffer gen_buffer();
+    static void bind(int type, const Buffer& buffer);
+    static void buffer_data(int type, int size, const void* data, int usage);
+    static void buffer_sub_data(int target, int offset, int size, const void* data);
 
-    void draw_elements(int mode, int count, int type, const void* indices) const;
+    static void draw_elements(int mode, int count, int type, const void* indices);
 
     static const int ARRAY_BUFFER;
     static const int DYNAMIC_DRAW;

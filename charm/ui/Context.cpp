@@ -13,25 +13,25 @@ static size_t next_power_of_two(size_t x)
 
 Context::Context()
 {
-    m_vertex_array = m_gl.gen_vertex_array();
-    m_gl.bind(m_vertex_array);
+    m_vertex_array = gl::Context::gen_vertex_array();
+    gl::Context::bind(m_vertex_array);
 
-    m_array_buffer = m_gl.gen_buffer();
-    m_gl.bind(m_gl.ARRAY_BUFFER, m_array_buffer);
-    m_gl.buffer_data(m_gl.ARRAY_BUFFER, m_array_buffer_capacity, nullptr, m_gl.DYNAMIC_DRAW);
+    m_array_buffer = gl::Context::gen_buffer();
+    gl::Context::bind(gl::Context::ARRAY_BUFFER, m_array_buffer);
+    gl::Context::buffer_data(gl::Context::ARRAY_BUFFER, m_array_buffer_capacity, nullptr, gl::Context::DYNAMIC_DRAW);
 
-    m_gl.enable_vertex_attrib_array(0);
-    m_gl.vertex_attrib_pointer(0, 2, m_gl.FLOAT, false, sizeof(Vertex), 0);
-    m_gl.enable_vertex_attrib_array(1);
-    m_gl.vertex_attrib_pointer(1, 3, m_gl.FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, color));
-    m_gl.enable_vertex_attrib_array(2);
-    m_gl.vertex_attribi_pointer(2, 1, m_gl.INT, sizeof(Vertex), (void*)offsetof(Vertex, active_texture));
-    m_gl.enable_vertex_attrib_array(3);
-    m_gl.vertex_attrib_pointer(3, 2, m_gl.FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, texcoord));
+    gl::Context::enable_vertex_attrib_array(0);
+    gl::Context::vertex_attrib_pointer(0, 2, gl::Context::FLOAT, false, sizeof(Vertex), 0);
+    gl::Context::enable_vertex_attrib_array(1);
+    gl::Context::vertex_attrib_pointer(1, 3, gl::Context::FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, color));
+    gl::Context::enable_vertex_attrib_array(2);
+    gl::Context::vertex_attribi_pointer(2, 1, gl::Context::INT, sizeof(Vertex), (void*)offsetof(Vertex, active_texture));
+    gl::Context::enable_vertex_attrib_array(3);
+    gl::Context::vertex_attrib_pointer(3, 2, gl::Context::FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, texcoord));
 
-    m_index_buffer = m_gl.gen_buffer();
-    m_gl.bind(m_gl.ELEMENT_ARRAY_BUFFER, m_index_buffer);
-    m_gl.buffer_data(m_gl.ELEMENT_ARRAY_BUFFER, m_index_buffer_capacity, nullptr, m_gl.DYNAMIC_DRAW);
+    m_index_buffer = gl::Context::gen_buffer();
+    gl::Context::bind(gl::Context::ELEMENT_ARRAY_BUFFER, m_index_buffer);
+    gl::Context::buffer_data(gl::Context::ELEMENT_ARRAY_BUFFER, m_index_buffer_capacity, nullptr, gl::Context::DYNAMIC_DRAW);
 }
 
 Context::~Context()
@@ -78,24 +78,24 @@ void Context::commit()
     if (m_vertices.size() == 0 || m_indices.size() == 0)
         return;
 
-    m_gl.bind(m_vertex_array);
+    gl::Context::bind(m_vertex_array);
 
     if (sizeof(Vertex) * m_vertices.size() > m_array_buffer_capacity) {
         m_array_buffer_capacity = next_power_of_two(sizeof(Vertex) * m_vertices.size());
-        m_gl.bind(m_gl.ARRAY_BUFFER, m_array_buffer);
-        m_gl.buffer_data(m_gl.ARRAY_BUFFER, m_array_buffer_capacity, nullptr, m_gl.DYNAMIC_DRAW);
+        gl::Context::bind(gl::Context::ARRAY_BUFFER, m_array_buffer);
+        gl::Context::buffer_data(gl::Context::ARRAY_BUFFER, m_array_buffer_capacity, nullptr, gl::Context::DYNAMIC_DRAW);
     }
     if (sizeof(unsigned int) * m_indices.size() > m_index_buffer_capacity) {
         m_index_buffer_capacity = next_power_of_two(sizeof(unsigned int) * m_indices.size());
-        m_gl.bind(m_gl.ELEMENT_ARRAY_BUFFER, m_index_buffer);
-        m_gl.buffer_data(m_gl.ELEMENT_ARRAY_BUFFER, m_index_buffer_capacity, nullptr, m_gl.DYNAMIC_DRAW);
+        gl::Context::bind(gl::Context::ELEMENT_ARRAY_BUFFER, m_index_buffer);
+        gl::Context::buffer_data(gl::Context::ELEMENT_ARRAY_BUFFER, m_index_buffer_capacity, nullptr, gl::Context::DYNAMIC_DRAW);
     }
 
-    m_gl.bind(m_gl.ARRAY_BUFFER, m_array_buffer);
-    m_gl.buffer_sub_data(m_gl.ARRAY_BUFFER, 0, sizeof(Vertex) * m_vertices.size(), &m_vertices[0]);
-    m_gl.bind(m_gl.ELEMENT_ARRAY_BUFFER, m_index_buffer);
-    m_gl.buffer_sub_data(m_gl.ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * m_indices.size(), &m_indices[0]);
-    m_gl.draw_elements(m_gl.TRIANGLES, m_indices.size(), m_gl.UNSIGNED_INT, nullptr);
+    gl::Context::bind(gl::Context::ARRAY_BUFFER, m_array_buffer);
+    gl::Context::buffer_sub_data(gl::Context::ARRAY_BUFFER, 0, sizeof(Vertex) * m_vertices.size(), &m_vertices[0]);
+    gl::Context::bind(gl::Context::ELEMENT_ARRAY_BUFFER, m_index_buffer);
+    gl::Context::buffer_sub_data(gl::Context::ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * m_indices.size(), &m_indices[0]);
+    gl::Context::draw_elements(gl::Context::TRIANGLES, m_indices.size(), gl::Context::UNSIGNED_INT, nullptr);
 }
 
 void Context::add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright)

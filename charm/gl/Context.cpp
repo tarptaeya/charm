@@ -15,7 +15,7 @@ const int Context::TRIANGLES = GL_TRIANGLES;
 const int Context::UNSIGNED_INT = GL_UNSIGNED_INT;
 const int Context::VERTEX_SHADER = GL_VERTEX_SHADER;
 
-Shader Context::create_shader(int type, const std::string& source) const
+Shader Context::create_shader(int type, const std::string& source)
 {
     unsigned int shader = glCreateShader(type);
     const char* raw_source = source.c_str();
@@ -34,7 +34,7 @@ Shader Context::create_shader(int type, const std::string& source) const
     return Shader(shader);
 }
 
-Program Context::create_program(const std::string& vertex_source, const std::string& fragment_source) const
+Program Context::create_program(const std::string& vertex_source, const std::string& fragment_source)
 {
     Shader vertex_shader = create_shader(GL_VERTEX_SHADER, vertex_source);
     Shader fragment_shader = create_shader(GL_FRAGMENT_SHADER, fragment_source);
@@ -57,61 +57,61 @@ Program Context::create_program(const std::string& vertex_source, const std::str
     return Program(program);
 }
 
-void Context::use(const Program& program) const
+void Context::use(const Program& program)
 {
     glUseProgram(program.get());
 }
 
-VertexArray Context::gen_vertex_array() const
+VertexArray Context::gen_vertex_array()
 {
     unsigned int vertex_array;
     glGenVertexArrays(1, &vertex_array);
     return VertexArray(vertex_array);
 }
 
-void Context::bind(const VertexArray& vertex_array) const
+void Context::bind(const VertexArray& vertex_array)
 {
     glBindVertexArray(vertex_array.get());
 }
 
-void Context::enable_vertex_attrib_array(unsigned int index) const
+void Context::enable_vertex_attrib_array(unsigned int index)
 {
     glEnableVertexAttribArray(index);
 }
 
-void Context::vertex_attrib_pointer(unsigned int index, int size, int type, bool normalized, int stride, const void* pointer) const
+void Context::vertex_attrib_pointer(unsigned int index, int size, int type, bool normalized, int stride, const void* pointer)
 {
     glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 }
 
-void Context::vertex_attribi_pointer(unsigned int index, int size, int type, int stride, const void* pointer) const
+void Context::vertex_attribi_pointer(unsigned int index, int size, int type, int stride, const void* pointer)
 {
     glVertexAttribIPointer(index, size, type, stride, pointer);
 }
 
-Buffer Context::gen_buffer() const
+Buffer Context::gen_buffer()
 {
     unsigned int buffer;
     glGenBuffers(1, &buffer);
     return Buffer(buffer);
 }
 
-void Context::bind(int type, const Buffer& buffer) const
+void Context::bind(int type, const Buffer& buffer)
 {
     glBindBuffer(type, buffer.get());
 }
 
-void Context::buffer_data(int type, int size, const void* data, int usage) const
+void Context::buffer_data(int type, int size, const void* data, int usage)
 {
     glBufferData(type, size, data, usage);
 }
 
-void Context::buffer_sub_data(int target, int offset, int size, const void* data) const
+void Context::buffer_sub_data(int target, int offset, int size, const void* data)
 {
     glBufferSubData(target, offset, size, data);
 }
 
-void Context::draw_elements(int mode, int count, int type, const void* indices) const
+void Context::draw_elements(int mode, int count, int type, const void* indices)
 {
     glDrawElements(mode, count, type, indices);
 }
