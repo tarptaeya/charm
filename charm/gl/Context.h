@@ -27,11 +27,19 @@ public:
 
     Buffer gen_buffer() const;
     void bind(int type, const Buffer& buffer) const;
-    void buffer_data(int type, int size, const void* data, int usage);
+    void buffer_data(int type, int size, const void* data, int usage) const;
+    void buffer_sub_data(int target, int offset, int size, const void* data) const;
+
+    void draw_elements(int mode, int count, int type, const void* indices) const;
 
     static const int ARRAY_BUFFER;
+    static const int DYNAMIC_DRAW;
     static const int ELEMENT_ARRAY_BUFFER;
+    static const int FLOAT;
     static const int FRAGMENT_SHADER;
+    static const int INT;
+    static const int TRIANGLES;
+    static const int UNSIGNED_INT;
     static const int VERTEX_SHADER;
 };
 

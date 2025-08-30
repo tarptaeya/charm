@@ -1,7 +1,6 @@
 #pragma once
 
 #include "gl/Context.h"
-#include <glad/gl.h>
 #include <iostream>
 #include <vector>
 
@@ -28,8 +27,8 @@ class Context {
     gl::Context m_gl;
 
     gl::VertexArray m_vertex_array;
-    unsigned int m_array_buffer = 0;
-    unsigned int m_index_buffer = 0;
+    gl::Buffer m_array_buffer;
+    gl::Buffer m_index_buffer;
     size_t m_array_buffer_capacity = EIGHT_KILO_BYTES;
     size_t m_index_buffer_capacity = EIGHT_KILO_BYTES;
     std::vector<Vertex> m_vertices;

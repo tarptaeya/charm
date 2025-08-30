@@ -6,8 +6,13 @@
 namespace charm::gl {
 
 const int Context::ARRAY_BUFFER = GL_ARRAY_BUFFER;
+const int Context::DYNAMIC_DRAW = GL_DYNAMIC_DRAW;
 const int Context::ELEMENT_ARRAY_BUFFER = GL_ELEMENT_ARRAY_BUFFER;
+const int Context::FLOAT = GL_FLOAT;
 const int Context::FRAGMENT_SHADER = GL_FRAGMENT_SHADER;
+const int Context::INT = GL_INT;
+const int Context::TRIANGLES = GL_TRIANGLES;
+const int Context::UNSIGNED_INT = GL_UNSIGNED_INT;
 const int Context::VERTEX_SHADER = GL_VERTEX_SHADER;
 
 Shader Context::create_shader(int type, const std::string& source) const
@@ -96,9 +101,19 @@ void Context::bind(int type, const Buffer& buffer) const
     glBindBuffer(type, buffer.get());
 }
 
-void Context::buffer_data(int type, int size, const void* data, int usage)
+void Context::buffer_data(int type, int size, const void* data, int usage) const
 {
     glBufferData(type, size, data, usage);
+}
+
+void Context::buffer_sub_data(int target, int offset, int size, const void* data) const
+{
+    glBufferSubData(target, offset, size, data);
+}
+
+void Context::draw_elements(int mode, int count, int type, const void* indices) const
+{
+    glDrawElements(mode, count, type, indices);
 }
 
 }
