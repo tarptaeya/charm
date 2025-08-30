@@ -15,6 +15,8 @@ public:
 
         auto& hbox2 = m_document.add<ui::HBoxContainer>();
         hbox2.add<ui::Label>("I have started implementing a UI system for my graphics engine.");
+
+        auto& spacer = m_document.add<ui::HBoxContainer>();
     }
 
     void update(double delta_time) override

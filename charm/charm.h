@@ -15,6 +15,7 @@
 #include "ecs/Renderer.h"
 #include "ecs/components/MeshRendererComponent.h"
 #include "ecs/components/TransformComponent.h"
+#include "gl/Context.h"
 #include "graphics/font/Font.h"
 #include "graphics/font/FontMetadata.h"
 #include "graphics/framebuffer/Framebuffer.h"

@@ -8,6 +8,9 @@ add_library(
     ecs/Component.cpp
     ecs/Entity.cpp
     ecs/Renderer.cpp
+    gl/Context.cpp
+    gl/Program.cpp
+    gl/Shader.cpp
     graphics/font/Font.cpp
     graphics/font/FontMetadata.cpp
     graphics/framebuffer/Framebuffer.cpp
