@@ -20,7 +20,6 @@
 #include "io/FileIO.h"
 #include "math/Matrix4f.h"
 #include "math/Vector3f.h"
-#include "misc/Rect.h"
 #include "misc/TextureBuilder.h"
 #include "misc/misc.h"
 #include "ui/Context.h"
