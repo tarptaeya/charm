@@ -67,7 +67,7 @@ Context& Context::operator=(Context&& other)
     return *this;
 }
 
-void Context::begin(int x, int y, int width, int height)
+void Context::begin()
 {
     m_vertices.clear();
     m_indices.clear();

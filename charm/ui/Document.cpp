@@ -22,7 +22,7 @@ Document& Document::operator=(Document&& other)
 void Document::draw(int x, int y, int width, int height)
 {
 
-    m_immediate_ui.begin(x, y, width, height);
+    m_immediate_ui.begin();
     m_immediate_ui.add_rect(x, y, width, height, { 0.9, 0.9, 0.9 }, 0, { 0, 0 }, { 0, 0 });
 
     float curr_y = y;

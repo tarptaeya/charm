@@ -42,7 +42,7 @@ public:
     Context(Context&&);
     Context& operator=(Context&&);
 
-    void begin(int x, int y, int width, int height);
+    void begin();
     void commit();
 
     void add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright);
