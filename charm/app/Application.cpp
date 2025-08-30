@@ -117,8 +117,8 @@ void Application::set_font(const std::string& texture_path, const std::string& m
 
 void Application::draw_document(ui::Document& document)
 {
-    glDisable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
+    gl::Context::disable(gl::Context::DEPTH_TEST);
+    gl::Context::enable(gl::Context::BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     charmShaders.get("ui").use();
@@ -135,8 +135,8 @@ void Application::draw_document(ui::Document& document)
 
     document.draw(0, 0, m_width, m_height);
 
-    glDisable(GL_BLEND);
-    glEnable(GL_DEPTH_TEST);
+    gl::Context::disable(gl::Context::BLEND);
+    gl::Context::enable(gl::Context::DEPTH_TEST);
 }
 
 void Application::initialize_font(const AppOptions& options)

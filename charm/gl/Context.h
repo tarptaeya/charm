@@ -15,6 +15,9 @@ public:
     Context(const Context&) = delete;
     Context& operator=(const Context&) = delete;
 
+    static void disable(int capability);
+    static void enable(int capability);
+
     static Shader create_shader(int type, const std::string& source);
     static Program create_program(const std::string& vertex_source, const std::string& fragment_source);
     static void use(const Program& program);
@@ -33,6 +36,8 @@ public:
     static void draw_elements(int mode, int count, int type, const void* indices);
 
     static const int ARRAY_BUFFER;
+    static const int BLEND;
+    static const int DEPTH_TEST;
     static const int DYNAMIC_DRAW;
     static const int ELEMENT_ARRAY_BUFFER;
     static const int FLOAT;

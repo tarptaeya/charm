@@ -1,14 +1,13 @@
 #pragma once
 
 #define GLFW_INCLUDE_NONE
-#include <GLFW/glfw3.h>
-#include <glad/gl.h>
-
 #include "AppOptions.h"
 #include "Registry.h"
+#include "gl/Context.h"
 #include "graphics/geometry/Geometry.h"
 #include "graphics/shaders/Shader.h"
 #include "ui/Document.h"
+#include <GLFW/glfw3.h>
 #include <algorithm>
 #include <functional>
 #include <iostream>
