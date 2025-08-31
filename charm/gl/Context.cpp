@@ -211,6 +211,11 @@ void Context::unbind_framebuffer(unsigned int target)
     glBindFramebuffer(target, 0);
 }
 
+bool Context::check_framebuffer_status(unsigned int target)
+{
+    return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
+}
+
 void Context::blend_func(unsigned int sfactor, unsigned int dfactor)
 {
     glBlendFunc(sfactor, dfactor);

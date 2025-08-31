@@ -70,6 +70,7 @@ public:
     [[nodiscard]] static Framebuffer gen_framebuffer();
     static void bind(unsigned int target, const Framebuffer& framebuffer);
     static void unbind_framebuffer(unsigned int target);
+    static bool check_framebuffer_status(unsigned int target);
 
     static void blend_func(unsigned int sfactor, unsigned int dfactor);
 };

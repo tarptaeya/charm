@@ -17,6 +17,24 @@ TextureBuilder& TextureBuilder::set_texture_unit(unsigned int texture_unit)
     return *this;
 }
 
+TextureBuilder& TextureBuilder::set_internal_format(unsigned int internal_format)
+{
+    m_internal_format = internal_format;
+    return *this;
+}
+
+TextureBuilder& TextureBuilder::set_format(unsigned int format)
+{
+    m_format = format;
+    return *this;
+}
+
+TextureBuilder& TextureBuilder::set_type(unsigned int type)
+{
+    m_type = type;
+    return *this;
+}
+
 TextureBuilder& TextureBuilder::set_parameteri(unsigned int name, int value)
 {
     m_parameteri_map[name] = value;
@@ -44,7 +62,7 @@ gl::Texture TextureBuilder::build()
         std::exit(0);
     }
 
-    gl::Context::tex_image2d(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    gl::Context::tex_image2d(GL_TEXTURE_2D, 0, m_internal_format, width, height, 0, m_format, m_type, data);
     gl::Context::generate_mipmap(GL_TEXTURE_2D);
     stbi_image_free(data);
 
