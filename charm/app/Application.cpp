@@ -38,7 +38,7 @@ void Application::initialize(const AppOptions& options)
     }
 
     glfwMakeContextCurrent(m_window);
-    gladLoadGL(glfwGetProcAddress);
+    gl::Context::init(glfwGetProcAddress);
 
     glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
     });
@@ -107,9 +107,11 @@ void Application::set_font(const std::string& texture_path, const std::string& m
 
 void Application::draw_document(ui::Document& document)
 {
+    gl::Context::viewport(0, 0, m_width, m_height);
+
     gl::Context::disable(GL_DEPTH_TEST);
     gl::Context::enable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::Context::blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     gl::Context::use(m_ui_program);
     gl::Context::set_uniform(m_ui_program, "u_font_texture", 1);

@@ -5,6 +5,7 @@ add_library(
     ch3db/ch3db.cpp
     gl/Buffer.cpp
     gl/Context.cpp
+    gl/Framebuffer.cpp
     gl/Program.cpp
     gl/Shader.cpp
     gl/Texture.cpp

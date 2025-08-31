@@ -5,6 +5,11 @@
 
 namespace charm::gl {
 
+void Context::init(GLFWglproc (*fn)(const char*))
+{
+    gladLoadGL(fn);
+}
+
 void Context::disable(int capacity)
 {
     glDisable(capacity);
@@ -13,6 +18,11 @@ void Context::disable(int capacity)
 void Context::enable(int capacity)
 {
     glEnable(capacity);
+}
+
+void Context::viewport(int x, int y, int width, int height)
+{
+    glViewport(x, y, width, height);
 }
 
 Shader Context::create_shader(int type, const std::string& source)
@@ -95,6 +105,11 @@ void Context::bind(const VertexArray& vertex_array)
     glBindVertexArray(vertex_array.get());
 }
 
+void Context::unbind_vertex_array()
+{
+    glBindVertexArray(0);
+}
+
 void Context::enable_vertex_attrib_array(unsigned int index)
 {
     glEnableVertexAttribArray(index);
@@ -117,9 +132,14 @@ Buffer Context::gen_buffer()
     return Buffer(buffer);
 }
 
-void Context::bind(int type, const Buffer& buffer)
+void Context::bind(unsigned int type, const Buffer& buffer)
 {
     glBindBuffer(type, buffer.get());
+}
+
+void Context::unbind_buffer(unsigned int type)
+{
+    glBindBuffer(type, 0);
 }
 
 void Context::buffer_data(int type, int size, const void* data, int usage)
@@ -154,6 +174,11 @@ void Context::bind(unsigned int target, const Texture& texture)
     glBindTexture(target, texture.get());
 }
 
+void Context::unbind_texture(unsigned int target)
+{
+    glBindTexture(target, 0);
+}
+
 void Context::tex_parameteri(unsigned int target, unsigned int name, int param)
 {
     glTexParameteri(target, name, param);
@@ -167,6 +192,28 @@ void Context::tex_image2d(unsigned int target, int level, int internal_format, i
 void Context::generate_mipmap(unsigned int target)
 {
     glGenerateMipmap(target);
+}
+
+Framebuffer Context::gen_framebuffer()
+{
+    unsigned int fbo;
+    glGenFramebuffers(1, &fbo);
+    return Framebuffer(fbo);
+}
+
+void Context::bind(unsigned int target, const Framebuffer& framebuffer)
+{
+    glBindFramebuffer(target, framebuffer.get());
+}
+
+void Context::unbind_framebuffer(unsigned int target)
+{
+    glBindFramebuffer(target, 0);
+}
+
+void Context::blend_func(unsigned int sfactor, unsigned int dfactor)
+{
+    glBlendFunc(sfactor, dfactor);
 }
 
 }

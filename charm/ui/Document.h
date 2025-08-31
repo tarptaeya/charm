@@ -2,7 +2,6 @@
 
 #include "Context.h"
 #include "elements/Element.h"
-#include <glad/gl.h>
 #include <iostream>
 #include <vector>
 
