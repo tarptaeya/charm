@@ -21,7 +21,7 @@ class Document {
     friend class charm::Application;
     Document() = default;
 
-    void draw(int x, int y, int width, int height);
+    void draw(float x, float y, float width, float height);
 
 public:
     ~Document();

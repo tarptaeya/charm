@@ -19,7 +19,7 @@ Document& Document::operator=(Document&& other)
     return *this;
 }
 
-void Document::draw(int x, int y, int width, int height)
+void Document::draw(float x, float y, float width, float height)
 {
 
     m_immediate_ui.begin();

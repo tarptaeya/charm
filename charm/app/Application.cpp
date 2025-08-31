@@ -113,6 +113,7 @@ void Application::draw_document(ui::Document& document)
 
     gl::Context::use(m_ui_program);
     gl::Context::set_uniform(m_ui_program, "u_font_texture", 1);
+    gl::Context::set_uniform(m_ui_program, "u_texture", 2);
     gl::Context::set_uniform(m_ui_program, "u_projection",
         Matrix4f({
             // clang-format off

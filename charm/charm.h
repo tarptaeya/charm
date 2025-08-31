@@ -26,6 +26,7 @@
 #include "ui/Document.h"
 #include "ui/elements/Element.h"
 #include "ui/elements/button/Button.h"
+#include "ui/elements/canvas/Canvas.h"
 #include "ui/elements/hboxcontainer/HBoxContainer.h"
 #include "ui/elements/label/Label.h"
 #include "ui/elements/paddedcontainer/PaddedContainer.h"
