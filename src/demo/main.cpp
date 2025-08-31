@@ -4,6 +4,13 @@
 
 using namespace charm;
 
+void add_canvas(ui::HBoxContainer& container, gl::Texture& texture, bool padding_left)
+{
+    auto& padded_container = padding_left ? container.add<ui::PaddedContainer>(12) : container.add<ui::PaddedContainer>(0, 12, 12, 12);
+    padded_container.set_is_width_expandable(false);
+    padded_container.add<ui::Canvas>(texture);
+}
+
 class Example : public charm::AppAdapter {
     gl::Texture m_flower_texture;
     gl::Texture m_night_texture;
@@ -28,11 +35,9 @@ public:
         m_night_texture = TextureBuilder("res/demo/night.jpg").set_texture_unit(GL_TEXTURE2).build();
         m_beach_texture = TextureBuilder("res/demo/beach.jpg").set_texture_unit(GL_TEXTURE2).build();
 
-        hbox2.add<ui::PaddedContainer>(12).add<ui::Canvas>(m_flower_texture);
-        hbox2.add<ui::PaddedContainer>(0, 12, 12, 12).add<ui::Canvas>(m_night_texture);
-        hbox2.add<ui::PaddedContainer>(0, 12, 12, 12).add<ui::Canvas>(m_beach_texture);
-
-        auto& spacer = m_document.add<ui::HBoxContainer>();
+        add_canvas(hbox2, m_flower_texture, true);
+        add_canvas(hbox2, m_night_texture, false);
+        add_canvas(hbox2, m_beach_texture, false);
     }
 
     void update(double delta_time) override
