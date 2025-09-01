@@ -14,7 +14,7 @@ void Canvas::draw()
 {
     m_context.commit();
 
-    gl::Context::active_texture(GL_TEXTURE2);
+    gl::Context::active_texture(GL_TEXTURE0 + CANVAS_TEXTURE_UNIT);
     gl::Context::bind(GL_TEXTURE_2D, m_texture);
     m_context.begin();
 

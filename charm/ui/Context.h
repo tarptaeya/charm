@@ -4,6 +4,10 @@
 #include <iostream>
 #include <vector>
 
+#define FONT_TEXTURE_UNIT 1
+#define CANVAS_TEXTURE_UNIT 2
+#define ATLAS_TEXTURE_UNIT 3
+
 namespace charm::ui {
 
 #define EIGHT_KILO_BYTES 8192
