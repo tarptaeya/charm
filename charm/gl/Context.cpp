@@ -216,6 +216,11 @@ bool Context::check_framebuffer_status(unsigned int target)
     return glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE;
 }
 
+void Context::framebuffer_texture2d(unsigned int target, unsigned int attachment, unsigned int textarget, unsigned int texture, int level)
+{
+    glFramebufferTexture2D(target, attachment, textarget, texture, level);
+}
+
 void Context::blend_func(unsigned int sfactor, unsigned int dfactor)
 {
     glBlendFunc(sfactor, dfactor);

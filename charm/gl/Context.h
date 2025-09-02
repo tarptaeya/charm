@@ -70,7 +70,8 @@ public:
     [[nodiscard]] static Framebuffer gen_framebuffer();
     static void bind(unsigned int target, const Framebuffer& framebuffer);
     static void unbind_framebuffer(unsigned int target);
-    static bool check_framebuffer_status(unsigned int target);
+    [[nodiscard]] static bool check_framebuffer_status(unsigned int target);
+    static void framebuffer_texture2d(unsigned int target, unsigned int attachment, unsigned int textarget, unsigned int texture, int level);
 
     static void blend_func(unsigned int sfactor, unsigned int dfactor);
 };

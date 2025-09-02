@@ -11,12 +11,6 @@ TextureBuilder::TextureBuilder(const std::string& path)
     stbi_set_flip_vertically_on_load(true);
 }
 
-TextureBuilder& TextureBuilder::set_texture_unit(unsigned int texture_unit)
-{
-    m_texture_unit = texture_unit;
-    return *this;
-}
-
 TextureBuilder& TextureBuilder::set_internal_format(unsigned int internal_format)
 {
     m_internal_format = internal_format;
@@ -44,7 +38,6 @@ TextureBuilder& TextureBuilder::set_parameteri(unsigned int name, int value)
 gl::Texture TextureBuilder::build()
 {
     gl::Texture texture = gl::Context::gen_texture();
-    gl::Context::active_texture(m_texture_unit);
     gl::Context::bind(GL_TEXTURE_2D, texture);
     gl::Context::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     gl::Context::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

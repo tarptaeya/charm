@@ -9,7 +9,6 @@ namespace charm {
 class TextureBuilder {
     std::string m_path;
     unsigned int m_texture_id = 0;
-    unsigned int m_texture_unit = GL_TEXTURE0;
     unsigned int m_internal_format = GL_RGB;
     unsigned int m_format = GL_RGB;
     unsigned int m_type = GL_UNSIGNED_BYTE;
@@ -17,7 +16,6 @@ class TextureBuilder {
 
 public:
     TextureBuilder(const std::string& path);
-    TextureBuilder& set_texture_unit(unsigned int texture_unit);
     TextureBuilder& set_internal_format(unsigned int internal_format);
     TextureBuilder& set_format(unsigned int format);
     TextureBuilder& set_type(unsigned int type);
