@@ -1,32 +1,32 @@
 add_library(
     charm
     app/Application.cpp
-    app/AppAdapter.cpp
     camera/Camera.cpp
     ch3db/ch3db.cpp
-    ecs/components/MeshRendererComponent.cpp
-    ecs/components/TransformComponent.cpp
-    ecs/Component.cpp
-    ecs/Entity.cpp
-    ecs/Renderer.cpp
+    gl/Buffer.cpp
+    gl/Context.cpp
+    gl/Framebuffer.cpp
+    gl/Program.cpp
+    gl/Shader.cpp
+    gl/Texture.cpp
+    gl/VertexArray.cpp
     graphics/font/Font.cpp
     graphics/font/FontMetadata.cpp
     graphics/framebuffer/Framebuffer.cpp
     graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
-    graphics/shaders/Shader.cpp
-    graphics/textures/Texture2D.cpp
-    graphics/textures/Texture2DBuilder.cpp
-    graphics/textures/stb_image.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp
     math/Matrix4f.cpp
     math/Vector3f.cpp
     misc/misc.cpp
+    misc/stb_image.cpp
+    misc/TextureBuilder.cpp
     ui/Context.cpp
     ui/Document.cpp
     ui/elements/Element.cpp
     ui/elements/button/Button.cpp
+    ui/elements/canvas/Canvas.cpp
     ui/elements/hboxcontainer/HBoxContainer.cpp
     ui/elements/label/Label.cpp
     ui/elements/paddedcontainer/PaddedContainer.cpp

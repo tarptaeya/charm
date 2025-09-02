@@ -19,17 +19,16 @@ Document& Document::operator=(Document&& other)
     return *this;
 }
 
-void Document::draw(int x, int y, int width, int height)
+void Document::draw(float x, float y, float width, float height)
 {
 
-    m_immediate_ui.begin(x, y, width, height);
+    m_immediate_ui.begin();
     m_immediate_ui.add_rect(x, y, width, height, { 0.9, 0.9, 0.9 }, 0, { 0, 0 }, { 0, 0 });
 
-    float element_height = height * 1.0f / m_children.size();
     float curr_y = y;
     for (const auto& child : m_children) {
-        child->set_bounds(x, curr_y, width, element_height);
-        curr_y += element_height;
+        child->set_bounds(x, curr_y, width, child->get_min_height());
+        curr_y += child->get_min_height();
         child->draw();
     }
 

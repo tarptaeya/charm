@@ -3,44 +3,43 @@
 
 namespace charm {
 
-FramebufferBuilder& FramebufferBuilder::set_parameteri(GLenum name, GLint value)
+FramebufferBuilder& FramebufferBuilder::set_parameteri(unsigned int name, int value)
 {
     m_parameteri_map[name] = value;
     return *this;
 }
 
-Framebuffer FramebufferBuilder::create(int width, int height)
+std::tuple<gl::Framebuffer, gl::Texture, gl::Texture> FramebufferBuilder::create(int width, int height)
 {
-    unsigned int fbo;
-    glGenFramebuffers(1, &fbo);
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    gl::Framebuffer framebuffer = gl::Context::gen_framebuffer();
+    gl::Context::bind(GL_FRAMEBUFFER, framebuffer);
 
-    unsigned int color_texture;
-    glGenTextures(1, &color_texture);
-    glBindTexture(GL_TEXTURE_2D, color_texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    gl::Context::active_texture(GL_TEXTURE0);
+    gl::Texture color_texture = gl::Context::gen_texture();
+    gl::Context::bind(GL_TEXTURE_2D, color_texture);
+    gl::Context::tex_image2d(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    gl::Context::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    gl::Context::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    gl::Context::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    gl::Context::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     for (const auto& entry : m_parameteri_map) {
-        glTexParameteri(GL_TEXTURE_2D, entry.first, entry.second);
+        gl::Context::tex_parameteri(GL_TEXTURE_2D, entry.first, entry.second);
     }
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, color_texture, 0);
+    gl::Context::framebuffer_texture2d(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, color_texture.get(), 0);
 
-    unsigned int depth_stencil_texture;
-    glGenTextures(1, &depth_stencil_texture);
-    glBindTexture(GL_TEXTURE_2D, depth_stencil_texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depth_stencil_texture, 0);
+    gl::Context::active_texture(GL_TEXTURE0);
+    gl::Texture depth_stencil_texture = gl::Context::gen_texture();
+    gl::Context::bind(GL_TEXTURE_2D, depth_stencil_texture);
+    gl::Context::tex_image2d(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
+    gl::Context::framebuffer_texture2d(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depth_stencil_texture.get(), 0);
 
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    if (!gl::Context::check_framebuffer_status(GL_FRAMEBUFFER)) {
         std::cerr << "[error] framebuffer is not complete" << std::endl;
         std::exit(0);
     }
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    return Framebuffer(fbo, width, height, color_texture, depth_stencil_texture);
+    gl::Context::unbind_framebuffer(GL_FRAMEBUFFER);
+    return { std::move(framebuffer), std::move(color_texture), std::move(depth_stencil_texture) };
 }
 
 }

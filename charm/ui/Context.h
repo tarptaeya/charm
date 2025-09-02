@@ -1,8 +1,12 @@
 #pragma once
 
-#include <glad/gl.h>
+#include "gl/Context.h"
 #include <iostream>
 #include <vector>
+
+#define FONT_TEXTURE_UNIT 1
+#define CANVAS_TEXTURE_UNIT 2
+#define ATLAS_TEXTURE_UNIT 3
 
 namespace charm::ui {
 
@@ -24,9 +28,9 @@ class Context {
         Texcoord texcoord = { 0 };
     };
 
-    unsigned int m_vertex_array = 0;
-    unsigned int m_array_buffer = 0;
-    unsigned int m_index_buffer = 0;
+    gl::VertexArray m_vertex_array;
+    gl::Buffer m_array_buffer;
+    gl::Buffer m_index_buffer;
     size_t m_array_buffer_capacity = EIGHT_KILO_BYTES;
     size_t m_index_buffer_capacity = EIGHT_KILO_BYTES;
     std::vector<Vertex> m_vertices;
@@ -42,7 +46,7 @@ public:
     Context(Context&&);
     Context& operator=(Context&&);
 
-    void begin(int x, int y, int width, int height);
+    void begin();
     void commit();
 
     void add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright);

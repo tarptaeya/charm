@@ -71,8 +71,8 @@ void PaddedContainer::set_bounds(float x, float y, float width, float height)
     Element::set_bounds(x, y, width, height);
 
     int num_children = m_children.size();
-    float child_width = m_width - (m_padding_left + m_padding_right);
-    float available_height = m_height - (m_padding_top + m_padding_bottom);
+    float child_width = width - (m_padding_left + m_padding_right);
+    float available_height = height - (m_padding_top + m_padding_bottom);
     float child_height = available_height / num_children;
     float ycursor = y + m_padding_top;
     for (const auto& child : m_children) {

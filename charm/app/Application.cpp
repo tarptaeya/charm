@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "AppAdapter.h"
 #include "graphics/font/Font.h"
+#include "io/FileIO.h"
 
 namespace charm {
 
@@ -15,6 +16,11 @@ Application::~Application()
 
 void Application::initialize(const AppOptions& options)
 {
+    if (!options.validate()) {
+        std::cerr << "[error] app options provided are not valid" << std::endl;
+        std::exit(0);
+    }
+
     if (!glfwInit()) {
         std::cerr << "[error] glfw initialization faield" << std::endl;
         std::exit(0);
@@ -32,7 +38,7 @@ void Application::initialize(const AppOptions& options)
     }
 
     glfwMakeContextCurrent(m_window);
-    gladLoadGL(glfwGetProcAddress);
+    gl::Context::init(glfwGetProcAddress);
 
     glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
     });
@@ -44,6 +50,9 @@ void Application::initialize(const AppOptions& options)
         charmApp.m_width = width;
         charmApp.m_height = height;
     });
+
+    set_font(options.font_texture_path, options.font_metadata_path);
+    m_ui_program = gl::Context::create_program(FileIO::read_text(options.ui_vertex_shader_path), FileIO::read_text(options.ui_fragment_shader_path));
 }
 
 GLFWwindow* Application::get_window() const
@@ -59,16 +68,6 @@ int Application::get_width() const
 int Application::get_height() const
 {
     return m_height;
-}
-
-Registry<Shader>& Application::get_shader_registry()
-{
-    return m_shaders;
-}
-
-Registry<Geometry>& Application::get_geometry_registry()
-{
-    return m_geometries;
 }
 
 Application& Application::get_instance()
@@ -104,6 +103,37 @@ Font& Application::get_font()
 void Application::set_font(const std::string& texture_path, const std::string& metadata_path)
 {
     m_font = std::make_unique<Font>(texture_path, metadata_path);
+}
+
+void Application::draw_document(ui::Document& document)
+{
+    gl::Context::unbind_framebuffer(GL_FRAMEBUFFER);
+    gl::Context::viewport(0, 0, m_width, m_height);
+
+    gl::Context::disable(GL_DEPTH_TEST);
+    gl::Context::enable(GL_BLEND);
+    gl::Context::blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    gl::Context::active_texture(GL_TEXTURE0 + FONT_TEXTURE_UNIT);
+    gl::Context::bind(GL_TEXTURE_2D, m_font->get_texture());
+
+    gl::Context::use(m_ui_program);
+    gl::Context::set_uniform(m_ui_program, "u_font_texture", FONT_TEXTURE_UNIT);
+    gl::Context::set_uniform(m_ui_program, "u_canvas_texture", CANVAS_TEXTURE_UNIT);
+    gl::Context::set_uniform(m_ui_program, "u_projection",
+        Matrix4f({
+            // clang-format off
+                2.f / m_width, 0,               0, 0,
+                0,             -2.f / m_height, 0, 0,
+                0,             0,               1, 0,
+                -1,            1,               0, 1,
+            // clang-format on
+        }));
+
+    document.draw(0, 0, m_width, m_height);
+
+    gl::Context::disable(GL_BLEND);
+    gl::Context::enable(GL_DEPTH_TEST);
 }
 
 }

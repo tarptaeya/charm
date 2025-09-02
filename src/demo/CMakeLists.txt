@@ -3,7 +3,6 @@ include_directories(.)
 add_executable(
     demo
     main.cpp
-    DemoAdapter.cpp
     Duck.cpp
     ScreenGeometry.cpp
     game_objects/RootObject.cpp
@@ -11,4 +10,4 @@ add_executable(
 )
 target_link_libraries(demo charm)
 
-add_custom_target(run COMMAND demo DEPENDS demo WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+add_custom_target(run COMMAND demo DEPENDS demo WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})

@@ -2,7 +2,7 @@
 
 Duck::Duck()
 {
-    charm::ch3db::Model model = charm::ch3db::Model::read("assets/model.ch3db");
+    charm::ch3db::Model model = charm::ch3db::Model::read("res/demo/model.ch3db");
     for (const auto& mesh : model.meshes) {
         unsigned int vertex_array;
         glGenVertexArrays(1, &vertex_array);

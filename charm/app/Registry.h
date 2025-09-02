@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <unordered_map>
 
@@ -20,6 +21,10 @@ public:
 
     void add(const std::string& id, T&& item)
     {
+        if (m_items.count(id)) {
+            std::cout << "[warn] overriding item with id = " << id << ", which is already present in registery" << std::endl;
+        }
+
         m_items[id] = std::move(item);
     }
 
