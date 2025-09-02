@@ -1,17 +1,17 @@
 #pragma once
 
 #include "Framebuffer.h"
-#include <glad/gl.h>
+#include "gl/Context.h"
 #include <unordered_map>
 
 namespace charm {
 
 class FramebufferBuilder {
-    std::unordered_map<GLenum, GLint> m_parameteri_map;
+    std::unordered_map<unsigned int, int> m_parameteri_map;
 
 public:
-    FramebufferBuilder& set_parameteri(GLenum name, GLint value);
-    Framebuffer create(int width, int height);
+    FramebufferBuilder& set_parameteri(unsigned int name, int value);
+    std::tuple<gl::Framebuffer, gl::Texture, gl::Texture> create(int width, int height);
 };
 
 }

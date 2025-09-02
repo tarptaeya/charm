@@ -5,7 +5,7 @@ flat in int v_active_texture;
 in vec2 v_texcoord;
 
 uniform sampler2D u_font_texture;
-uniform sampler2D u_texture;
+uniform sampler2D u_canvas_texture;
 
 out vec4 FragColor;
 
@@ -18,7 +18,7 @@ void main()
         float alpha = smoothstep(0.3, 0.6, color.r);
         FragColor = vec4(v_color, alpha);
     } else if (v_active_texture == 2) {
-        vec4 color = texture(u_texture, v_texcoord);
+        vec4 color = texture(u_canvas_texture, v_texcoord);
         FragColor = color;
     }
     

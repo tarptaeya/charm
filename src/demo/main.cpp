@@ -4,17 +4,8 @@
 
 using namespace charm;
 
-void add_canvas(ui::HBoxContainer& container, gl::Texture& texture, bool padding_left)
-{
-    auto& padded_container = padding_left ? container.add<ui::PaddedContainer>(12) : container.add<ui::PaddedContainer>(0, 12, 12, 12);
-    padded_container.set_is_width_expandable(false);
-    padded_container.add<ui::Canvas>(texture);
-}
-
 class Example : public charm::AppAdapter {
-    gl::Texture m_flower_texture;
-    gl::Texture m_night_texture;
-    gl::Texture m_beach_texture;
+    std::tuple<gl::Framebuffer, gl::Texture, gl::Texture> m_render_target;
 
 public:
     Example(ui::Document& document)
@@ -29,19 +20,18 @@ public:
 
         m_document.add<ui::Label>("I have started implementing a UI system for my graphics engine.");
 
-        auto& hbox2 = m_document.add<ui::HBoxContainer>();
-
-        m_flower_texture = TextureBuilder("res/demo/flower.jpg").set_texture_unit(GL_TEXTURE2).build();
-        m_night_texture = TextureBuilder("res/demo/night.jpg").set_texture_unit(GL_TEXTURE2).build();
-        m_beach_texture = TextureBuilder("res/demo/beach.jpg").set_texture_unit(GL_TEXTURE2).build();
-
-        add_canvas(hbox2, m_flower_texture, true);
-        add_canvas(hbox2, m_night_texture, false);
-        add_canvas(hbox2, m_beach_texture, false);
+        m_render_target = FramebufferBuilder().create(256, 256);
+        m_document.add<ui::HBoxContainer>().add<ui::Canvas>(std::get<1>(m_render_target));
     }
 
     void update(double delta_time) override
     {
+        gl::Context::bind(GL_FRAMEBUFFER, std::get<0>(m_render_target));
+        gl::Context::viewport(0, 0, 256, 256);
+        glClearColor(1.0, 0.1, 0.2, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT);
+        gl::Context::unbind_framebuffer(GL_FRAMEBUFFER);
+
         FPSCounter::get_instance().push(delta_time);
         m_document.get_element_by_id<ui::Label>("fps_counter")->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));
     }

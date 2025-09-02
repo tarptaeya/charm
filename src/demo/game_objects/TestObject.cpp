@@ -7,9 +7,7 @@ TestObject::TestObject(const charm::Matrix4f& transform)
         charm::FileIO::read_text("res/demo/basic.vertex.glsl"),
         charm::FileIO::read_text("res/demo/basic.fragment.glsl"));
 
-    m_texture = charm::TextureBuilder("assets/DuckCM.png")
-                    .set_texture_unit(GL_TEXTURE0)
-                    .build();
+    m_texture = charm::TextureBuilder("assets/DuckCM.png").build();
 }
 
 TestObject::~TestObject()
