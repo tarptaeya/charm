@@ -27,7 +27,10 @@ public:
         m_document.add<ui::Label>("I have started implementing a UI system for my graphics engine.");
 
         m_render_target = FramebufferBuilder().create(256, 256);
-        m_document.add<ui::HBoxContainer>().add<ui::Canvas>(std::get<1>(m_render_target));
+        auto& container = m_document.add<ui::HBoxContainer>().add<ui::PaddedContainer>(22);
+        container.set_is_height_expandable(false);
+        container.set_is_width_expandable(false);
+        container.add<ui::Canvas>(std::get<1>(m_render_target));
     }
 
     void update(double delta_time) override

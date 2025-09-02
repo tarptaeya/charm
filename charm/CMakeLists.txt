@@ -12,7 +12,6 @@ add_library(
     gl/VertexArray.cpp
     graphics/font/Font.cpp
     graphics/font/FontMetadata.cpp
-    graphics/framebuffer/Framebuffer.cpp
     graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
     io/BinaryIO.cpp

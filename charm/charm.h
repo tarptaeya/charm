@@ -13,7 +13,6 @@
 #include "gl/Context.h"
 #include "graphics/font/Font.h"
 #include "graphics/font/FontMetadata.h"
-#include "graphics/framebuffer/Framebuffer.h"
 #include "graphics/framebuffer/FramebufferBuilder.h"
 #include "graphics/geometry/Geometry.h"
 #include "io/BinaryIO.h"
