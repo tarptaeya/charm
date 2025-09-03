@@ -25,6 +25,16 @@ void Context::viewport(int x, int y, int width, int height)
     glViewport(x, y, width, height);
 }
 
+void Context::clear_color(float r, float g, float b, float a)
+{
+    glClearColor(r, g, b, a);
+}
+
+void Context::clear(unsigned int mask)
+{
+    glClear(mask);
+}
+
 Shader Context::create_shader(int type, const std::string& source)
 {
     unsigned int shader = glCreateShader(type);
@@ -105,7 +115,7 @@ void Context::bind(const VertexArray& vertex_array)
     glBindVertexArray(vertex_array.get());
 }
 
-void Context::unbind_vertex_array()
+void Context::reset_vertex_array()
 {
     glBindVertexArray(0);
 }
@@ -137,7 +147,7 @@ void Context::bind(unsigned int type, const Buffer& buffer)
     glBindBuffer(type, buffer.get());
 }
 
-void Context::unbind_buffer(unsigned int type)
+void Context::reset_buffer(unsigned int type)
 {
     glBindBuffer(type, 0);
 }
@@ -174,7 +184,7 @@ void Context::bind(unsigned int target, const Texture& texture)
     glBindTexture(target, texture.get());
 }
 
-void Context::unbind_texture(unsigned int target)
+void Context::reset_texture(unsigned int target)
 {
     glBindTexture(target, 0);
 }
@@ -206,7 +216,7 @@ void Context::bind(unsigned int target, const Framebuffer& framebuffer)
     glBindFramebuffer(target, framebuffer.get());
 }
 
-void Context::unbind_framebuffer(unsigned int target)
+void Context::reset_framebuffer(unsigned int target)
 {
     glBindFramebuffer(target, 0);
 }

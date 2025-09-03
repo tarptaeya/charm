@@ -37,12 +37,12 @@ public:
     {
         gl::Context::bind(GL_FRAMEBUFFER, std::get<0>(m_render_target));
         gl::Context::viewport(0, 0, 256, 256);
-        glEnable(GL_DEPTH_TEST);
-        glClearColor(0.1, 0.2, 0.3, 1.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        gl::Context::enable(GL_DEPTH_TEST);
+        gl::Context::clear_color(0.1, 0.2, 0.3, 1.0);
+        gl::Context::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_object.render(m_camera);
 
-        gl::Context::unbind_framebuffer(GL_FRAMEBUFFER);
+        gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
 
         FPSCounter::get_instance().push(delta_time);
         m_document.get_element_by_id<ui::Label>("fps_counter")->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));

@@ -56,7 +56,7 @@ public:
             double delta_time = curr_time - prev_time;
             prev_time = curr_time;
 
-            gl::Context::unbind_framebuffer(GL_FRAMEBUFFER);
+            gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
             adapter.update(delta_time);
 
             draw_document(document);

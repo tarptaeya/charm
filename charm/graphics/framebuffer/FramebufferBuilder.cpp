@@ -38,7 +38,7 @@ std::tuple<gl::Framebuffer, gl::Texture, gl::Texture> FramebufferBuilder::create
         std::exit(0);
     }
 
-    gl::Context::unbind_framebuffer(GL_FRAMEBUFFER);
+    gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
     return { std::move(framebuffer), std::move(color_texture), std::move(depth_stencil_texture) };
 }
 

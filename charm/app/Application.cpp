@@ -107,7 +107,7 @@ void Application::set_font(const std::string& texture_path, const std::string& m
 
 void Application::draw_document(ui::Document& document)
 {
-    gl::Context::unbind_framebuffer(GL_FRAMEBUFFER);
+    gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
     gl::Context::viewport(0, 0, m_width, m_height);
 
     gl::Context::disable(GL_DEPTH_TEST);
