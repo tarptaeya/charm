@@ -13,10 +13,13 @@ FontMetadata FontMetadata::parse(const std::string& path)
         std::exit(0);
     }
 
-    FontMetadata metadata;
-    f >> metadata.bitmap_width >> metadata.bitmap_height >> metadata.bitmap_pixel_height;
+	std::string line;
+	std::getline(f, line);
+	std::stringstream ss(line);
 
-    std::string line;
+    FontMetadata metadata;
+    ss >> metadata.bitmap_width >> metadata.bitmap_height >> metadata.bitmap_pixel_height;
+
     while (std::getline(f, line)) {
         std::stringstream ss(line);
         char c = ss.get();
