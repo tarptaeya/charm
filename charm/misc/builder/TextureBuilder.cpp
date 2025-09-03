@@ -1,5 +1,5 @@
 #include "TextureBuilder.h"
-#include "stb_image.h"
+#include "misc/stb_image.h"
 #include <algorithm>
 #include <iostream>
 

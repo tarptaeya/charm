@@ -12,7 +12,6 @@ add_library(
     gl/VertexArray.cpp
     graphics/font/Font.cpp
     graphics/font/FontMetadata.cpp
-    graphics/framebuffer/FramebufferBuilder.cpp
     graphics/geometry/Geometry.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp
@@ -20,7 +19,8 @@ add_library(
     math/Vector3f.cpp
     misc/misc.cpp
     misc/stb_image.cpp
-    misc/TextureBuilder.cpp
+    misc/builder/FramebufferBuilder.cpp
+    misc/builder/TextureBuilder.cpp
     ui/Context.cpp
     ui/Document.cpp
     ui/elements/Element.cpp
