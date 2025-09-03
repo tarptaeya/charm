@@ -29,16 +29,18 @@ public:
         m_document.add<ui::Label>("I have started implementing a UI system for my graphics engine.");
 
         m_render_target = RenderTarget(500, 500);
-        auto& container = m_document.add<ui::HBoxContainer>().add<ui::PaddedContainer>(22);
-        container.set_is_height_expandable(false);
-        container.set_is_width_expandable(false);
+        auto& container = m_document
+                              .add<ui::HBoxContainer>()
+                              .add<ui::PaddedContainer>(22)
+                              .set_is_height_expandable(false)
+                              .set_is_width_expandable(false);
         container.add<ui::Canvas>(m_render_target);
 
         auto& vbox = m_document.add<ui::VBoxContainer>();
         vbox.add<ui::Label>("Hello world");
         vbox.add<ui::Label>("This is second label inside vbox!");
-        auto& nested_hbox = vbox.add<ui::HBoxContainer>();
-        nested_hbox.set_is_width_expandable(false);
+        auto& nested_hbox = vbox.add<ui::HBoxContainer>()
+                                .set_is_width_expandable(false);
         auto& button1 = nested_hbox.add<ui::Button>("Click Me");
         button1.set_on_click_handler([] { });
         auto& button2 = nested_hbox.add<ui::Button>("Click Me");

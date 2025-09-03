@@ -14,7 +14,7 @@ public:
     virtual ~Element() { }
 
     std::string get_id() const;
-    void set_id(const std::string& id);
+    Element& set_id(const std::string& id);
     Element* get_element_by_id(const std::string& id);
 
     virtual void draw();
@@ -30,9 +30,9 @@ public:
     virtual float get_min_height() const;
 
     bool get_is_width_expandable() const;
-    void set_is_width_expandable(bool);
+    Element& set_is_width_expandable(bool);
     bool get_is_height_expandable() const;
-    void set_is_height_expandable(bool);
+    Element& set_is_height_expandable(bool);
 
     float get_width() const;
     float get_height() const;

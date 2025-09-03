@@ -13,9 +13,10 @@ std::string Element::get_id() const
     return m_id;
 }
 
-void Element::set_id(const std::string& id)
+Element& Element::set_id(const std::string& id)
 {
     m_id = id;
+    return *this;
 }
 
 Element* Element::get_element_by_id(const std::string& id)
@@ -73,9 +74,10 @@ bool Element::get_is_width_expandable() const
     return m_is_width_expandable;
 }
 
-void Element::set_is_width_expandable(bool is_expandable)
+Element& Element::set_is_width_expandable(bool is_expandable)
 {
     m_is_width_expandable = is_expandable;
+    return *this;
 }
 
 bool Element::get_is_height_expandable() const
@@ -83,9 +85,10 @@ bool Element::get_is_height_expandable() const
     return m_is_height_expandable;
 }
 
-void Element::set_is_height_expandable(bool is_expandable)
+Element& Element::set_is_height_expandable(bool is_expandable)
 {
     m_is_height_expandable = is_expandable;
+    return *this;
 }
 
 float Element::get_width() const
