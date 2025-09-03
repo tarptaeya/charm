@@ -30,6 +30,7 @@
 #include "ui/elements/hboxcontainer/HBoxContainer.h"
 #include "ui/elements/label/Label.h"
 #include "ui/elements/paddedcontainer/PaddedContainer.h"
+#include "ui/elements/vboxcontainer/VBoxContainer.h"
 
 #define ON_ENTER_ELEMENT_PRIORITY 1000
 #define ON_EXIT_ELEMENT_PRIORITY (ON_ENTER_ELEMENT_PRIORITY - 1)

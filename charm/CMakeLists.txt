@@ -30,6 +30,7 @@ add_library(
     ui/elements/hboxcontainer/HBoxContainer.cpp
     ui/elements/label/Label.cpp
     ui/elements/paddedcontainer/PaddedContainer.cpp
+    ui/elements/vboxcontainer/VBoxContainer.cpp
 )
 
 target_link_libraries(charm glfw glad)
