@@ -27,7 +27,11 @@ void Document::draw(float x, float y, float width, float height)
 
     float curr_y = y;
     for (const auto& child : m_children) {
-        child->set_bounds(x, curr_y, width, child->get_min_height());
+        float child_width = child->get_min_width();
+        if (child->get_is_width_expandable()) {
+            child_width = width;
+        }
+        child->set_bounds(x, curr_y, child_width, child->get_min_height());
         curr_y += child->get_min_height();
         child->draw();
     }
