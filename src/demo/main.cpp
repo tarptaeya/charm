@@ -9,6 +9,8 @@ class Example : public charm::AppAdapter {
     Camera m_camera;
     RootObject m_object;
     RenderTarget m_render_target;
+    int m_count = 0;
+    ui::Label* m_count_label;
 
 public:
     Example(ui::Document& document)
@@ -39,16 +41,21 @@ public:
         auto& vbox = m_document.add<ui::VBoxContainer>();
         vbox.add<ui::Label>("Hello world");
         vbox.add<ui::Label>("This is second label inside vbox!");
+        m_count_label = &vbox.add<ui::Label>("");
         auto& nested_hbox = vbox.add<ui::HBoxContainer>()
                                 .set_is_width_expandable(false);
         auto& button1 = nested_hbox
                             .add<ui::PaddedContainer>(5)
-                            .add<ui::Button>("Click Me");
-        button1.set_on_click_handler([] { });
+                            .add<ui::Button>("Increment")
+                            .set_on_click_handler([this] {
+                                ++m_count;
+                            });
         auto& button2 = nested_hbox
                             .add<ui::PaddedContainer>(5)
-                            .add<ui::Button>("Click Me");
-        button2.set_on_click_handler([] { });
+                            .add<ui::Button>("Decrement")
+                            .set_on_click_handler([this] {
+                                --m_count;
+                            });
     }
 
     void update(double delta_time) override
@@ -65,6 +72,8 @@ public:
         FPSCounter::get_instance().push(delta_time);
         dynamic_cast<ui::Label*>(m_document.get_element_by_id("fps_counter"))
             ->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));
+
+        m_count_label->set_text("Counter: " + std::to_string(m_count));
     }
 };
 

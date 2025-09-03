@@ -8,7 +8,7 @@ namespace charm::ui {
 
 class Button : public Element {
     Label m_label;
-    std::function<void()> m_on_click = nullptr;
+    std::function<void()> m_on_click = [] { };
 
 public:
     Button(Context& context, const std::string& text);
@@ -24,8 +24,8 @@ public:
 
     void set_bounds(float x, float y, float width, float height) override;
 
-    void set_on_click_handler(std::function<void()> on_click);
-    void set_text(const std::string& text);
+    Button& set_on_click_handler(std::function<void()> on_click);
+    Button& set_text(const std::string& text);
 
     void on_mouse_enter() override;
     void on_mouse_exit() override;

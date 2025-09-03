@@ -49,14 +49,16 @@ void Button::set_bounds(float x, float y, float width, float height)
     m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - 2 * label_x_padding, height - 2 * label_y_padding);
 }
 
-void Button::set_on_click_handler(std::function<void()> on_click)
+Button& Button::set_on_click_handler(std::function<void()> on_click)
 {
     m_on_click = on_click;
+    return *this;
 }
 
-void Button::set_text(const std::string& text)
+Button& Button::set_text(const std::string& text)
 {
     m_label.set_text(text);
+    return *this;
 }
 
 void Button::on_mouse_enter()
