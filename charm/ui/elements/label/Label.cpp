@@ -20,11 +20,9 @@ void Label::draw()
     float xcurr = m_x;
     float ycurr = m_y + m_font_size;
 
-    std::string text = m_text;
-
     auto& font_metadata = charmApp.get_font().get_metadata();
 
-    for (char c : text) {
+    for (char c : m_text) {
         const auto& info = font_metadata.info[c];
         float advance = info.xadvance * m_font_size / font_metadata.bitmap_pixel_height;
 
@@ -65,10 +63,12 @@ float Label::get_min_height() const
     auto& font_metadata = charmApp.get_font().get_metadata();
 
     float min_height = 0;
+    float ycurr = m_font_size;
     for (char c : m_text) {
         const auto& info = font_metadata.info[c];
+        float y = ycurr + info.yoffset * m_font_size / font_metadata.bitmap_pixel_height;
         float height = info.height * m_font_size / font_metadata.bitmap_pixel_height;
-        min_height = std::max(min_height, height);
+        min_height = std::max(min_height, y + height);
     }
 
     return std::ceil(min_height);
