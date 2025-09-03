@@ -14,6 +14,7 @@
 #include "graphics/font/Font.h"
 #include "graphics/font/FontMetadata.h"
 #include "graphics/geometry/Geometry.h"
+#include "graphics/render_target/RenderTarget.h"
 #include "io/BinaryIO.h"
 #include "io/FileIO.h"
 #include "math/Matrix4f.h"

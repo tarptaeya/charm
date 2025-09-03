@@ -8,7 +8,7 @@ using namespace charm;
 class Example : public charm::AppAdapter {
     Camera m_camera;
     RootObject m_object;
-    std::tuple<gl::Framebuffer, gl::Texture, gl::Texture> m_render_target;
+    RenderTarget m_render_target;
 
 public:
     Example(ui::Document& document)
@@ -26,17 +26,17 @@ public:
 
         m_document.add<ui::Label>("I have started implementing a UI system for my graphics engine.");
 
-        m_render_target = FramebufferBuilder().create(256, 256);
+        m_render_target = RenderTarget(500, 500);
         auto& container = m_document.add<ui::HBoxContainer>().add<ui::PaddedContainer>(22);
         container.set_is_height_expandable(false);
         container.set_is_width_expandable(false);
-        container.add<ui::Canvas>(std::get<1>(m_render_target));
+        container.add<ui::Canvas>(m_render_target);
     }
 
     void update(double delta_time) override
     {
-        gl::Context::bind(GL_FRAMEBUFFER, std::get<0>(m_render_target));
-        gl::Context::viewport(0, 0, 256, 256);
+        gl::Context::bind(GL_FRAMEBUFFER, m_render_target.get_framebuffer());
+        gl::Context::viewport(0, 0, m_render_target.get_width(), m_render_target.get_height());
         gl::Context::enable(GL_DEPTH_TEST);
         gl::Context::clear_color(0.1, 0.2, 0.3, 1.0);
         gl::Context::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
