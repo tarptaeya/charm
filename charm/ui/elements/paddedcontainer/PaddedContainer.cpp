@@ -54,7 +54,7 @@ float PaddedContainer::get_min_width() const
     for (const auto& child : m_children) {
         min_width = std::max(min_width, child->get_min_width());
     }
-    return min_width;
+    return min_width + m_padding_left + m_padding_right;
 }
 
 float PaddedContainer::get_min_height() const
@@ -63,7 +63,7 @@ float PaddedContainer::get_min_height() const
     for (const auto& child : m_children) {
         min_height += child->get_min_height();
     }
-    return min_height;
+    return min_height + m_padding_top + m_padding_bottom;
 }
 
 void PaddedContainer::set_bounds(float x, float y, float width, float height)

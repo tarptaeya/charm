@@ -41,9 +41,13 @@ public:
         vbox.add<ui::Label>("This is second label inside vbox!");
         auto& nested_hbox = vbox.add<ui::HBoxContainer>()
                                 .set_is_width_expandable(false);
-        auto& button1 = nested_hbox.add<ui::Button>("Click Me");
+        auto& button1 = nested_hbox
+                            .add<ui::PaddedContainer>(5)
+                            .add<ui::Button>("Click Me");
         button1.set_on_click_handler([] { });
-        auto& button2 = nested_hbox.add<ui::Button>("Click Me");
+        auto& button2 = nested_hbox
+                            .add<ui::PaddedContainer>(5)
+                            .add<ui::Button>("Click Me");
         button2.set_on_click_handler([] { });
     }
 
