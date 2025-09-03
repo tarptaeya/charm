@@ -14,6 +14,8 @@ public:
     Example(ui::Document& document)
         : charm::AppAdapter(document)
     {
+        glfwSwapInterval(0);
+
         m_camera.set_projection(Matrix4f::perspective(M_PI / 3, 1.0, 0.1, 100));
         m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
 
@@ -55,7 +57,8 @@ public:
         gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
 
         FPSCounter::get_instance().push(delta_time);
-        m_document.get_element_by_id<ui::Label>("fps_counter")->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));
+        dynamic_cast<ui::Label*>(m_document.get_element_by_id("fps_counter"))
+            ->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));
     }
 };
 

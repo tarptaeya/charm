@@ -39,4 +39,20 @@ void Document::draw(float x, float y, float width, float height)
     m_immediate_ui.commit();
 }
 
+Element* Document::get_element_by_id(const std::string& id)
+{
+    if (m_id2element_cache.count(id)) {
+        return m_id2element_cache[id];
+    }
+
+    for (const auto& child : m_children) {
+        Element* ans = child->get_element_by_id(id);
+        if (ans) {
+            m_id2element_cache[id] = ans;
+            return ans;
+        }
+    }
+    return nullptr;
+}
+
 }

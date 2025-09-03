@@ -3,6 +3,7 @@
 #include "Context.h"
 #include "elements/Element.h"
 #include <iostream>
+#include <unordered_map>
 #include <vector>
 
 namespace charm {
@@ -16,6 +17,7 @@ namespace charm::ui {
 class Document {
     Context m_immediate_ui;
     std::vector<std::unique_ptr<Element>> m_children;
+    std::unordered_map<std::string, Element*> m_id2element_cache;
 
     friend class charm::Application;
     Document() = default;
@@ -31,16 +33,7 @@ public:
     Document(Document&&);
     Document& operator=(Document&&);
 
-    template <typename T>
-    T* get_element_by_id(const std::string& id)
-    {
-        for (const auto& child : m_children) {
-            Element* ans = child->get_element_by_id(id);
-            if (ans)
-                return dynamic_cast<T*>(ans);
-        }
-        return nullptr;
-    }
+    Element* get_element_by_id(const std::string& id);
 
     template <class T, typename... Args>
     T& add(Args&&... args)
