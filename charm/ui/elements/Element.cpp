@@ -3,8 +3,7 @@
 
 namespace charm::ui {
 
-Element::Element(Context& context)
-    : m_context(context)
+Element::Element()
 {
 }
 

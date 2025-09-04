@@ -3,8 +3,8 @@
 
 namespace charm::ui {
 
-Label::Label(Context& context, const std::string& text)
-    : Element(context)
+Label::Label(const std::string& text)
+    : Element()
     , m_text(text)
 {
 }
@@ -36,7 +36,7 @@ void Label::draw()
         float width = info.width * m_font_size / font_metadata.bitmap_pixel_height;
         float height = info.height * m_font_size / font_metadata.bitmap_pixel_height;
 
-        m_context.add_rect(x, y, width, height, { 0, 0, 0 }, 1, { u1, v1 }, { u2, v2 });
+        Context::get_instance().add_rect(x, y, width, height, { 0, 0, 0 }, 1, { u1, v1 }, { u2, v2 });
         xcurr += advance;
     }
 }

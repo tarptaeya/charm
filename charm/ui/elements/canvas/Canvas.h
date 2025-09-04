@@ -10,7 +10,7 @@ class Canvas : public Element {
     RenderTarget& m_render_target;
 
 public:
-    Canvas(Context& context, RenderTarget& render_target);
+    Canvas(RenderTarget& render_target);
     void draw() override;
 
     float get_min_width() const override;

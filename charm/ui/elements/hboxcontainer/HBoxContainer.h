@@ -6,7 +6,7 @@ namespace charm::ui {
 
 class HBoxContainer : public Element {
 public:
-    HBoxContainer(Context& context);
+    HBoxContainer();
     ~HBoxContainer() override;
 
     HBoxContainer(const HBoxContainer&) = delete;

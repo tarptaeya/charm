@@ -3,9 +3,9 @@
 
 namespace charm::ui {
 
-Button::Button(Context& context, const std::string& text)
-    : Element(context)
-    , m_label(context, text)
+Button::Button(const std::string& text)
+    : Element()
+    , m_label(text)
 {
 }
 
@@ -17,10 +17,12 @@ void Button::draw()
 {
     Element::draw();
 
+    auto& ui_context = Context::get_instance();
+
     if (m_is_mouse_hover) {
-        m_context.add_rect(m_x, m_y, m_width, m_height, { 0.25, 0.55, 0.6 }, 0, { 0, 0 }, { 0, 0 });
+        ui_context.add_rect(m_x, m_y, m_width, m_height, { 0.25, 0.55, 0.6 }, 0, { 0, 0 }, { 0, 0 });
     } else {
-        m_context.add_rect(m_x, m_y, m_width, m_height, { 0.2, 0.5, 0.5 }, 0, { 0, 0 }, { 0, 0 });
+        ui_context.add_rect(m_x, m_y, m_width, m_height, { 0.2, 0.5, 0.5 }, 0, { 0, 0 }, { 0, 0 });
     }
 
     m_label.draw();

@@ -120,4 +120,10 @@ void Context::add_rect(float x, float y, float width, float height, Color color,
     m_indices.push_back(index + 2);
 }
 
+Context& Context::get_instance()
+{
+    static Context context;
+    return context;
+}
+
 }

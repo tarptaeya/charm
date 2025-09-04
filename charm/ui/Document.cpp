@@ -22,8 +22,9 @@ Document& Document::operator=(Document&& other)
 void Document::draw(float x, float y, float width, float height)
 {
 
-    m_immediate_ui.begin();
-    m_immediate_ui.add_rect(x, y, width, height, { 0.9, 0.9, 0.9 }, 0, { 0, 0 }, { 0, 0 });
+    auto& ui_context = Context::get_instance();
+    ui_context.begin();
+    ui_context.add_rect(x, y, width, height, { 0.9, 0.9, 0.9 }, 0, { 0, 0 }, { 0, 0 });
 
     float curr_y = y;
     for (const auto& child : m_children) {
@@ -36,7 +37,7 @@ void Document::draw(float x, float y, float width, float height)
         child->draw();
     }
 
-    m_immediate_ui.commit();
+    ui_context.commit();
 }
 
 Element* Document::get_element_by_id(const std::string& id)

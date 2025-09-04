@@ -2,8 +2,8 @@
 
 namespace charm::ui {
 
-PaddedContainer::PaddedContainer(Context& context, float padding)
-    : Element(context)
+PaddedContainer::PaddedContainer(float padding)
+    : Element()
     , m_padding_left(padding)
     , m_padding_right(padding)
     , m_padding_top(padding)
@@ -13,8 +13,8 @@ PaddedContainer::PaddedContainer(Context& context, float padding)
     set_is_height_expandable(true);
 }
 
-PaddedContainer::PaddedContainer(Context& context, float padding_left_right, float padding_top_bottom)
-    : Element(context)
+PaddedContainer::PaddedContainer(float padding_left_right, float padding_top_bottom)
+    : Element()
     , m_padding_left(padding_left_right)
     , m_padding_right(padding_left_right)
     , m_padding_top(padding_top_bottom)
@@ -24,8 +24,8 @@ PaddedContainer::PaddedContainer(Context& context, float padding_left_right, flo
     set_is_height_expandable(true);
 }
 
-PaddedContainer::PaddedContainer(Context& context, float padding_left, float padding_right, float padding_top, float padding_bottom)
-    : Element(context)
+PaddedContainer::PaddedContainer(float padding_left, float padding_right, float padding_top, float padding_bottom)
+    : Element()
     , m_padding_left(padding_left)
     , m_padding_right(padding_right)
     , m_padding_top(padding_top)

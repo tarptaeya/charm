@@ -10,7 +10,7 @@ class Element {
     bool m_is_height_expandable = false;
 
 public:
-    Element(Context& context);
+    Element();
     virtual ~Element() { }
 
     std::string get_id() const;
@@ -22,7 +22,7 @@ public:
     template <class T, typename... Args>
     T& add(Args&&... args)
     {
-        m_children.push_back(std::make_unique<T>(m_context, std::forward<Args>(args)...));
+        m_children.push_back(std::make_unique<T>(std::forward<Args>(args)...));
         return dynamic_cast<T&>(*m_children.back());
     }
 
@@ -43,7 +43,6 @@ public:
 
 protected:
     std::string m_id;
-    Context& m_context;
     std::vector<std::unique_ptr<Element>> m_children;
 
     float m_x = 0;

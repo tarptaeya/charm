@@ -2,8 +2,8 @@
 
 namespace charm::ui {
 
-Canvas::Canvas(Context& context, RenderTarget& render_target)
-    : Element(context)
+Canvas::Canvas(RenderTarget& render_target)
+    : Element()
     , m_render_target(render_target)
 {
     set_is_width_expandable(false);
@@ -12,14 +12,15 @@ Canvas::Canvas(Context& context, RenderTarget& render_target)
 
 void Canvas::draw()
 {
-    m_context.commit();
+    auto& ui_context = Context::get_instance();
+    ui_context.commit();
 
     gl::Context::active_texture(GL_TEXTURE0 + CANVAS_TEXTURE_UNIT);
     gl::Context::bind(GL_TEXTURE_2D, m_render_target.get_color_texture());
-    m_context.begin();
+    ui_context.begin();
 
     Element::draw();
-    m_context.add_rect(m_x, m_y, m_width, m_height, { 0.1, 0.1, 0.1 }, 2, { 0, 1 }, { 1, 0 });
+    ui_context.add_rect(m_x, m_y, m_width, m_height, { 0.1, 0.1, 0.1 }, 2, { 0, 1 }, { 1, 0 });
 }
 
 float Canvas::get_min_width() const

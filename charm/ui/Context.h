@@ -36,8 +36,9 @@ class Context {
     std::vector<Vertex> m_vertices;
     std::vector<unsigned int> m_indices;
 
-public:
     Context();
+
+public:
     ~Context();
 
     Context(const Context&) = delete;
@@ -50,6 +51,8 @@ public:
     void commit();
 
     void add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright);
+
+    static Context& get_instance();
 };
 
 }

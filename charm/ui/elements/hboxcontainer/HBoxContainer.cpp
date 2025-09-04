@@ -2,8 +2,8 @@
 
 namespace charm::ui {
 
-HBoxContainer::HBoxContainer(Context& context)
-    : Element(context)
+HBoxContainer::HBoxContainer()
+    : Element()
 {
     set_is_width_expandable(true);
     set_is_height_expandable(true);
