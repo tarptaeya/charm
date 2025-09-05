@@ -1,21 +1,31 @@
 #pragma once
 
-#include "ui/Document.h"
+#include "ui/elements/Element.h"
 
 namespace charm {
 
-class AppAdapter {
-public:
-    AppAdapter(ui::Document& document)
-        : m_document(document)
-    {
-    }
+class Font;
 
+class AppAdapter {
+    friend class Application;
+
+public:
+    AppAdapter() = default;
     virtual ~AppAdapter() { }
+
+    AppAdapter(const AppAdapter&) = delete;
+    AppAdapter& operator=(const AppAdapter&) = delete;
+
     virtual void update(double delta_time) = 0;
 
+    void add(ui::Element*);
+    void remove(ui::Element*);
+
+private:
+    void draw(Font&, gl::Program&);
+
 protected:
-    ui::Document& m_document;
+    std::vector<ui::Element*> m_children;
 };
 
 }

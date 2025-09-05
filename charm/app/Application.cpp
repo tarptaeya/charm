@@ -105,35 +105,4 @@ void Application::set_font(const std::string& texture_path, const std::string& m
     m_font = std::make_unique<Font>(texture_path, metadata_path);
 }
 
-void Application::draw_document(ui::Document& document)
-{
-    gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
-    gl::Context::viewport(0, 0, m_width, m_height);
-
-    gl::Context::disable(GL_DEPTH_TEST);
-    gl::Context::enable(GL_BLEND);
-    gl::Context::blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    gl::Context::active_texture(GL_TEXTURE0 + FONT_TEXTURE_UNIT);
-    gl::Context::bind(GL_TEXTURE_2D, m_font->get_texture());
-
-    gl::Context::use(m_ui_program);
-    gl::Context::set_uniform(m_ui_program, "u_font_texture", FONT_TEXTURE_UNIT);
-    gl::Context::set_uniform(m_ui_program, "u_canvas_texture", CANVAS_TEXTURE_UNIT);
-    gl::Context::set_uniform(m_ui_program, "u_projection",
-        Matrix4f({
-            // clang-format off
-                2.f / m_width, 0,               0, 0,
-                0,             -2.f / m_height, 0, 0,
-                0,             0,               1, 0,
-                -1,            1,               0, 1,
-            // clang-format on
-        }));
-
-    document.draw(0, 0, m_width, m_height);
-
-    gl::Context::disable(GL_BLEND);
-    gl::Context::enable(GL_DEPTH_TEST);
-}
-
 }

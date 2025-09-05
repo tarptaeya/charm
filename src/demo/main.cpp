@@ -14,8 +14,8 @@ class Example : public charm::AppAdapter {
     ui::Label* m_fps_label;
 
 public:
-    Example(ui::Document& document)
-        : charm::AppAdapter(document)
+    Example()
+        : charm::AppAdapter()
     {
         glfwSwapInterval(0);
 
@@ -23,7 +23,7 @@ public:
         m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
 
         m_fps_label = new ui::Label("");
-        m_document.add(m_fps_label);
+        add(m_fps_label);
     }
 
     ~Example()

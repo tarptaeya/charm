@@ -1,5 +1,6 @@
 add_library(
     charm
+    app/AppAdapter.cpp
     app/Application.cpp
     camera/Camera.cpp
     ch3db/ch3db.cpp
@@ -23,7 +24,6 @@ add_library(
     misc/builder/FramebufferBuilder.cpp
     misc/builder/TextureBuilder.cpp
     ui/Context.cpp
-    ui/Document.cpp
     ui/elements/Element.cpp
     ui/elements/button/Button.cpp
     ui/elements/canvas/Canvas.cpp
