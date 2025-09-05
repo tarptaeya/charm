@@ -27,6 +27,7 @@ add_library(
     ui/elements/Element.cpp
     ui/elements/button/Button.cpp
     ui/elements/canvas/Canvas.cpp
+    ui/elements/checkbox/Checkbox.cpp
     ui/elements/hboxcontainer/HBoxContainer.cpp
     ui/elements/label/Label.cpp
     ui/elements/paddedcontainer/PaddedContainer.cpp

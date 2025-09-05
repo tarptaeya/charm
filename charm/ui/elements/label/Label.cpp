@@ -91,6 +91,11 @@ void Label::set_text(const std::string& text)
     m_text = text;
 }
 
+int Label::get_font_size() const
+{
+    return m_font_size;
+}
+
 void Label::set_font_size(int size)
 {
     m_font_size = size;

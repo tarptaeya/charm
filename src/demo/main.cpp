@@ -19,6 +19,8 @@ class Example : public charm::IRootWidget {
     ui::HBoxContainer m_info_container;
     ui::VBoxContainer m_container;
 
+    ui::Checkbox* m_checkbox = nullptr;
+
 public:
     Example()
         : charm::IRootWidget()
@@ -51,6 +53,10 @@ public:
             m_is_info_label_shown = !m_is_info_label_shown;
         });
         m_container.add(m_toggle_info_button);
+
+        m_checkbox = new ui::Checkbox("I am a checkbox!");
+        m_container.add(m_checkbox);
+
         add(&m_container);
     }
 
@@ -60,6 +66,7 @@ public:
         delete m_info_label;
         delete m_toggle_info_button;
         delete m_canvas;
+        delete m_checkbox;
     }
 
     void update(double delta_time) override
@@ -76,6 +83,8 @@ public:
 
         FPSCounter::get_instance().push(delta_time);
         m_fps_label->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));
+
+        m_info_label->set_text(m_checkbox->is_checked() ? "Checkbox is checked" : "Checkbox is **not** checked");
     }
 };
 

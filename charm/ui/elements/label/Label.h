@@ -24,6 +24,8 @@ public:
 
     std::string get_text() const;
     void set_text(const std::string& text);
+
+    int get_font_size() const;
     void set_font_size(int size);
 };
 
