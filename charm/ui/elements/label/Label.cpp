@@ -20,7 +20,8 @@ void Label::draw()
     float xcurr = m_x;
     float ycurr = m_y + m_font_size;
 
-    auto& font_metadata = charmApp.get_font().get_metadata();
+    auto& ui_context = Context::get_instance();
+    auto& font_metadata = ui_context.get_font().get_metadata();
 
     for (char c : m_text) {
         const auto& info = font_metadata.info[c];
@@ -36,14 +37,15 @@ void Label::draw()
         float width = info.width * m_font_size / font_metadata.bitmap_pixel_height;
         float height = info.height * m_font_size / font_metadata.bitmap_pixel_height;
 
-        Context::get_instance().add_rect(x, y, width, height, { 0, 0, 0 }, 1, { u1, v1 }, { u2, v2 });
+        ui_context.add_rect(x, y, width, height, { 0, 0, 0 }, 1, { u1, v1 }, { u2, v2 });
         xcurr += advance;
     }
 }
 
 float Label::get_min_width() const
 {
-    auto& font_metadata = charmApp.get_font().get_metadata();
+    auto& ui_context = Context::get_instance();
+    auto& font_metadata = ui_context.get_font().get_metadata();
 
     float xcurr = 0;
     for (char c : m_text) {
@@ -60,7 +62,8 @@ float Label::get_min_width() const
 
 float Label::get_min_height() const
 {
-    auto& font_metadata = charmApp.get_font().get_metadata();
+    auto& ui_context = Context::get_instance();
+    auto& font_metadata = ui_context.get_font().get_metadata();
 
     float min_height = 0;
     float ycurr = m_font_size;

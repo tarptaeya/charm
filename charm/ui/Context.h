@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gl/Context.h"
+#include "graphics/font/Font.h"
 #include <iostream>
 #include <vector>
 
@@ -36,6 +37,8 @@ class Context {
     std::vector<Vertex> m_vertices;
     std::vector<unsigned int> m_indices;
 
+    std::unique_ptr<Font> m_font = nullptr;
+
     Context();
 
 public:
@@ -46,6 +49,8 @@ public:
 
     Context(Context&&);
     Context& operator=(Context&&);
+
+    Font& get_font();
 
     void begin();
     void commit();

@@ -1,5 +1,5 @@
-#include "Application.h"
 #include "IRootWidget.h"
+#include "Application.h"
 #include "graphics/font/Font.h"
 
 namespace charm {
@@ -18,7 +18,7 @@ void IRootWidget::remove(ui::Element* element)
     m_children.erase(it);
 }
 
-void IRootWidget::draw(Font& font, gl::Program& program)
+void IRootWidget::draw(gl::Program& program)
 {
     float width = charmApp.get_width();
     float height = charmApp.get_height();
@@ -29,9 +29,6 @@ void IRootWidget::draw(Font& font, gl::Program& program)
     gl::Context::disable(GL_DEPTH_TEST);
     gl::Context::enable(GL_BLEND);
     gl::Context::blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    gl::Context::active_texture(GL_TEXTURE0 + FONT_TEXTURE_UNIT);
-    gl::Context::bind(GL_TEXTURE_2D, font.get_texture());
 
     gl::Context::use(program);
     gl::Context::set_uniform(program, "u_font_texture", FONT_TEXTURE_UNIT);

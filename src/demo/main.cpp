@@ -59,6 +59,7 @@ public:
         delete m_fps_label;
         delete m_info_label;
         delete m_toggle_info_button;
+        delete m_canvas;
     }
 
     void update(double delta_time) override

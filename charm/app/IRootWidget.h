@@ -4,8 +4,6 @@
 
 namespace charm {
 
-class Font;
-
 class IRootWidget {
     friend class Application;
 
@@ -22,7 +20,7 @@ public:
     void remove(ui::Element*);
 
 private:
-    void draw(Font&, gl::Program&);
+    void draw(gl::Program&);
 
 protected:
     std::vector<ui::Element*> m_children;

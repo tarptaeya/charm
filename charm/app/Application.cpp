@@ -16,6 +16,7 @@ Application::~Application()
 
 void Application::initialize(const AppOptions& options)
 {
+    m_options = options;
     if (!options.validate()) {
         std::cerr << "[error] app options provided are not valid" << std::endl;
         std::exit(0);
@@ -51,7 +52,6 @@ void Application::initialize(const AppOptions& options)
         charmApp.m_height = height;
     });
 
-    set_font(options.font_texture_path, options.font_metadata_path);
     m_ui_program = gl::Context::create_program(FileIO::read_text(options.ui_vertex_shader_path), FileIO::read_text(options.ui_fragment_shader_path));
 }
 
@@ -68,6 +68,11 @@ int Application::get_width() const
 int Application::get_height() const
 {
     return m_height;
+}
+
+const AppOptions& Application::get_options() const
+{
+    return m_options;
 }
 
 Application& Application::get_instance()
@@ -88,21 +93,6 @@ void Application::set_cursor(int shape)
 void Application::execute_on_frame_end(int priority, const std::function<void()>& function)
 {
     m_functions_to_execute_on_frame_end.push_back({ priority, function });
-}
-
-Font& Application::get_font()
-{
-    if (!m_font) {
-        std::cerr << "[error] font is not set" << std::endl;
-        std::exit(0);
-    }
-
-    return *m_font.get();
-}
-
-void Application::set_font(const std::string& texture_path, const std::string& metadata_path)
-{
-    m_font = std::make_unique<Font>(texture_path, metadata_path);
 }
 
 }

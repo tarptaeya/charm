@@ -20,12 +20,12 @@ class Font;
 class Application {
     friend class Input;
 
+    AppOptions m_options;
     GLFWwindow* m_window = nullptr;
     GLFWcursor* m_cursor = nullptr;
     int m_width = 0;
     int m_height = 0;
     std::vector<std::pair<int, std::function<void()>>> m_functions_to_execute_on_frame_end;
-    std::unique_ptr<Font> m_font = nullptr;
     gl::Program m_ui_program;
 
     Application() = default;
@@ -41,6 +41,8 @@ public:
     int get_width() const;
     int get_height() const;
 
+    const AppOptions& get_options() const;
+
     template <class T, typename... Args>
     int exec(Args&... args)
     {
@@ -55,7 +57,7 @@ public:
 
             gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
             root_widget.update(delta_time);
-            root_widget.draw(*m_font, m_ui_program);
+            root_widget.draw(m_ui_program);
 
             std::sort(m_functions_to_execute_on_frame_end.begin(), m_functions_to_execute_on_frame_end.end(), [](const auto& a, const auto& b) {
                 return a.first < b.first;
@@ -76,9 +78,6 @@ public:
 
     void set_cursor(int shape);
     void execute_on_frame_end(int priority, const std::function<void()>&);
-
-    Font& get_font();
-    void set_font(const std::string& texture_path, const std::string& metadata_path);
 };
 
 }

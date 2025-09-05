@@ -1,4 +1,5 @@
 #include "Context.h"
+#include "charm.h"
 
 namespace charm::ui {
 
@@ -32,6 +33,8 @@ Context::Context()
     m_index_buffer = gl::Context::gen_buffer();
     gl::Context::bind(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
     gl::Context::buffer_data(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_capacity, nullptr, GL_DYNAMIC_DRAW);
+
+    m_font = std::make_unique<Font>(charmApp.get_options().font_texture_path, charmApp.get_options().font_metadata_path);
 }
 
 Context::~Context()
@@ -67,6 +70,11 @@ Context& Context::operator=(Context&& other)
     return *this;
 }
 
+Font& Context::get_font()
+{
+    return *m_font;
+}
+
 void Context::begin()
 {
     m_vertices.clear();
@@ -95,6 +103,10 @@ void Context::commit()
     gl::Context::buffer_sub_data(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * m_vertices.size(), &m_vertices[0]);
     gl::Context::bind(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
     gl::Context::buffer_sub_data(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * m_indices.size(), &m_indices[0]);
+
+    gl::Context::active_texture(GL_TEXTURE0 + FONT_TEXTURE_UNIT);
+    gl::Context::bind(GL_TEXTURE_2D, m_font->get_texture());
+
     gl::Context::draw_elements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 }
 
