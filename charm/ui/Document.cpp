@@ -56,4 +56,18 @@ Element* Document::get_element_by_id(const std::string& id)
     return nullptr;
 }
 
+void Document::add(Element* element)
+{
+    m_children.push_back(element);
+}
+
+void Document::remove(Element* element)
+{
+    auto it = std::find(m_children.begin(), m_children.end(), element);
+    if (it == m_children.end())
+        return;
+
+    m_children.erase(it);
+}
+
 }

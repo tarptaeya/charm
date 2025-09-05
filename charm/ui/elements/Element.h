@@ -13,18 +13,19 @@ public:
     Element();
     virtual ~Element() { }
 
+    Element(const Element&) = delete;
+    Element& operator=(const Element&) = delete;
+
+    Element(Element&&);
+    Element& operator=(Element&&);
+
     std::string get_id() const;
     Element& set_id(const std::string& id);
     Element* get_element_by_id(const std::string& id);
+    void add(Element*);
+    void remove(Element*);
 
     virtual void draw();
-
-    template <class T, typename... Args>
-    T& add(Args&&... args)
-    {
-        m_children.push_back(std::make_unique<T>(std::forward<Args>(args)...));
-        return dynamic_cast<T&>(*m_children.back());
-    }
 
     virtual float get_min_width() const;
     virtual float get_min_height() const;
@@ -43,7 +44,7 @@ public:
 
 protected:
     std::string m_id;
-    std::vector<std::unique_ptr<Element>> m_children;
+    std::vector<Element*> m_children;
 
     float m_x = 0;
     float m_y = 0;
