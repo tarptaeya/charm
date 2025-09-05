@@ -37,7 +37,11 @@ void Label::draw()
         float width = info.width * m_font_size / font_metadata.bitmap_pixel_height;
         float height = info.height * m_font_size / font_metadata.bitmap_pixel_height;
 
-        ui_context.add_rect(x, y, width, height, { 0, 0, 0 }, 1, { u1, v1 }, { u2, v2 });
+        Context::Rect rect(x, y, width, height);
+        rect.set_color({ 0, 0, 0 })
+            .set_active_texture(FONT_TEXTURE_UNIT)
+            .set_texcoords({ u1, v1 }, { u2, v2 });
+        ui_context.add_rect(rect);
         xcurr += advance;
     }
 }

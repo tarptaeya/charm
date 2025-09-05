@@ -14,6 +14,7 @@ namespace charm::ui {
 #define EIGHT_KILO_BYTES 8192
 
 class Context {
+public:
     struct Color {
         float r, g, b;
     };
@@ -29,6 +30,41 @@ class Context {
         Texcoord texcoord = { 0 };
     };
 
+    struct Rect {
+        float x, y, width, height;
+        Color color;
+        int active_texture = 0;
+        Texcoord texcoords[2] = { 0 };
+
+        Rect(float x, float y, float width, float height)
+            : x(x)
+            , y(y)
+            , width(width)
+            , height(height)
+        {
+        }
+
+        Rect& set_color(Color color)
+        {
+            this->color = color;
+            return *this;
+        }
+
+        Rect& set_texcoords(Texcoord topleft, Texcoord bottomright)
+        {
+            this->texcoords[0] = topleft;
+            this->texcoords[1] = bottomright;
+            return *this;
+        }
+
+        Rect& set_active_texture(unsigned int index)
+        {
+            this->active_texture = index;
+            return *this;
+        }
+    };
+
+private:
     gl::VertexArray m_vertex_array;
     gl::Buffer m_array_buffer;
     gl::Buffer m_index_buffer;
@@ -58,6 +94,7 @@ public:
     void commit();
 
     void add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright);
+    void add_rect(const Rect&);
 
     static Context& get_instance();
 };

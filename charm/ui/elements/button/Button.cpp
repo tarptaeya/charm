@@ -19,11 +19,9 @@ void Button::draw()
 
     auto& ui_context = Context::get_instance();
 
-    if (m_is_mouse_hover) {
-        ui_context.add_rect(m_x, m_y, m_width, m_height, { 0.25, 0.55, 0.6 }, 0, { 0, 0 }, { 0, 0 });
-    } else {
-        ui_context.add_rect(m_x, m_y, m_width, m_height, { 0.2, 0.5, 0.5 }, 0, { 0, 0 }, { 0, 0 });
-    }
+    Context::Rect rect(m_x, m_y, m_width, m_height);
+    rect.set_color(m_is_mouse_hover ? Context::Color { 0.25, 0.55, 0.6 } : Context::Color { 0.2, 0.5, 0.5 });
+    ui_context.add_rect(rect);
 
     m_label.draw();
 

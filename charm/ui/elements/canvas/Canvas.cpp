@@ -20,7 +20,12 @@ void Canvas::draw()
     ui_context.begin();
 
     Element::draw();
-    ui_context.add_rect(m_x, m_y, m_width, m_height, { 0.1, 0.1, 0.1 }, 2, { 0, 1 }, { 1, 0 });
+
+    Context::Rect rect(m_x, m_y, m_width, m_height);
+    rect.set_color({ 0, 0, 0 })
+        .set_active_texture(CANVAS_TEXTURE_UNIT)
+        .set_texcoords({ 0, 1 }, { 1, 0 });
+    ui_context.add_rect(rect);
 }
 
 float Canvas::get_min_width() const

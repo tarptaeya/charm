@@ -135,6 +135,11 @@ void Context::add_rect(float x, float y, float width, float height, Color color,
     m_indices.push_back(index + 2);
 }
 
+void Context::add_rect(const Rect& rect)
+{
+    add_rect(rect.x, rect.y, rect.width, rect.height, rect.color, rect.active_texture, rect.texcoords[0], rect.texcoords[1]);
+}
+
 Context& Context::get_instance()
 {
     static Context context;
