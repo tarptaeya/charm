@@ -12,6 +12,7 @@ class Example : public charm::IRootWidget {
     int m_count = 0;
 
     ui::Label* m_fps_label = nullptr;
+    ui::Canvas* m_canvas = nullptr;
     ui::Label* m_info_label = nullptr;
     bool m_is_info_label_shown = true;
     ui::Button* m_toggle_info_button = nullptr;
@@ -29,6 +30,10 @@ public:
 
         m_fps_label = new ui::Label("");
         m_container.add(m_fps_label);
+
+        m_render_target = RenderTarget(256, 256);
+        m_canvas = new ui::Canvas(m_render_target);
+        m_container.add(m_canvas);
 
         m_info_label = new ui::Label("I am info label!");
         m_info_container.set_is_width_expandable(false);
@@ -63,6 +68,7 @@ public:
         gl::Context::enable(GL_DEPTH_TEST);
         gl::Context::clear_color(0.1, 0.2, 0.3, 1.0);
         gl::Context::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         m_object.render(m_camera);
 
         gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
