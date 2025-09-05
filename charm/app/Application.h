@@ -14,7 +14,7 @@
 namespace charm {
 
 class Window;
-class AppAdapter;
+class IRootWidget;
 class Font;
 
 class Application {
@@ -44,9 +44,9 @@ public:
     template <class T, typename... Args>
     int exec(Args&... args)
     {
-        static_assert(std::is_base_of<AppAdapter, T>::value, "T should be a subclass of Adapter");
+        static_assert(std::is_base_of<IRootWidget, T>::value, "T should be a subclass of Adapter");
 
-        T adapter(std::forward<Args>(args)...);
+        T root_widget(std::forward<Args>(args)...);
         double prev_time = glfwGetTime();
         while (!glfwWindowShouldClose(m_window)) {
             double curr_time = glfwGetTime();
@@ -54,8 +54,8 @@ public:
             prev_time = curr_time;
 
             gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
-            adapter.update(delta_time);
-            adapter.draw(*m_font, m_ui_program);
+            root_widget.update(delta_time);
+            root_widget.draw(*m_font, m_ui_program);
 
             std::sort(m_functions_to_execute_on_frame_end.begin(), m_functions_to_execute_on_frame_end.end(), [](const auto& a, const auto& b) {
                 return a.first < b.first;

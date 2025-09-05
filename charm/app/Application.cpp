@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "AppAdapter.h"
+#include "IRootWidget.h"
 #include "graphics/font/Font.h"
 #include "io/FileIO.h"
 

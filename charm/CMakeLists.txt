@@ -1,6 +1,6 @@
 add_library(
     charm
-    app/AppAdapter.cpp
+    app/IRootWidget.cpp
     app/Application.cpp
     camera/Camera.cpp
     ch3db/ch3db.cpp

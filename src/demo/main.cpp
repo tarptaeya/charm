@@ -5,7 +5,7 @@
 
 using namespace charm;
 
-class Example : public charm::AppAdapter {
+class Example : public charm::IRootWidget {
     Camera m_camera;
     RootObject m_object;
     RenderTarget m_render_target;
@@ -15,7 +15,7 @@ class Example : public charm::AppAdapter {
 
 public:
     Example()
-        : charm::AppAdapter()
+        : charm::IRootWidget()
     {
         glfwSwapInterval(0);
 

@@ -6,15 +6,15 @@ namespace charm {
 
 class Font;
 
-class AppAdapter {
+class IRootWidget {
     friend class Application;
 
 public:
-    AppAdapter() = default;
-    virtual ~AppAdapter() { }
+    IRootWidget() = default;
+    virtual ~IRootWidget() { }
 
-    AppAdapter(const AppAdapter&) = delete;
-    AppAdapter& operator=(const AppAdapter&) = delete;
+    IRootWidget(const IRootWidget&) = delete;
+    IRootWidget& operator=(const IRootWidget&) = delete;
 
     virtual void update(double delta_time) = 0;
 

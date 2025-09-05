@@ -1,15 +1,15 @@
-#include "AppAdapter.h"
 #include "Application.h"
+#include "IRootWidget.h"
 #include "graphics/font/Font.h"
 
 namespace charm {
 
-void AppAdapter::add(ui::Element* element)
+void IRootWidget::add(ui::Element* element)
 {
     m_children.push_back(element);
 }
 
-void AppAdapter::remove(ui::Element* element)
+void IRootWidget::remove(ui::Element* element)
 {
     auto it = std::find(m_children.begin(), m_children.end(), element);
     if (it == m_children.end())
@@ -18,7 +18,7 @@ void AppAdapter::remove(ui::Element* element)
     m_children.erase(it);
 }
 
-void AppAdapter::draw(Font& font, gl::Program& program)
+void IRootWidget::draw(Font& font, gl::Program& program)
 {
     float width = charmApp.get_width();
     float height = charmApp.get_height();
