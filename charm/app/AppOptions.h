@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ui/Context.h"
 #include <iostream>
 #include <string>
 
@@ -13,6 +14,7 @@ struct AppOptions {
     std::string font_metadata_path;
     std::string ui_vertex_shader_path = "res/charm/ui.vertex.glsl";
     std::string ui_fragment_shader_path = "res/charm/ui.fragment.glsl";
+    ui::Context::Color ui_background_color = { 0.9, 0.9, 0.9 };
 
     bool validate() const
     {

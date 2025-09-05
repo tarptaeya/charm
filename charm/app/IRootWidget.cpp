@@ -49,7 +49,7 @@ void IRootWidget::draw()
         }));
 
     ui_context.begin();
-    ui_context.add_rect(0, 0, width, height, { 0.9, 0.9, 0.9 }, 0, { 0, 0 }, { 0, 0 });
+    ui_context.add_rect(0, 0, width, height, charmApp.get_options().ui_background_color, 0, { 0, 0 }, { 0, 0 });
 
     float curr_y = 0;
     for (const auto& child : m_children) {

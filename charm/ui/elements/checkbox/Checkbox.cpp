@@ -27,7 +27,7 @@ void Checkbox::draw()
     ui_context.add_rect(outer_rect);
 
     Context::Rect inner_rect(m_x + BOX_BORDER_WIDTH, m_y + BOX_BORDER_WIDTH, get_box_size() - 2 * BOX_BORDER_WIDTH, get_box_size() - 2 * BOX_BORDER_WIDTH);
-    inner_rect.set_color({ 1, 1, 1 });
+    inner_rect.set_color(charmApp.get_options().ui_background_color);
     ui_context.add_rect(inner_rect);
 
     if (m_value) {
