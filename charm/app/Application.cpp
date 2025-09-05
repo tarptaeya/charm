@@ -51,8 +51,6 @@ void Application::initialize(const AppOptions& options)
         charmApp.m_width = width;
         charmApp.m_height = height;
     });
-
-    m_ui_program = gl::Context::create_program(FileIO::read_text(options.ui_vertex_shader_path), FileIO::read_text(options.ui_fragment_shader_path));
 }
 
 GLFWwindow* Application::get_window() const

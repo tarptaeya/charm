@@ -38,6 +38,7 @@ class Context {
     std::vector<unsigned int> m_indices;
 
     std::unique_ptr<Font> m_font = nullptr;
+    gl::Program m_program;
 
     Context();
 
@@ -50,7 +51,8 @@ public:
     Context(Context&&);
     Context& operator=(Context&&);
 
-    Font& get_font();
+    [[nodiscard]] Font& get_font();
+    [[nodiscard]] gl::Program& get_program();
 
     void begin();
     void commit();

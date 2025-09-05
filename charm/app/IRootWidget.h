@@ -20,7 +20,7 @@ public:
     void remove(ui::Element*);
 
 private:
-    void draw(gl::Program&);
+    void draw();
 
 protected:
     std::vector<ui::Element*> m_children;

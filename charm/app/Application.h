@@ -26,7 +26,6 @@ class Application {
     int m_width = 0;
     int m_height = 0;
     std::vector<std::pair<int, std::function<void()>>> m_functions_to_execute_on_frame_end;
-    gl::Program m_ui_program;
 
     Application() = default;
 
@@ -57,7 +56,7 @@ public:
 
             gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
             root_widget.update(delta_time);
-            root_widget.draw(m_ui_program);
+            root_widget.draw();
 
             std::sort(m_functions_to_execute_on_frame_end.begin(), m_functions_to_execute_on_frame_end.end(), [](const auto& a, const auto& b) {
                 return a.first < b.first;
