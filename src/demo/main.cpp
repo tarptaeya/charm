@@ -11,7 +11,12 @@ class Example : public charm::IRootWidget {
     RenderTarget m_render_target;
     int m_count = 0;
 
-    ui::Label* m_fps_label;
+    ui::Label* m_fps_label = nullptr;
+    ui::Label* m_info_label = nullptr;
+    bool m_is_info_label_shown = true;
+    ui::Button* m_toggle_info_button = nullptr;
+    ui::HBoxContainer m_info_container;
+    ui::VBoxContainer m_container;
 
 public:
     Example()
@@ -23,12 +28,32 @@ public:
         m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
 
         m_fps_label = new ui::Label("");
-        add(m_fps_label);
+        m_container.add(m_fps_label);
+
+        m_info_label = new ui::Label("I am info label!");
+        m_info_container.set_is_width_expandable(false);
+        m_info_container.add(m_info_label);
+        m_container.add(&m_info_container);
+
+        m_toggle_info_button = new ui::Button("Toggle info");
+        m_toggle_info_button->set_on_click_handler([this] {
+            if (m_is_info_label_shown) {
+                m_info_container.remove(m_info_label);
+            } else {
+                m_info_container.add(m_info_label);
+            }
+
+            m_is_info_label_shown = !m_is_info_label_shown;
+        });
+        m_container.add(m_toggle_info_button);
+        add(&m_container);
     }
 
     ~Example()
     {
         delete m_fps_label;
+        delete m_info_label;
+        delete m_toggle_info_button;
     }
 
     void update(double delta_time) override
