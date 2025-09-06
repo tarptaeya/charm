@@ -5,7 +5,6 @@
 namespace charm::ui {
 
 class TextInput : public Element {
-    std::string m_value;
     int m_cursor_pos = 0;
     bool m_show_cursor = false;
     double m_cursor_time_so_far = 0;

@@ -7,9 +7,9 @@ namespace charm::ui {
 #define BOX_BORDER_WIDTH 2
 
 TextInput::TextInput()
-    : m_label(m_value)
+    : m_label("")
 {
-    m_label.set_text("chocolate");
+    set_is_width_expandable(true);
 }
 
 TextInput::~TextInput()
@@ -18,12 +18,12 @@ TextInput::~TextInput()
 
 std::string TextInput::get_value() const
 {
-    return m_value;
+    return m_label.get_text();
 }
 
 void TextInput::set_value(const std::string& value)
 {
-    m_value = value;
+    m_label.set_text(value);
 }
 
 void TextInput::draw()
@@ -111,21 +111,21 @@ void TextInput::on_char_callback(unsigned int codepoint)
 
 void TextInput::on_key_callback(int key, int scancode, int action, int mods)
 {
-    if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
+    if (key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
         m_cursor_pos -= 1;
         m_show_cursor = true;
         m_cursor_time_so_far = 0;
         m_cursor_pos = std::max(0, m_cursor_pos);
     }
 
-    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+    if (key == GLFW_KEY_RIGHT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
         m_cursor_pos += 1;
         m_show_cursor = true;
         m_cursor_time_so_far = 0;
         m_cursor_pos = std::min(m_cursor_pos, (int)m_label.get_text().size());
     }
 
-    if (key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS) {
+    if (key == GLFW_KEY_BACKSPACE && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
         auto text = m_label.get_text();
         if (m_cursor_pos != 0) {
             --m_cursor_pos;
