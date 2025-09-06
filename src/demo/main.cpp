@@ -109,6 +109,9 @@ public:
 
     void on_cursor_position_callback(double x, double y) override
     {
+        m_checkbox->on_cursor_pos_callback(x, y);
+        m_toggle_info_button->on_cursor_pos_callback(x, y);
+        m_text_input->on_cursor_pos_callback(x, y);
     }
 };
 

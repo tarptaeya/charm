@@ -50,18 +50,6 @@ Element& Element::operator=(Element&& other)
 
 void Element::draw()
 {
-    double mouse_x, mouse_y;
-    glfwGetCursorPos(charmWindow, &mouse_x, &mouse_y);
-
-    bool prev_is_mouse_hover = m_is_mouse_hover;
-    m_is_mouse_hover = (m_x <= mouse_x && mouse_x <= m_x + m_width && m_y <= mouse_y && mouse_y <= m_y + m_height);
-
-    if (!prev_is_mouse_hover && m_is_mouse_hover) {
-        on_mouse_enter();
-    } else if (prev_is_mouse_hover && !m_is_mouse_hover) {
-        on_mouse_exit();
-    }
-
     if (m_is_mouse_hover && glfwGetMouseButton(charmWindow, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
         if (!m_is_mouse_just_pressed && !m_is_mouse_pressed)
             m_is_mouse_just_pressed = true;
@@ -123,6 +111,21 @@ void Element::set_bounds(float x, float y, float width, float height)
     m_y = y;
     m_width = width;
     m_height = height;
+}
+
+void Element::on_cursor_pos_callback(double x, double y)
+{
+    m_mouse_x = x;
+    m_mouse_y = y;
+
+    bool prev_is_mouse_hover = m_is_mouse_hover;
+    m_is_mouse_hover = (m_x <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y <= m_mouse_y && m_mouse_y <= m_y + m_height);
+
+    if (!prev_is_mouse_hover && m_is_mouse_hover) {
+        on_mouse_enter();
+    } else if (prev_is_mouse_hover && !m_is_mouse_hover) {
+        on_mouse_exit();
+    }
 }
 
 }

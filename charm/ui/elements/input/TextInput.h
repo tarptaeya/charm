@@ -35,6 +35,7 @@ public:
 
     void on_char_callback(unsigned int codepoint) override;
     void on_key_callback(int key, int scancode, int action, int mods) override;
+    void on_cursor_pos_callback(double x, double y) override;
 };
 
 }

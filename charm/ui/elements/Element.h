@@ -39,13 +39,16 @@ public:
 
     virtual void on_char_callback(unsigned int codepoint) { }
     virtual void on_key_callback(int key, int scancode, int action, int mods) { }
-    virtual void on_cursor_pos_callback(double x, double y) { }
+    virtual void on_cursor_pos_callback(double x, double y);
 
 protected:
     float m_x = 0;
     float m_y = 0;
     float m_width = 0;
     float m_height = 0;
+
+    float m_mouse_x = 0;
+    float m_mouse_y = 0;
 
     bool m_is_mouse_hover = false;
     bool m_is_mouse_pressed = false;

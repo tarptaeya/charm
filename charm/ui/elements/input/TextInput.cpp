@@ -42,7 +42,7 @@ void TextInput::draw()
 
     m_label.draw();
 
-    if (m_show_cursor) {
+    if (m_show_cursor && m_is_active) {
         float xcurr = m_label.m_x;
         for (int i = 0; i < m_cursor_pos; ++i) {
             auto chrect = Label::get_rect_for_char(m_label.get_text()[i], m_label.get_font_size());
@@ -133,6 +133,11 @@ void TextInput::on_key_callback(int key, int scancode, int action, int mods)
         }
         m_label.set_text(text);
     }
+}
+
+void TextInput::on_cursor_pos_callback(double x, double y)
+{
+    Element::on_cursor_pos_callback(x, y);
 }
 
 }
