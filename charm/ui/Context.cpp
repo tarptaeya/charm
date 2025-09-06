@@ -89,28 +89,10 @@ void Context::begin()
 
 void Context::commit()
 {
-    if (m_vertices.size() == 0 || m_indices.size() == 0)
-        return;
-
     gl::Context::bind(m_vertex_array);
 
-    if (sizeof(Vertex) * m_vertices.size() > m_array_buffer_capacity) {
-        m_array_buffer_capacity = next_power_of_two(sizeof(Vertex) * m_vertices.size());
-        gl::Context::bind(GL_ARRAY_BUFFER, m_array_buffer);
-        gl::Context::buffer_data(GL_ARRAY_BUFFER, m_array_buffer_capacity, nullptr, GL_DYNAMIC_DRAW);
-    }
-    if (sizeof(unsigned int) * m_indices.size() > m_index_buffer_capacity) {
-        m_index_buffer_capacity = next_power_of_two(sizeof(unsigned int) * m_indices.size());
-        gl::Context::bind(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
-        gl::Context::buffer_data(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_capacity, nullptr, GL_DYNAMIC_DRAW);
-    }
-
-    gl::Context::bind(GL_ARRAY_BUFFER, m_array_buffer);
-    gl::Context::buffer_sub_data(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * m_vertices.size(), &m_vertices[0]);
-    gl::Context::bind(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
-    gl::Context::buffer_sub_data(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * m_indices.size(), &m_indices[0]);
-
-    gl::Context::draw_elements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
+    setup_buffers();
+    draw();
 }
 
 void Context::add_rect(float x, float y, float width, float height, Color color, int active_texture, Texcoord texcoord_topleft, Texcoord texcoord_bottomright)
@@ -144,6 +126,33 @@ Context& Context::get_instance()
 {
     static Context context;
     return context;
+}
+
+void Context::setup_buffers()
+{
+    if (m_vertices.size() == 0 || m_indices.size() == 0)
+        return;
+
+    if (sizeof(Vertex) * m_vertices.size() > m_array_buffer_capacity) {
+        m_array_buffer_capacity = next_power_of_two(sizeof(Vertex) * m_vertices.size());
+        gl::Context::bind(GL_ARRAY_BUFFER, m_array_buffer);
+        gl::Context::buffer_data(GL_ARRAY_BUFFER, m_array_buffer_capacity, nullptr, GL_DYNAMIC_DRAW);
+    }
+    if (sizeof(unsigned int) * m_indices.size() > m_index_buffer_capacity) {
+        m_index_buffer_capacity = next_power_of_two(sizeof(unsigned int) * m_indices.size());
+        gl::Context::bind(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
+        gl::Context::buffer_data(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer_capacity, nullptr, GL_DYNAMIC_DRAW);
+    }
+
+    gl::Context::bind(GL_ARRAY_BUFFER, m_array_buffer);
+    gl::Context::buffer_sub_data(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * m_vertices.size(), &m_vertices[0]);
+    gl::Context::bind(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
+    gl::Context::buffer_sub_data(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(unsigned int) * m_indices.size(), &m_indices[0]);
+}
+
+void Context::draw()
+{
+    gl::Context::draw_elements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 }
 
 }

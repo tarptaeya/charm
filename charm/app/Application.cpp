@@ -89,7 +89,6 @@ int Application::exec(IRootWidget* root_widget)
 
         gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
         root_widget->update(delta_time);
-        root_widget->draw();
 
         std::sort(m_functions_to_execute_on_frame_end.begin(), m_functions_to_execute_on_frame_end.end(), [](const auto& a, const auto& b) {
             return a.first < b.first;

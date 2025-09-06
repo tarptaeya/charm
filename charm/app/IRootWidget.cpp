@@ -4,29 +4,15 @@
 
 namespace charm {
 
-void IRootWidget::add(ui::Element* element)
+void IRootWidget::draw(ui::Element* element, float x, float y, float width, float height)
 {
-    m_children.push_back(element);
-}
-
-void IRootWidget::remove(ui::Element* element)
-{
-    auto it = std::find(m_children.begin(), m_children.end(), element);
-    if (it == m_children.end())
-        return;
-
-    m_children.erase(it);
-}
-
-void IRootWidget::draw()
-{
-    float width = charmApp.get_width();
-    float height = charmApp.get_height();
+    float window_width = charmApp.get_width();
+    float window_height = charmApp.get_height();
 
     auto& ui_context = ui::Context::get_instance();
 
     gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
-    gl::Context::viewport(0, 0, width, height);
+    gl::Context::viewport(0, 0, window_width, window_height);
 
     gl::Context::disable(GL_DEPTH_TEST);
     gl::Context::enable(GL_BLEND);
@@ -41,27 +27,18 @@ void IRootWidget::draw()
     gl::Context::set_uniform(ui_context.get_program(), "u_projection",
         Matrix4f({
             // clang-format off
-                2.f / width, 0,               0, 0,
-                0,             -2.f / height, 0, 0,
+                2.f / window_width, 0,               0, 0,
+                0,             -2.f / window_height, 0, 0,
                 0,             0,             1, 0,
                 -1,            1,             0, 1,
             // clang-format on
         }));
 
     ui_context.begin();
-    ui_context.add_rect(0, 0, width, height, charmApp.get_options().ui_background_color, 0, { 0, 0 }, { 0, 0 });
 
-    float curr_y = 0;
-    for (const auto& child : m_children) {
-        float child_width = child->get_min_width();
-        if (child->get_is_width_expandable()) {
-            child_width = width;
-        }
-        child->set_bounds(0, curr_y, child_width, child->get_min_height());
-        curr_y += child->get_min_height();
-        child->draw();
-    }
-
+    ui_context.add_rect(x, y, width, height, charmApp.get_options().ui_background_color, 0, { 0, 0 }, { 0, 0 });
+    element->set_bounds(x, y, width, height);
+    element->draw();
     ui_context.commit();
 
     gl::Context::disable(GL_BLEND);

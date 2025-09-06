@@ -97,6 +97,10 @@ public:
     void add_rect(const Rect&);
 
     static Context& get_instance();
+
+private:
+    void setup_buffers();
+    void draw();
 };
 
 }
