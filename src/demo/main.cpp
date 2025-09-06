@@ -21,6 +21,7 @@ class Example : public charm::IRootWidget {
 
     ui::Checkbox* m_checkbox = nullptr;
     ui::TextInput* m_text_input = nullptr;
+    ui::PaddedContainer* m_padded_container = nullptr;
 
 public:
     Example()
@@ -60,6 +61,8 @@ public:
 
         m_text_input = new ui::TextInput();
         m_container.add(m_text_input);
+
+        m_padded_container = new ui::PaddedContainer(&m_container, 12);
     }
 
     ~Example()
@@ -70,6 +73,7 @@ public:
         delete m_canvas;
         delete m_checkbox;
         delete m_text_input;
+        delete m_padded_container;
     }
 
     void update(double delta_time) override
@@ -94,7 +98,7 @@ public:
 
         m_text_input->update(delta_time);
 
-        draw(&m_container, 22, 22, 300, 500);
+        draw(m_padded_container, 22, 22, 300, 500);
     }
 
     void on_char_callback(unsigned int codepoint) override

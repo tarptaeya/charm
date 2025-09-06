@@ -42,7 +42,7 @@ void TextInput::draw()
 
     m_label.draw();
 
-    if (m_show_cursor && m_is_active) {
+    if (m_show_cursor) {
         float xcurr = m_label.m_x;
         for (int i = 0; i < m_cursor_pos; ++i) {
             auto chrect = Label::get_rect_for_char(m_label.get_text()[i], m_label.get_font_size());
@@ -76,6 +76,9 @@ void TextInput::set_bounds(float x, float y, float width, float height)
 
 void TextInput::update(double delta_time)
 {
+    if (!m_is_active)
+        return;
+
     m_cursor_time_so_far += delta_time;
     if (m_cursor_time_so_far > 0.5) {
         m_cursor_time_so_far = 0;
@@ -152,10 +155,14 @@ void TextInput::on_mouse_button_callback(int button, int action, int mods)
 
     if (m_is_mouse_just_pressed) {
         m_is_active = true;
+        m_show_cursor = true;
+        m_cursor_time_so_far = 0;
     }
 
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !m_is_mouse_hover) {
         m_is_active = false;
+        m_show_cursor = false;
+        m_cursor_time_so_far = 0;
     }
 }
 
