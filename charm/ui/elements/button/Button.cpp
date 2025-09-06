@@ -24,10 +24,6 @@ void Button::draw()
     ui_context.add_rect(rect);
 
     m_label.draw();
-
-    if (m_is_mouse_just_pressed) {
-        m_on_click();
-    }
 }
 
 float Button::get_min_width() const
@@ -69,6 +65,15 @@ void Button::on_mouse_enter()
 void Button::on_mouse_exit()
 {
     charmApp.execute_on_frame_end(ON_EXIT_ELEMENT_PRIORITY, [] { charmApp.set_cursor(GLFW_ARROW_CURSOR); });
+}
+
+void Button::on_mouse_button_callback(int button, int action, int mods)
+{
+    Element::on_mouse_button_callback(button, action, mods);
+
+    if (m_is_mouse_just_pressed) {
+        m_on_click();
+    }
 }
 
 }

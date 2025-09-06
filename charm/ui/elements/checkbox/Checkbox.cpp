@@ -37,10 +37,6 @@ void Checkbox::draw()
     }
 
     m_label.draw();
-
-    if (m_is_mouse_just_pressed) {
-        m_value = !m_value;
-    }
 }
 
 float Checkbox::get_min_width() const
@@ -87,6 +83,15 @@ bool Checkbox::is_checked() const
 int Checkbox::get_box_size() const
 {
     return m_height;
+}
+
+void Checkbox::on_mouse_button_callback(int button, int action, int mods)
+{
+    Element::on_mouse_button_callback(button, action, mods);
+
+    if (m_is_mouse_just_pressed) {
+        m_value = !m_value;
+    }
 }
 
 }

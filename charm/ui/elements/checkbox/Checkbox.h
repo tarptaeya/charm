@@ -31,6 +31,8 @@ public:
 
     bool is_checked() const;
 
+    void on_mouse_button_callback(int button, int action, int mods) override;
+
 private:
     int get_box_size() const;
 };

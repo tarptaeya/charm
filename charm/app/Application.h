@@ -9,7 +9,6 @@
 #include <iostream>
 
 #define charmApp charm::Application::get_instance()
-#define charmWindow charmApp.get_window()
 
 namespace charm {
 
@@ -38,7 +37,6 @@ public:
 
     void initialize(const AppOptions&);
 
-    GLFWwindow* get_window() const;
     int get_width() const;
     int get_height() const;
 

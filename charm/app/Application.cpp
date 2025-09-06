@@ -44,11 +44,6 @@ void Application::initialize(const AppOptions& options)
     glfwGetFramebufferSize(m_window, &m_width, &m_height);
 }
 
-GLFWwindow* Application::get_window() const
-{
-    return m_window;
-}
-
 int Application::get_width() const
 {
     return m_width;
@@ -78,6 +73,10 @@ int Application::exec(IRootWidget* root_widget)
 
     glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double x, double y) {
         charmApp.m_root_widget_unowned_ptr->on_cursor_position_callback(x, y);
+    });
+
+    glfwSetMouseButtonCallback(m_window, [](GLFWwindow*, int button, int action, int mods) {
+        charmApp.m_root_widget_unowned_ptr->on_mouse_button_callback(button, action, mods);
     });
 
     glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {

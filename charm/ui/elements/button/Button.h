@@ -29,6 +29,8 @@ public:
 
     void on_mouse_enter() override;
     void on_mouse_exit() override;
+
+    void on_mouse_button_callback(int button, int action, int mods) override;
 };
 
 }

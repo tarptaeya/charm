@@ -50,17 +50,6 @@ Element& Element::operator=(Element&& other)
 
 void Element::draw()
 {
-    if (m_is_mouse_hover && glfwGetMouseButton(charmWindow, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-        if (!m_is_mouse_just_pressed && !m_is_mouse_pressed)
-            m_is_mouse_just_pressed = true;
-        else
-            m_is_mouse_just_pressed = false;
-
-        m_is_mouse_pressed = true;
-    } else {
-        m_is_mouse_just_pressed = false;
-        m_is_mouse_pressed = false;
-    }
 }
 
 float Element::get_min_width() const
@@ -125,6 +114,21 @@ void Element::on_cursor_pos_callback(double x, double y)
         on_mouse_enter();
     } else if (prev_is_mouse_hover && !m_is_mouse_hover) {
         on_mouse_exit();
+    }
+}
+
+void Element::on_mouse_button_callback(int button, int action, int mods)
+{
+    if (m_is_mouse_hover && button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        if (!m_is_mouse_just_pressed && !m_is_mouse_pressed)
+            m_is_mouse_just_pressed = true;
+        else
+            m_is_mouse_just_pressed = false;
+
+        m_is_mouse_pressed = true;
+    } else {
+        m_is_mouse_just_pressed = false;
+        m_is_mouse_pressed = false;
     }
 }
 

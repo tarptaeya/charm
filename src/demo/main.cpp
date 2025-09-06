@@ -113,6 +113,13 @@ public:
         m_toggle_info_button->on_cursor_pos_callback(x, y);
         m_text_input->on_cursor_pos_callback(x, y);
     }
+
+    void on_mouse_button_callback(int button, int action, int mods) override
+    {
+        m_checkbox->on_mouse_button_callback(button, action, mods);
+        m_toggle_info_button->on_mouse_button_callback(button, action, mods);
+        m_text_input->on_mouse_button_callback(button, action, mods);
+    }
 };
 
 int main()
