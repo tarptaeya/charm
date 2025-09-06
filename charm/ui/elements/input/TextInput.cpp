@@ -7,7 +7,9 @@ namespace charm::ui {
 #define BOX_BORDER_WIDTH 2
 
 TextInput::TextInput()
+    : m_label(m_value)
 {
+    m_label.set_text("chocolate");
 }
 
 TextInput::~TextInput()
@@ -37,6 +39,20 @@ void TextInput::draw()
     Context::Rect inner_rect(m_x + BOX_BORDER_WIDTH, m_y + BOX_BORDER_WIDTH, m_width - 2 * BOX_BORDER_WIDTH, m_height - 2 * BOX_BORDER_WIDTH);
     inner_rect.set_color(charmApp.get_options().ui_background_color);
     ui_context.add_rect(inner_rect);
+
+    m_label.draw();
+
+    if (m_show_cursor) {
+        float xcurr = m_label.m_x;
+        for (int i = 0; i < m_cursor_pos; ++i) {
+            auto chrect = Label::get_rect_for_char(m_label.get_text()[i], m_label.get_font_size());
+            xcurr += chrect.advance;
+        }
+
+        Context::Rect cursor_rect(xcurr, m_y + 2 * BOX_BORDER_WIDTH, BOX_BORDER_WIDTH, m_height - 4 * BOX_BORDER_WIDTH);
+        cursor_rect.set_color({ 0, 0, 0 });
+        ui_context.add_rect(cursor_rect);
+    }
 }
 
 float TextInput::get_min_width() const
@@ -46,21 +62,25 @@ float TextInput::get_min_width() const
 
 float TextInput::get_min_height() const
 {
-    return m_font_size + 2 * PADDING;
+    return 1.8 * m_label.get_font_size() + PADDING;
 }
 
-int TextInput::get_font_size() const
+void TextInput::set_bounds(float x, float y, float width, float height)
 {
-    return m_font_size;
-}
+    Element::set_bounds(x, y, width, height);
+    float label_x_padding = std::max(0.f, (width - m_label.get_min_width()) / 2);
+    float label_y_padding = std::max(0.f, (height - m_label.get_min_height()) / 2);
 
-void TextInput::set_font_size(int size)
-{
-    m_font_size = size;
+    m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - 2 * label_x_padding, height - 2 * label_y_padding);
 }
 
 void TextInput::update(double delta_time)
 {
+    m_cursor_time_so_far += delta_time;
+    if (m_cursor_time_so_far > 0.5) {
+        m_cursor_time_so_far = 0;
+        m_show_cursor = !m_show_cursor;
+    }
 }
 
 void TextInput::on_mouse_enter()
@@ -75,6 +95,17 @@ void TextInput::on_mouse_exit()
 
 void TextInput::on_key_callback(int key, int scancode, int action, int mods)
 {
+    if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
+        m_cursor_pos -= 1;
+        m_show_cursor = true;
+        m_cursor_time_so_far = 0;
+    } else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+        m_cursor_pos += 1;
+        m_show_cursor = true;
+        m_cursor_time_so_far = 0;
+    }
+
+    m_cursor_pos = std::max(std::min((int)m_label.get_text().size() + 1, m_cursor_pos), 0);
 }
 
 }

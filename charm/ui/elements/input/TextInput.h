@@ -1,13 +1,15 @@
 #pragma once
 
-#include "ui/elements/Element.h"
+#include "ui/elements/label/Label.h"
 
 namespace charm::ui {
 
 class TextInput : public Element {
     std::string m_value;
     int m_cursor_pos = 0;
-    float m_font_size = 14;
+    bool m_show_cursor = false;
+    double m_cursor_time_so_far = 0;
+    Label m_label;
 
 public:
     TextInput();
@@ -24,8 +26,7 @@ public:
     float get_min_width() const override;
     float get_min_height() const override;
 
-    int get_font_size() const;
-    void set_font_size(int size);
+    void set_bounds(float x, float y, float width, float height) override;
 
     void update(double delta_time) override;
 

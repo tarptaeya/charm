@@ -7,6 +7,8 @@
 namespace charm::ui {
 
 class Label : public Element {
+    friend class TextInput;
+
     std::string m_text;
     float m_font_size = 14;
 
