@@ -24,25 +24,14 @@ void Label::draw()
     auto& font_metadata = ui_context.get_font().get_metadata();
 
     for (char c : m_text) {
-        const auto& info = font_metadata.info[c];
-        float advance = info.xadvance * m_font_size / font_metadata.bitmap_pixel_height;
+        auto chrect = get_rect_for_char(c, m_font_size);
 
-        float u1 = info.x / (float)font_metadata.bitmap_width;
-        float v1 = 1 - info.y / (float)font_metadata.bitmap_height;
-        float u2 = (info.x + info.width) / (float)font_metadata.bitmap_width;
-        float v2 = 1 - (info.y + info.height) / (float)font_metadata.bitmap_height;
-
-        float x = xcurr + info.xoffset * m_font_size / font_metadata.bitmap_pixel_height;
-        float y = ycurr + info.yoffset * m_font_size / font_metadata.bitmap_pixel_height;
-        float width = info.width * m_font_size / font_metadata.bitmap_pixel_height;
-        float height = info.height * m_font_size / font_metadata.bitmap_pixel_height;
-
-        Context::Rect rect(x, y, width, height);
+        Context::Rect rect(chrect.x + xcurr, chrect.y + ycurr, chrect.width, chrect.height);
         rect.set_color({ 0, 0, 0 })
             .set_active_texture(FONT_TEXTURE_UNIT)
-            .set_texcoords({ u1, v1 }, { u2, v2 });
+            .set_texcoords({ chrect.u1, chrect.v1 }, { chrect.u2, chrect.v2 });
         ui_context.add_rect(rect);
-        xcurr += advance;
+        xcurr += chrect.advance;
     }
 }
 
@@ -53,12 +42,8 @@ float Label::get_min_width() const
 
     float xcurr = 0;
     for (char c : m_text) {
-        const auto& info = font_metadata.info[c];
-        float x = xcurr + info.xoffset * m_font_size / font_metadata.bitmap_pixel_height;
-        float width = info.width * m_font_size / font_metadata.bitmap_pixel_height;
-        float advance = info.xadvance * m_font_size / font_metadata.bitmap_pixel_height;
-
-        xcurr += advance;
+        auto chrect = get_rect_for_char(c, m_font_size);
+        xcurr += chrect.advance;
     }
 
     return std::ceil(xcurr);
@@ -72,10 +57,8 @@ float Label::get_min_height() const
     float min_height = 0;
     float ycurr = m_font_size;
     for (char c : m_text) {
-        const auto& info = font_metadata.info[c];
-        float y = ycurr + info.yoffset * m_font_size / font_metadata.bitmap_pixel_height;
-        float height = info.height * m_font_size / font_metadata.bitmap_pixel_height;
-        min_height = std::max(min_height, y + height);
+        auto chrect = get_rect_for_char(c, m_font_size);
+        min_height = std::max(min_height, ycurr + chrect.y + chrect.height);
     }
 
     return std::ceil(min_height);
@@ -99,6 +82,27 @@ int Label::get_font_size() const
 void Label::set_font_size(int size)
 {
     m_font_size = size;
+}
+
+Label::CharRect Label::get_rect_for_char(char c, float font_size)
+{
+    auto& ui_context = Context::get_instance();
+    auto& font_metadata = ui_context.get_font().get_metadata();
+
+    const auto& info = font_metadata.info[c];
+    float advance = info.xadvance * font_size / font_metadata.bitmap_pixel_height;
+
+    float u1 = info.x / (float)font_metadata.bitmap_width;
+    float v1 = 1 - info.y / (float)font_metadata.bitmap_height;
+    float u2 = (info.x + info.width) / (float)font_metadata.bitmap_width;
+    float v2 = 1 - (info.y + info.height) / (float)font_metadata.bitmap_height;
+
+    float x = info.xoffset * font_size / font_metadata.bitmap_pixel_height;
+    float y = info.yoffset * font_size / font_metadata.bitmap_pixel_height;
+    float width = info.width * font_size / font_metadata.bitmap_pixel_height;
+    float height = info.height * font_size / font_metadata.bitmap_pixel_height;
+
+    return { x, y, width, height, u1, v1, u2, v2, advance };
 }
 
 }

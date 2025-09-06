@@ -11,6 +11,12 @@ class Label : public Element {
     float m_font_size = 14;
 
 public:
+    struct CharRect {
+        float x = 0, y = 0, width = 0, height = 0;
+        float u1 = 0, v1 = 0, u2 = 0, v2 = 0;
+        float advance = 0;
+    };
+
     Label(const std::string&);
     ~Label() override;
 
@@ -27,6 +33,8 @@ public:
 
     int get_font_size() const;
     void set_font_size(int size);
+
+    static CharRect get_rect_for_char(char c, float font_size);
 };
 
 }
