@@ -28,6 +28,7 @@
 #include "ui/elements/canvas/Canvas.h"
 #include "ui/elements/checkbox/Checkbox.h"
 #include "ui/elements/hboxcontainer/HBoxContainer.h"
+#include "ui/elements/input/TextInput.h"
 #include "ui/elements/label/Label.h"
 #include "ui/elements/paddedcontainer/PaddedContainer.h"
 #include "ui/elements/vboxcontainer/VBoxContainer.h"

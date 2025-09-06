@@ -39,8 +39,12 @@ public:
     float get_height() const;
     virtual void set_bounds(float x, float y, float width, float height);
 
+    virtual void update(double delta_time) { }
+
     virtual void on_mouse_enter() { }
     virtual void on_mouse_exit() { }
+
+    virtual void on_key_callback(int key, int scancode, int action, int mods) { }
 
 protected:
     std::string m_id;

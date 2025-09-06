@@ -20,6 +20,7 @@ class Example : public charm::IRootWidget {
     ui::VBoxContainer m_container;
 
     ui::Checkbox* m_checkbox = nullptr;
+    ui::TextInput* m_text_input = nullptr;
 
 public:
     Example()
@@ -57,6 +58,9 @@ public:
         m_checkbox = new ui::Checkbox("I am a checkbox!");
         m_container.add(m_checkbox);
 
+        m_text_input = new ui::TextInput();
+        m_container.add(m_text_input);
+
         add(&m_container);
     }
 
@@ -67,6 +71,7 @@ public:
         delete m_toggle_info_button;
         delete m_canvas;
         delete m_checkbox;
+        delete m_text_input;
     }
 
     void update(double delta_time) override
@@ -85,6 +90,13 @@ public:
         m_fps_label->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));
 
         m_info_label->set_text(m_checkbox->is_checked() ? "Checkbox is checked" : "Checkbox is **not** checked");
+
+        m_text_input->update(delta_time);
+    }
+
+    void on_key_callback(int key, int scancode, int action, int mods) override
+    {
+        m_text_input->on_key_callback(key, scancode, action, mods);
     }
 };
 
@@ -99,5 +111,6 @@ int main()
 
     charmApp.initialize(options);
 
-    return charmApp.exec<Example>();
+    Example example;
+    return charmApp.exec(&example);
 }
