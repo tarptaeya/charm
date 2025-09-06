@@ -76,6 +76,10 @@ int Application::exec(IRootWidget* root_widget)
         charmApp.m_root_widget_unowned_ptr->on_key_callback(key, scancode, action, mods);
     });
 
+    glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double x, double y) {
+        charmApp.m_root_widget_unowned_ptr->on_cursor_position_callback(x, y);
+    });
+
     glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
         charmApp.m_width = width;
         charmApp.m_height = height;

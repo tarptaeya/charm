@@ -1,16 +1,22 @@
 #pragma once
 
 #include "ui/elements/Element.h"
+#include <vector>
 
 namespace charm::ui {
 
 class VBoxContainer : public Element {
+    std::vector<Element*> m_children;
+
 public:
     VBoxContainer();
     ~VBoxContainer() override;
 
     VBoxContainer(const VBoxContainer&) = delete;
     VBoxContainer& operator=(const VBoxContainer&) = delete;
+
+    void add(Element*);
+    void remove(Element*);
 
     void draw() override;
 

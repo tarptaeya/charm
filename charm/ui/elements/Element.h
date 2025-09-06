@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ui/Context.h"
-#include <vector>
 
 namespace charm::ui {
 
@@ -18,12 +17,6 @@ public:
 
     Element(Element&&);
     Element& operator=(Element&&);
-
-    std::string get_id() const;
-    Element& set_id(const std::string& id);
-    Element* get_element_by_id(const std::string& id);
-    void add(Element*);
-    void remove(Element*);
 
     virtual void draw();
 
@@ -46,11 +39,9 @@ public:
 
     virtual void on_char_callback(unsigned int codepoint) { }
     virtual void on_key_callback(int key, int scancode, int action, int mods) { }
+    virtual void on_cursor_pos_callback(double x, double y) { }
 
 protected:
-    std::string m_id;
-    std::vector<Element*> m_children;
-
     float m_x = 0;
     float m_y = 0;
     float m_width = 0;

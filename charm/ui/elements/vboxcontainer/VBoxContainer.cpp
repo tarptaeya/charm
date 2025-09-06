@@ -13,6 +13,20 @@ VBoxContainer::~VBoxContainer()
 {
 }
 
+void VBoxContainer::add(Element* element)
+{
+    m_children.push_back(element);
+}
+
+void VBoxContainer::remove(Element* element)
+{
+    auto it = std::find(m_children.begin(), m_children.end(), element);
+    if (it == m_children.end())
+        return;
+
+    m_children.erase(it);
+}
+
 void VBoxContainer::draw()
 {
     Element::draw();

@@ -9,6 +9,7 @@ class TextInput : public Element {
     bool m_show_cursor = false;
     double m_cursor_time_so_far = 0;
     Label m_label;
+    bool m_is_active = false;
 
 public:
     TextInput();

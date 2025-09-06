@@ -9,6 +9,7 @@ class PaddedContainer : public Element {
     float m_padding_right = 0;
     float m_padding_top = 0;
     float m_padding_bottom = 0;
+    std::vector<Element*> m_children;
 
 public:
     PaddedContainer(float padding);
@@ -19,6 +20,9 @@ public:
 
     PaddedContainer(const PaddedContainer&) = delete;
     PaddedContainer& operator=(const PaddedContainer&) = delete;
+
+    void add(Element*);
+    void remove(Element*);
 
     void draw() override;
 

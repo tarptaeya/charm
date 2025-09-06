@@ -13,6 +13,20 @@ HBoxContainer::~HBoxContainer()
 {
 }
 
+void HBoxContainer::add(Element* element)
+{
+    m_children.push_back(element);
+}
+
+void HBoxContainer::remove(Element* element)
+{
+    auto it = std::find(m_children.begin(), m_children.end(), element);
+    if (it == m_children.end())
+        return;
+
+    m_children.erase(it);
+}
+
 void HBoxContainer::draw()
 {
     Element::draw();

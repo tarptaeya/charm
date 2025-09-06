@@ -13,12 +13,6 @@ Element::Element(Element&& other)
     m_is_height_expandable = other.m_is_height_expandable;
     other.m_is_width_expandable = other.m_is_height_expandable = false;
 
-    m_children = std::move(other.m_children);
-    other.m_children.clear();
-
-    m_id = other.m_id;
-    other.m_id = "";
-
     m_x = other.m_x;
     m_y = other.m_y;
     m_width = other.m_width;
@@ -40,12 +34,6 @@ Element& Element::operator=(Element&& other)
     m_is_height_expandable = other.m_is_height_expandable;
     other.m_is_width_expandable = other.m_is_height_expandable = false;
 
-    m_children = std::move(other.m_children);
-    other.m_children.clear();
-
-    m_id = other.m_id;
-    other.m_id = "";
-
     m_x = other.m_x;
     m_y = other.m_y;
     m_width = other.m_width;
@@ -58,44 +46,6 @@ Element& Element::operator=(Element&& other)
     other.m_is_mouse_hover = other.m_is_mouse_pressed = other.m_is_mouse_just_pressed = false;
 
     return *this;
-}
-
-std::string Element::get_id() const
-{
-    return m_id;
-}
-
-Element& Element::set_id(const std::string& id)
-{
-    m_id = id;
-    return *this;
-}
-
-Element* Element::get_element_by_id(const std::string& id)
-{
-    if (m_id == id)
-        return this;
-
-    for (const auto& child : m_children) {
-        auto ans = child->get_element_by_id(id);
-        if (ans)
-            return ans;
-    }
-    return nullptr;
-}
-
-void Element::add(Element* element)
-{
-    m_children.push_back(element);
-}
-
-void Element::remove(Element* element)
-{
-    auto it = std::find(m_children.begin(), m_children.end(), element);
-    if (it == m_children.end())
-        return;
-
-    m_children.erase(it);
 }
 
 void Element::draw()

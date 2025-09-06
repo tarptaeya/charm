@@ -39,6 +39,20 @@ PaddedContainer::~PaddedContainer()
 {
 }
 
+void PaddedContainer::add(Element* element)
+{
+    m_children.push_back(element);
+}
+
+void PaddedContainer::remove(Element* element)
+{
+    auto it = std::find(m_children.begin(), m_children.end(), element);
+    if (it == m_children.end())
+        return;
+
+    m_children.erase(it);
+}
+
 void PaddedContainer::draw()
 {
     Element::draw();

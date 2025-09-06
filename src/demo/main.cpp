@@ -106,6 +106,10 @@ public:
     {
         m_text_input->on_key_callback(key, scancode, action, mods);
     }
+
+    void on_cursor_position_callback(double x, double y) override
+    {
+    }
 };
 
 int main()
