@@ -99,13 +99,24 @@ void TextInput::on_key_callback(int key, int scancode, int action, int mods)
         m_cursor_pos -= 1;
         m_show_cursor = true;
         m_cursor_time_so_far = 0;
-    } else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+        m_cursor_pos = std::max(0, m_cursor_pos);
+    }
+
+    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
         m_cursor_pos += 1;
         m_show_cursor = true;
         m_cursor_time_so_far = 0;
+        m_cursor_pos = std::min(m_cursor_pos, (int)m_label.get_text().size());
     }
 
-    m_cursor_pos = std::max(std::min((int)m_label.get_text().size() + 1, m_cursor_pos), 0);
+    if (key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS) {
+        auto text = m_label.get_text();
+        if (m_cursor_pos != 0) {
+            --m_cursor_pos;
+            text.erase(m_cursor_pos, 1);
+        }
+        m_label.set_text(text);
+    }
 }
 
 }
