@@ -68,6 +68,10 @@ int Application::exec(IRootWidget* root_widget)
 {
     m_root_widget_unowned_ptr = root_widget;
 
+    glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int codepoint) {
+        charmApp.m_root_widget_unowned_ptr->on_char_callback(codepoint);
+    });
+
     glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
         charmApp.m_root_widget_unowned_ptr->on_key_callback(key, scancode, action, mods);
     });

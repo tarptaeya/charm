@@ -19,6 +19,7 @@ public:
     void add(ui::Element*);
     void remove(ui::Element*);
 
+    virtual void on_char_callback(unsigned int codepoint) { }
     virtual void on_key_callback(int key, int scancode, int action, int mods) { }
 
 private:

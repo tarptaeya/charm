@@ -93,6 +93,22 @@ void TextInput::on_mouse_exit()
     charmApp.execute_on_frame_end(ON_EXIT_ELEMENT_PRIORITY, [] { charmApp.set_cursor(GLFW_ARROW_CURSOR); });
 }
 
+void TextInput::on_char_callback(unsigned int codepoint)
+{
+    if (codepoint > 127)
+        return;
+
+    char ch = static_cast<char>(codepoint);
+    auto text = m_label.get_text();
+    if (m_cursor_pos == text.size()) {
+        text += ch;
+    } else {
+        text.insert(m_cursor_pos, 1, ch);
+    }
+    ++m_cursor_pos;
+    m_label.set_text(text);
+}
+
 void TextInput::on_key_callback(int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {

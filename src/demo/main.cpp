@@ -94,6 +94,11 @@ public:
         m_text_input->update(delta_time);
     }
 
+    void on_char_callback(unsigned int codepoint) override
+    {
+        m_text_input->on_char_callback(codepoint);
+    }
+
     void on_key_callback(int key, int scancode, int action, int mods) override
     {
         m_text_input->on_key_callback(key, scancode, action, mods);
