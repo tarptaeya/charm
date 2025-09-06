@@ -95,6 +95,9 @@ void TextInput::on_mouse_exit()
 
 void TextInput::on_char_callback(unsigned int codepoint)
 {
+    if (!m_is_active)
+        return;
+
     if (codepoint > 127)
         return;
 
@@ -111,6 +114,9 @@ void TextInput::on_char_callback(unsigned int codepoint)
 
 void TextInput::on_key_callback(int key, int scancode, int action, int mods)
 {
+    if (!m_is_active)
+        return;
+
     if (key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
         m_cursor_pos -= 1;
         m_show_cursor = true;
@@ -138,6 +144,19 @@ void TextInput::on_key_callback(int key, int scancode, int action, int mods)
 void TextInput::on_cursor_pos_callback(double x, double y)
 {
     Element::on_cursor_pos_callback(x, y);
+}
+
+void TextInput::on_mouse_button_callback(int button, int action, int mods)
+{
+    Element::on_mouse_button_callback(button, action, mods);
+
+    if (m_is_mouse_just_pressed) {
+        m_is_active = true;
+    }
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !m_is_mouse_hover) {
+        m_is_active = false;
+    }
 }
 
 }
