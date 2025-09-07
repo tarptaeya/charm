@@ -78,8 +78,7 @@ void VBoxContainer::set_bounds(float x, float y, float width, float height)
             child_height += extra_height / num_expandable;
         }
 
-        float padding_left = (width - child_width) / 2;
-        child->set_bounds(x + padding_left, ycursor, child_width, child_height);
+        child->set_bounds(x, ycursor, child_width, child_height);
         ycursor += child_height;
     }
 }

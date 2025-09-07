@@ -78,8 +78,7 @@ void HBoxContainer::set_bounds(float x, float y, float width, float height)
             child_height = height;
         }
 
-        float padding_top = (height - child_height) / 2;
-        child->set_bounds(xcursor, y + padding_top, child_width, child_height);
+        child->set_bounds(xcursor, y, child_width, child_height);
         xcursor += child_width;
     }
 }

@@ -9,7 +9,9 @@ class Example : public charm::IRootWidget {
     Camera m_camera;
     RootObject m_object;
 
-    ui::Label* m_label = nullptr;
+    std::vector<ui::Label*> m_label_vec;
+    ui::Checkbox* m_checkbox = nullptr;
+    ui::Button* m_button1 = nullptr;
     ui::VBoxContainer* m_vbox = nullptr;
     ui::ScrollArea* m_scroll_area = nullptr;
 
@@ -25,15 +27,29 @@ public:
         m_vbox = new ui::VBoxContainer;
         m_scroll_area = new ui::ScrollArea(m_vbox);
 
-        m_label = new ui::Label("Lorem Ipsum is simply dummy text of the printing and typesetting industry.");
-        m_vbox->add(m_label);
+        for (int i = 0; i < 10; ++i) {
+            auto label = new ui::Label("Lorem Ipsum is simply dummy text of the printing and typesetting industry.");
+            m_label_vec.push_back(label);
+            m_vbox->add(label);
+        }
+
+        m_checkbox = new ui::Checkbox("I am a checkbox with a very long long long label.");
+        m_vbox->add(m_checkbox);
+
+        m_button1 = new ui::Button("Click me");
+        m_vbox->add(m_button1);
     }
 
     ~Example()
     {
         delete m_scroll_area;
         delete m_vbox;
-        delete m_label;
+        delete m_checkbox;
+        delete m_button1;
+
+        for (const auto& label : m_label_vec) {
+            delete label;
+        }
     }
 
     void update(double delta_time) override
@@ -58,11 +74,15 @@ public:
     void on_cursor_position_callback(double x, double y) override
     {
         m_scroll_area->on_cursor_pos_callback(x, y);
+        m_checkbox->on_cursor_pos_callback(x, y);
+        m_button1->on_cursor_pos_callback(x, y);
     }
 
     void on_mouse_button_callback(int button, int action, int mods) override
     {
         m_scroll_area->on_mouse_button_callback(button, action, mods);
+        m_checkbox->on_mouse_button_callback(button, action, mods);
+        m_button1->on_mouse_button_callback(button, action, mods);
     }
 };
 
