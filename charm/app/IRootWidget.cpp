@@ -38,6 +38,7 @@ void IRootWidget::draw(ui::Element* element, float x, float y, float width, floa
 
     ui_context.add_rect(x, y, width, height, charmApp.get_options().ui_background_color, 0, { 0, 0 }, { 0, 0 });
     element->set_bounds(x, y, width, height);
+    element->set_clip(x, y, width, height);
     element->draw();
     ui_context.commit();
 

@@ -100,8 +100,6 @@ void Element::set_bounds(float x, float y, float width, float height)
     m_y = y;
     m_width = width;
     m_height = height;
-
-    set_clip(x, y, width, height);
 }
 
 void Element::set_clip(float x, float y, float width, float height)
@@ -110,6 +108,20 @@ void Element::set_clip(float x, float y, float width, float height)
     m_clip_y = y;
     m_clip_width = width;
     m_clip_height = height;
+}
+
+void Element::add_clip(float x, float y, float width, float height)
+{
+    float x1 = std::max(m_clip_x, x);
+    float x2 = std::min(m_clip_x + m_clip_width, x + width);
+
+    float y1 = std::max(m_clip_y, y);
+    float y2 = std::min(m_clip_y + m_clip_height, y + height);
+
+    m_clip_x = x1;
+    m_clip_y = y1;
+    m_clip_width = std::max(0.0f, x2 - x1);
+    m_clip_height = std::max(0.0f, y2 - y1);
 }
 
 void Element::on_cursor_pos_callback(double x, double y)

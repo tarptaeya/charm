@@ -23,7 +23,6 @@ public:
     float get_min_height() const override;
 
     void set_bounds(float x, float y, float width, float height) override;
-    void set_clip(float x, float y, float width, float height) override;
 
     Button& set_on_click_handler(std::function<void()> on_click);
     Button& set_text(const std::string& text);

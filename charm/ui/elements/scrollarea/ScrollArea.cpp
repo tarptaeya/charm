@@ -24,7 +24,8 @@ void ScrollArea::draw()
     bool show_y_scrollbar = m_element->get_min_height() > m_height;
 
     m_element->set_bounds(m_x + m_shift_x, m_y + m_shift_y, m_element->get_min_width(), m_element->get_min_height());
-    m_element->set_clip(m_x, m_y, m_width - (show_y_scrollbar ? SCROLLBAR_SIZE + CONTENT_PADDING : 0), m_height - (show_x_scrollbar ? SCROLLBAR_SIZE + CONTENT_PADDING : 0));
+    m_element->set_clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
+    m_element->add_clip(m_x, m_y, m_width - (show_y_scrollbar ? SCROLLBAR_SIZE + CONTENT_PADDING : 0), m_height - (show_x_scrollbar ? SCROLLBAR_SIZE + CONTENT_PADDING : 0));
     m_element->draw();
 
     auto& ui_context = Context::get_instance();
@@ -74,10 +75,14 @@ void ScrollArea::set_bounds(float x, float y, float width, float height)
     m_element->set_bounds(x, y, m_element->get_min_width(), m_element->get_min_height());
 }
 
-void ScrollArea::set_clip(float x, float y, float width, float height)
+float ScrollArea::get_min_width() const
 {
-    Element::set_clip(x, y, width, height);
-    m_element->set_clip(x, y, width, height);
+    return 100;
+}
+
+float ScrollArea::get_min_height() const
+{
+    return 100;
 }
 
 void ScrollArea::on_mouse_button_callback(int button, int action, int mods)

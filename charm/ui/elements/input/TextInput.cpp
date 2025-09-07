@@ -40,6 +40,7 @@ void TextInput::draw()
     inner_rect.set_color(charmApp.get_options().ui_background_color);
     ui_context.add_rect(inner_rect);
 
+    m_label.set_clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     m_label.draw();
 
     if (m_show_cursor) {
@@ -72,12 +73,6 @@ void TextInput::set_bounds(float x, float y, float width, float height)
     float label_y_padding = std::max(0.f, (height - m_label.get_min_height()) / 2);
 
     m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - 2 * label_x_padding, height - 2 * label_y_padding);
-}
-
-void TextInput::set_clip(float x, float y, float width, float height)
-{
-    Element::set_clip(x, y, width, height);
-    m_label.set_clip(x, y, width, height);
 }
 
 void TextInput::update(double delta_time)

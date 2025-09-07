@@ -18,7 +18,9 @@ public:
 
     void draw() override;
     void set_bounds(float x, float y, float width, float height) override;
-    void set_clip(float x, float y, float width, float height) override;
+
+    float get_min_width() const override;
+    float get_min_height() const override;
 
     void on_mouse_button_callback(int button, int action, int mods) override;
 };

@@ -32,6 +32,7 @@ void VBoxContainer::draw()
     Element::draw();
 
     for (const auto& child : m_children) {
+        child->set_clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
         child->draw();
     }
 }
@@ -80,15 +81,6 @@ void VBoxContainer::set_bounds(float x, float y, float width, float height)
 
         child->set_bounds(x, ycursor, child_width, child_height);
         ycursor += child_height;
-    }
-}
-
-void VBoxContainer::set_clip(float x, float y, float width, float height)
-{
-    Element::set_clip(x, y, width, height);
-
-    for (const auto& child : m_children) {
-        child->set_clip(x, y, width, height);
     }
 }
 

@@ -14,6 +14,9 @@ class Example : public charm::IRootWidget {
     ui::Button* m_button1 = nullptr;
     ui::VBoxContainer* m_vbox = nullptr;
     ui::ScrollArea* m_scroll_area = nullptr;
+    ui::ScrollArea* m_nested_scroll = nullptr;
+    std::vector<ui::Button*> m_button_vec;
+    ui::HBoxContainer* m_hbox = nullptr;
 
 public:
     Example()
@@ -33,6 +36,16 @@ public:
             m_vbox->add(label);
         }
 
+        m_hbox = new ui::HBoxContainer;
+        for (int i = 0; i < 5; ++i) {
+            auto button = new ui::Button("Click Me");
+            m_button_vec.push_back(button);
+            m_hbox->add(button);
+        }
+        m_nested_scroll = new ui::ScrollArea(m_hbox);
+        m_nested_scroll->set_is_width_expandable(false).set_is_height_expandable(false);
+        m_vbox->add(m_nested_scroll);
+
         m_checkbox = new ui::Checkbox("I am a checkbox.");
         m_vbox->add(m_checkbox);
 
@@ -50,6 +63,13 @@ public:
         for (const auto& label : m_label_vec) {
             delete label;
         }
+
+        delete m_nested_scroll;
+        delete m_hbox;
+
+        for (const auto& button : m_button_vec) {
+            delete button;
+        }
     }
 
     void update(double delta_time) override
@@ -60,7 +80,7 @@ public:
         gl::Context::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_object.render(m_camera);
 
-        draw(m_scroll_area, 450, 50, 300, 150);
+        draw(m_scroll_area, 50, 50, 300, 150);
     }
 
     void on_char_callback(unsigned int codepoint) override
@@ -76,6 +96,9 @@ public:
         m_scroll_area->on_cursor_pos_callback(x, y);
         m_checkbox->on_cursor_pos_callback(x, y);
         m_button1->on_cursor_pos_callback(x, y);
+        m_nested_scroll->on_cursor_pos_callback(x, y);
+        for (const auto& button : m_button_vec)
+            button->on_cursor_pos_callback(x, y);
     }
 
     void on_mouse_button_callback(int button, int action, int mods) override
@@ -83,6 +106,9 @@ public:
         m_scroll_area->on_mouse_button_callback(button, action, mods);
         m_checkbox->on_mouse_button_callback(button, action, mods);
         m_button1->on_mouse_button_callback(button, action, mods);
+        m_nested_scroll->on_mouse_button_callback(button, action, mods);
+        for (const auto& b : m_button_vec)
+            b->on_mouse_button_callback(button, action, mods);
     }
 };
 

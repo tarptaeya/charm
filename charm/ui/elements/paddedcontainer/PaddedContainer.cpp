@@ -46,6 +46,7 @@ void PaddedContainer::draw()
 {
     Element::draw();
 
+    m_element->set_clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     m_element->draw();
 }
 
@@ -68,12 +69,6 @@ void PaddedContainer::set_bounds(float x, float y, float width, float height)
     float child_height = available_height;
 
     m_element->set_bounds(x + m_padding_left, y + m_padding_top, child_width, child_height);
-}
-
-void PaddedContainer::set_clip(float x, float y, float width, float height)
-{
-    Element::set_clip(x, y, width, height);
-    m_element->set_clip(x, y, width, height);
 }
 
 }

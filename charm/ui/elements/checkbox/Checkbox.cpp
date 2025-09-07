@@ -39,6 +39,7 @@ void Checkbox::draw()
         ui_context.add_rect(value_rect);
     }
 
+    m_label.set_clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     m_label.draw();
 }
 
@@ -60,12 +61,6 @@ void Checkbox::set_bounds(float x, float y, float width, float height)
     float label_y_padding = std::max(0.f, (height - m_label.get_min_height()) / 2);
 
     m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - label_x_padding, height - 2 * label_y_padding);
-}
-
-void Checkbox::set_clip(float x, float y, float width, float height)
-{
-    Element::set_clip(x, y, width, height);
-    m_label.set_clip(x, y, width, height);
 }
 
 Checkbox& Checkbox::set_text(const std::string& text)

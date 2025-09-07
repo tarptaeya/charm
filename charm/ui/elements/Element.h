@@ -31,7 +31,8 @@ public:
     float get_width() const;
     float get_height() const;
     virtual void set_bounds(float x, float y, float width, float height);
-    virtual void set_clip(float x, float y, float width, float height);
+    void set_clip(float x, float y, float width, float height);
+    void add_clip(float x, float y, float width, float height);
 
     virtual void update(double delta_time) { }
 
