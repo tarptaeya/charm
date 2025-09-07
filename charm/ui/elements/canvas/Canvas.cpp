@@ -24,7 +24,8 @@ void Canvas::draw()
     Context::Rect rect(m_x, m_y, m_width, m_height);
     rect.set_color({ 0, 0, 0 })
         .set_active_texture(CANVAS_TEXTURE_UNIT)
-        .set_texcoords({ 0, 1 }, { 1, 0 });
+        .set_texcoords({ 0, 1 }, { 1, 0 })
+        .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     ui_context.add_rect(rect);
 }
 

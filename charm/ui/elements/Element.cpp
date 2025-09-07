@@ -102,6 +102,14 @@ void Element::set_bounds(float x, float y, float width, float height)
     m_height = height;
 }
 
+void Element::set_clip(float x, float y, float width, float height)
+{
+    m_clip_x = x;
+    m_clip_y = y;
+    m_clip_width = width;
+    m_clip_height = height;
+}
+
 void Element::on_cursor_pos_callback(double x, double y)
 {
     m_mouse_x = x;

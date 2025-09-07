@@ -31,6 +31,7 @@ public:
     float get_width() const;
     float get_height() const;
     virtual void set_bounds(float x, float y, float width, float height);
+    virtual void set_clip(float x, float y, float width, float height);
 
     virtual void update(double delta_time) { }
 
@@ -47,6 +48,11 @@ protected:
     float m_y = 0;
     float m_width = 0;
     float m_height = 0;
+
+    float m_clip_x = 0;
+    float m_clip_y = 0;
+    float m_clip_width = 0;
+    float m_clip_height = 0;
 
     float m_mouse_x = 0;
     float m_mouse_y = 0;

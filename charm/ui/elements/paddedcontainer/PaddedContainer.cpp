@@ -70,4 +70,10 @@ void PaddedContainer::set_bounds(float x, float y, float width, float height)
     m_element->set_bounds(x + m_padding_left, y + m_padding_top, child_width, child_height);
 }
 
+void PaddedContainer::set_clip(float x, float y, float width, float height)
+{
+    Element::set_clip(x, y, width, height);
+    m_element->set_clip(x, y, width, height);
+}
+
 }

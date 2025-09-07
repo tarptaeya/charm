@@ -27,6 +27,7 @@ public:
     float get_min_height() const override;
 
     void set_bounds(float x, float y, float width, float height) override;
+    void set_clip(float x, float y, float width, float height) override;
 
     void update(double delta_time) override;
 

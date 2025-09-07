@@ -20,6 +20,7 @@ void ScrollArea::draw()
     Element::draw();
 
     m_element->set_bounds(m_x + m_shift_x, m_y, m_element->get_min_width(), m_element->get_min_height());
+    m_element->set_clip(m_x, m_y, m_width, m_height);
     m_element->draw();
 
     auto& ui_context = Context::get_instance();
@@ -38,8 +39,13 @@ void ScrollArea::draw()
 void ScrollArea::set_bounds(float x, float y, float width, float height)
 {
     Element::set_bounds(x, y, width, height);
-
     m_element->set_bounds(x, y, m_element->get_min_width(), m_element->get_min_height());
+}
+
+void ScrollArea::set_clip(float x, float y, float width, float height)
+{
+    Element::set_clip(x, y, width, height);
+    m_element->set_clip(x, y, width, height);
 }
 
 void ScrollArea::on_mouse_button_callback(int button, int action, int mods)

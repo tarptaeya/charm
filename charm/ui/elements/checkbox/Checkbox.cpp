@@ -23,16 +23,19 @@ void Checkbox::draw()
     auto& ui_context = Context::get_instance();
 
     Context::Rect outer_rect(m_x, m_y, get_box_size(), get_box_size());
-    outer_rect.set_color({ 0, 0, 0 });
+    outer_rect.set_color({ 0, 0, 0 })
+        .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     ui_context.add_rect(outer_rect);
 
     Context::Rect inner_rect(m_x + BOX_BORDER_WIDTH, m_y + BOX_BORDER_WIDTH, get_box_size() - 2 * BOX_BORDER_WIDTH, get_box_size() - 2 * BOX_BORDER_WIDTH);
-    inner_rect.set_color(charmApp.get_options().ui_background_color);
+    inner_rect.set_color(charmApp.get_options().ui_background_color)
+        .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     ui_context.add_rect(inner_rect);
 
     if (m_value) {
         Context::Rect value_rect(m_x + 2 * BOX_BORDER_WIDTH, m_y + 2 * BOX_BORDER_WIDTH, get_box_size() - 4 * BOX_BORDER_WIDTH, get_box_size() - 4 * BOX_BORDER_WIDTH);
-        value_rect.set_color({ 0, 0, 0 });
+        value_rect.set_color({ 0, 0, 0 })
+            .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
         ui_context.add_rect(value_rect);
     }
 
@@ -57,6 +60,12 @@ void Checkbox::set_bounds(float x, float y, float width, float height)
     float label_y_padding = std::max(0.f, (height - m_label.get_min_height()) / 2);
 
     m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - label_x_padding, height - 2 * label_y_padding);
+}
+
+void Checkbox::set_clip(float x, float y, float width, float height)
+{
+    Element::set_clip(x, y, width, height);
+    m_label.set_clip(x, y, width, height);
 }
 
 Checkbox& Checkbox::set_text(const std::string& text)

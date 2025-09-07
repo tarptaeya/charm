@@ -74,6 +74,12 @@ void TextInput::set_bounds(float x, float y, float width, float height)
     m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - 2 * label_x_padding, height - 2 * label_y_padding);
 }
 
+void TextInput::set_clip(float x, float y, float width, float height)
+{
+    Element::set_clip(x, y, width, height);
+    m_label.set_clip(x, y, width, height);
+}
+
 void TextInput::update(double delta_time)
 {
     if (!m_is_active)

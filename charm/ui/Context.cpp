@@ -119,6 +119,8 @@ void Context::add_rect(float x, float y, float width, float height, Color color,
 
 void Context::add_rect(const Rect& rect)
 {
+    if (rect.width < 0 || rect.height < 0)
+        return;
     add_rect(rect.x, rect.y, rect.width, rect.height, rect.color, rect.active_texture, rect.texcoords[0], rect.texcoords[1]);
 }
 

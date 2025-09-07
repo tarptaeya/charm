@@ -62,6 +62,40 @@ public:
             this->active_texture = index;
             return *this;
         }
+
+        Rect& clip(float clip_x, float clip_y, float clip_width, float clip_height)
+        {
+            float ans_x1 = x;
+            float ans_y1 = y;
+            float ans_x2 = x + width;
+            float ans_y2 = y + height;
+
+            float ans_u1 = texcoords[0].u;
+            float ans_v1 = texcoords[0].v;
+            float ans_u2 = texcoords[1].u;
+            float ans_v2 = texcoords[1].v;
+
+            if (x < clip_x) {
+                ans_x1 = clip_x;
+                ans_u1 = std::min(1.0f, (texcoords[1].u - texcoords[0].u) * (clip_x - x) / width + texcoords[0].u);
+            }
+
+            if (clip_x + clip_width < x + width) {
+                ans_x2 = clip_x + clip_width;
+                ans_u2 = std::min(1.0f, (texcoords[1].u - texcoords[0].u) * (clip_x + clip_width - x) / width + texcoords[0].u);
+            }
+
+            x = ans_x1;
+            y = ans_y1;
+            width = ans_x2 - ans_x1;
+            height = ans_y2 - ans_y1;
+            texcoords[0].u = ans_u1;
+            texcoords[0].v = ans_v1;
+            texcoords[1].u = ans_u2;
+            texcoords[1].v = ans_v2;
+
+            return *this;
+        }
     };
 
 private:

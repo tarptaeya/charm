@@ -84,4 +84,13 @@ void HBoxContainer::set_bounds(float x, float y, float width, float height)
     }
 }
 
+void HBoxContainer::set_clip(float x, float y, float width, float height)
+{
+    Element::set_clip(x, y, width, height);
+
+    for (const auto& child : m_children) {
+        child->set_clip(x, y, width, height);
+    }
+}
+
 }
