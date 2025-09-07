@@ -100,6 +100,8 @@ void Element::set_bounds(float x, float y, float width, float height)
     m_y = y;
     m_width = width;
     m_height = height;
+
+    set_clip(x, y, width, height);
 }
 
 void Element::set_clip(float x, float y, float width, float height)
@@ -116,7 +118,9 @@ void Element::on_cursor_pos_callback(double x, double y)
     m_mouse_y = y;
 
     bool prev_is_mouse_hover = m_is_mouse_hover;
-    m_is_mouse_hover = (m_x <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y <= m_mouse_y && m_mouse_y <= m_y + m_height);
+    if (m_clip_x <= m_mouse_x && m_mouse_x <= m_clip_x + m_clip_width && m_clip_y <= m_mouse_y && m_mouse_y <= m_clip_y + m_clip_height) {
+        m_is_mouse_hover = (m_x <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y <= m_mouse_y && m_mouse_y <= m_y + m_height);
+    }
 
     if (!prev_is_mouse_hover && m_is_mouse_hover) {
         on_mouse_enter();

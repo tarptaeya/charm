@@ -7,6 +7,7 @@ namespace charm::ui {
 class ScrollArea : public Element {
     Element* m_element = nullptr;
     float m_shift_x = 0;
+    float m_shift_y = 0;
 
 public:
     ScrollArea(Element* element);

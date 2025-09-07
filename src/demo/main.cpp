@@ -28,12 +28,12 @@ public:
         m_scroll_area = new ui::ScrollArea(m_vbox);
 
         for (int i = 0; i < 10; ++i) {
-            auto label = new ui::Label("Lorem Ipsum is simply dummy text of the printing and typesetting industry.");
+            auto label = new ui::Label("Hello world"); //("Lorem Ipsum is simply dummy text of the printing and typesetting industry.");
             m_label_vec.push_back(label);
             m_vbox->add(label);
         }
 
-        m_checkbox = new ui::Checkbox("I am a checkbox with a very long long long label.");
+        m_checkbox = new ui::Checkbox("I am a checkbox.");
         m_vbox->add(m_checkbox);
 
         m_button1 = new ui::Button("Click me");
