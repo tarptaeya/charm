@@ -132,6 +132,8 @@ void Element::on_cursor_pos_callback(double x, double y)
     bool prev_is_mouse_hover = m_is_mouse_hover;
     if (m_clip_x <= m_mouse_x && m_mouse_x <= m_clip_x + m_clip_width && m_clip_y <= m_mouse_y && m_mouse_y <= m_clip_y + m_clip_height) {
         m_is_mouse_hover = (m_x <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y <= m_mouse_y && m_mouse_y <= m_y + m_height);
+    } else {
+        m_is_mouse_hover = false;
     }
 
     if (!prev_is_mouse_hover && m_is_mouse_hover) {
