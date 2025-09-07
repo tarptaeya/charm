@@ -3,6 +3,7 @@
 #define GLFW_INCLUDE_NONE
 #include "AppOptions.h"
 #include "gl/Context.h"
+#include "memory/observer_ptr.h"
 #include <GLFW/glfw3.h>
 #include <algorithm>
 #include <functional>
@@ -26,7 +27,7 @@ class Application {
     int m_height = 0;
     std::vector<std::pair<int, std::function<void()>>> m_functions_to_execute_on_frame_end;
 
-    IRootWidget* m_root_widget_unowned_ptr = nullptr;
+    observer_ptr<IRootWidget> m_root_widget = nullptr;
 
     Application() = default;
 

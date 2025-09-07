@@ -19,6 +19,7 @@
 #include "io/FileIO.h"
 #include "math/Matrix4f.h"
 #include "math/Vector3f.h"
+#include "memory/observer_ptr.h"
 #include "misc/builder/FramebufferBuilder.h"
 #include "misc/builder/TextureBuilder.h"
 #include "misc/misc.h"

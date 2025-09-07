@@ -61,22 +61,22 @@ const AppOptions& Application::get_options() const
 
 int Application::exec(IRootWidget* root_widget)
 {
-    m_root_widget_unowned_ptr = root_widget;
+    m_root_widget = observer_ptr(root_widget);
 
     glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int codepoint) {
-        charmApp.m_root_widget_unowned_ptr->on_char_callback(codepoint);
+        charmApp.m_root_widget->on_char_callback(codepoint);
     });
 
     glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-        charmApp.m_root_widget_unowned_ptr->on_key_callback(key, scancode, action, mods);
+        charmApp.m_root_widget->on_key_callback(key, scancode, action, mods);
     });
 
     glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double x, double y) {
-        charmApp.m_root_widget_unowned_ptr->on_cursor_position_callback(x, y);
+        charmApp.m_root_widget->on_cursor_position_callback(x, y);
     });
 
     glfwSetMouseButtonCallback(m_window, [](GLFWwindow*, int button, int action, int mods) {
-        charmApp.m_root_widget_unowned_ptr->on_mouse_button_callback(button, action, mods);
+        charmApp.m_root_widget->on_mouse_button_callback(button, action, mods);
     });
 
     glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
