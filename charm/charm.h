@@ -31,6 +31,7 @@
 #include "ui/elements/input/TextInput.h"
 #include "ui/elements/label/Label.h"
 #include "ui/elements/paddedcontainer/PaddedContainer.h"
+#include "ui/elements/scrollarea/ScrollArea.h"
 #include "ui/elements/vboxcontainer/VBoxContainer.h"
 
 #define ON_ENTER_ELEMENT_PRIORITY 1000

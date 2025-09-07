@@ -67,7 +67,7 @@ void VBoxContainer::set_bounds(float x, float y, float width, float height)
     float extra_height = std::max(0.f, height - get_min_height());
     float ycursor = y;
     for (const auto& child : m_children) {
-        float child_width = child->get_min_width();
+        float child_width = std::min(width, child->get_min_width());
         float child_height = child->get_min_height();
 
         if (child->get_is_width_expandable()) {

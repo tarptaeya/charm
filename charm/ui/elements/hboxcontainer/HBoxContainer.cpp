@@ -68,7 +68,7 @@ void HBoxContainer::set_bounds(float x, float y, float width, float height)
     float xcursor = x;
     for (const auto& child : m_children) {
         float child_width = child->get_min_width();
-        float child_height = child->get_min_height();
+        float child_height = std::min(height, child->get_min_height());
 
         if (child->get_is_width_expandable()) {
             child_width += extra_width / num_expandable;
