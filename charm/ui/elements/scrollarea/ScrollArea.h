@@ -22,7 +22,14 @@ public:
     float get_min_width() const override;
     float get_min_height() const override;
 
+    void on_cursor_pos_callback(double x, double y) override;
     void on_mouse_button_callback(int button, int action, int mods) override;
+
+private:
+    bool get_is_mouse_hover_left_button();
+    bool get_is_mouse_hover_right_button();
+    bool get_is_mouse_hover_top_button();
+    bool get_is_mouse_hover_bottom_button();
 };
 
 }

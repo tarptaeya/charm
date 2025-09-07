@@ -1,4 +1,5 @@
 #include "ScrollArea.h"
+#include "charm.h"
 
 namespace charm::ui {
 
@@ -85,6 +86,11 @@ float ScrollArea::get_min_height() const
     return 100;
 }
 
+void ScrollArea::on_cursor_pos_callback(double x, double y)
+{
+    Element::on_cursor_pos_callback(x, y);
+}
+
 void ScrollArea::on_mouse_button_callback(int button, int action, int mods)
 {
     Element::on_mouse_button_callback(button, action, mods);
@@ -93,44 +99,104 @@ void ScrollArea::on_mouse_button_callback(int button, int action, int mods)
     bool show_y_scrollbar = m_element->get_min_height() > m_height;
 
     if (m_is_mouse_just_pressed) {
-        if (show_x_scrollbar) {
-            if (m_x <= m_mouse_x && m_mouse_x <= m_x + SCROLLBAR_SIZE && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
-                m_shift_x += 10;
-            }
-
-            if (show_y_scrollbar) {
-                if (m_x + m_width - 2 * SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width - SCROLLBAR_SIZE && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
-                    m_shift_x -= 10;
-                }
-            } else {
-                if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
-                    m_shift_x -= 10;
-                }
-            }
+        if (get_is_mouse_hover_left_button()) {
+            m_shift_x += 10;
         }
 
-        if (show_y_scrollbar) {
-            if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y <= m_mouse_y && m_mouse_y <= m_y + SCROLLBAR_SIZE) {
-                m_shift_y += 10;
-            }
+        if (get_is_mouse_hover_right_button()) {
+            m_shift_x -= 10;
+        }
 
-            if (show_x_scrollbar) {
-                if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y + m_height - 2 * SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height - SCROLLBAR_SIZE) {
-                    m_shift_y -= 10;
-                }
-            } else {
-                if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
-                    m_shift_y -= 10;
-                }
+        if (get_is_mouse_hover_top_button()) {
+            m_shift_y += 10;
+        }
+
+        if (get_is_mouse_hover_bottom_button()) {
+            m_shift_y -= 10;
+        }
+
+        m_shift_x = std::max(m_shift_x, m_width - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_width());
+        m_shift_x = std::min(m_shift_x, 0.0f);
+
+        m_shift_y = std::max(m_shift_y, m_height - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_height());
+        m_shift_y = std::min(m_shift_y, 0.0f);
+    }
+}
+
+bool ScrollArea::get_is_mouse_hover_left_button()
+{
+    if (!m_is_mouse_hover)
+        return false;
+
+    bool show_x_scrollbar = m_element->get_min_width() > m_width;
+
+    if (show_x_scrollbar) {
+        if (m_x <= m_mouse_x && m_mouse_x <= m_x + SCROLLBAR_SIZE && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ScrollArea::get_is_mouse_hover_right_button()
+{
+    if (!m_is_mouse_hover)
+        return false;
+
+    bool show_x_scrollbar = m_element->get_min_width() > m_width;
+    bool show_y_scrollbar = m_element->get_min_height() > m_height;
+
+    if (show_x_scrollbar) {
+        if (show_y_scrollbar) {
+            if (m_x + m_width - 2 * SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width - SCROLLBAR_SIZE && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
+                return true;
+            }
+        } else {
+            if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool ScrollArea::get_is_mouse_hover_top_button()
+{
+    if (!m_is_mouse_hover)
+        return false;
+
+    bool show_x_scrollbar = m_element->get_min_width() > m_width;
+    bool show_y_scrollbar = m_element->get_min_height() > m_height;
+
+    if (show_y_scrollbar) {
+        if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y <= m_mouse_y && m_mouse_y <= m_y + SCROLLBAR_SIZE) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ScrollArea::get_is_mouse_hover_bottom_button()
+{
+    if (!m_is_mouse_hover)
+        return false;
+
+    bool show_x_scrollbar = m_element->get_min_width() > m_width;
+    bool show_y_scrollbar = m_element->get_min_height() > m_height;
+
+    if (show_y_scrollbar) {
+        if (show_x_scrollbar) {
+            if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y + m_height - 2 * SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height - SCROLLBAR_SIZE) {
+                return true;
+            }
+        } else {
+            if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
+                return true;
             }
         }
     }
 
-    m_shift_x = std::max(m_shift_x, m_width - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_width());
-    m_shift_x = std::min(m_shift_x, 0.0f);
-
-    m_shift_y = std::max(m_shift_y, m_height - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_height());
-    m_shift_y = std::min(m_shift_y, 0.0f);
+    return false;
 }
 
 }
