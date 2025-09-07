@@ -85,6 +85,16 @@ public:
                 ans_u2 = std::min(1.0f, (texcoords[1].u - texcoords[0].u) * (clip_x + clip_width - x) / width + texcoords[0].u);
             }
 
+            if (y < clip_y) {
+                ans_y1 = clip_y;
+                ans_v1 = std::min(1.0f, (texcoords[1].v - texcoords[0].v) * (clip_y - y) / height + texcoords[0].v);
+            }
+
+            if (clip_y + clip_height < y + height) {
+                ans_y2 = clip_y + clip_height;
+                ans_v2 = std::min(1.0f, (texcoords[1].v - texcoords[0].v) * (clip_y + clip_height - y) / height + texcoords[0].v);
+            }
+
             x = ans_x1;
             y = ans_y1;
             width = ans_x2 - ans_x1;
