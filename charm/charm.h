@@ -24,6 +24,7 @@
 #include "misc/builder/TextureBuilder.h"
 #include "misc/misc.h"
 #include "ui/Context.h"
+#include "ui/Panel.h"
 #include "ui/elements/Element.h"
 #include "ui/elements/button/Button.h"
 #include "ui/elements/canvas/Canvas.h"

@@ -13,12 +13,12 @@ VBoxContainer::~VBoxContainer()
 {
 }
 
-void VBoxContainer::add(Element* element)
+void VBoxContainer::add(const charm::observer_ptr<Element>& element)
 {
     m_children.push_back(element);
 }
 
-void VBoxContainer::remove(Element* element)
+void VBoxContainer::remove(const charm::observer_ptr<Element>& element)
 {
     auto it = std::find(m_children.begin(), m_children.end(), element);
     if (it == m_children.end())

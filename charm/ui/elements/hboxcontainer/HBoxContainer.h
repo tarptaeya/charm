@@ -1,12 +1,13 @@
 #pragma once
 
+#include "memory/observer_ptr.h"
 #include "ui/elements/Element.h"
 #include <vector>
 
 namespace charm::ui {
 
 class HBoxContainer : public Element {
-    std::vector<Element*> m_children;
+    std::vector<charm::observer_ptr<Element>> m_children;
 
 public:
     HBoxContainer();
@@ -15,8 +16,8 @@ public:
     HBoxContainer(const HBoxContainer&) = delete;
     HBoxContainer& operator=(const HBoxContainer&) = delete;
 
-    void add(Element*);
-    void remove(Element*);
+    void add(const charm::observer_ptr<Element>&);
+    void remove(const charm::observer_ptr<Element>&);
 
     void draw() override;
 

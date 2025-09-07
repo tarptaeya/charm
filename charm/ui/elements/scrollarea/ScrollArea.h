@@ -1,16 +1,17 @@
 #pragma once
 
+#include "memory/observer_ptr.h"
 #include "ui/elements/Element.h"
 
 namespace charm::ui {
 
 class ScrollArea : public Element {
-    Element* m_element = nullptr;
+    charm::observer_ptr<Element> m_element = nullptr;
     float m_shift_x = 0;
     float m_shift_y = 0;
 
 public:
-    ScrollArea(Element* element);
+    ScrollArea(const charm::observer_ptr<Element>&);
     ~ScrollArea();
 
     ScrollArea(const ScrollArea&) = delete;

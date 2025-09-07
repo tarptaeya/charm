@@ -1,5 +1,6 @@
 #pragma once
 
+#include "memory/observer_ptr.h"
 #include "ui/elements/Element.h"
 
 namespace charm::ui {
@@ -9,12 +10,12 @@ class PaddedContainer : public Element {
     float m_padding_right = 0;
     float m_padding_top = 0;
     float m_padding_bottom = 0;
-    Element* m_element = nullptr;
+    charm::observer_ptr<Element> m_element = nullptr;
 
 public:
-    PaddedContainer(Element*, float padding);
-    PaddedContainer(Element*, float padding_left_right, float padding_top_bottom);
-    PaddedContainer(Element*, float padding_left, float padding_right, float padding_top, float padding_bottom);
+    PaddedContainer(const charm::observer_ptr<Element>&, float padding);
+    PaddedContainer(const charm::observer_ptr<Element>&, float padding_left_right, float padding_top_bottom);
+    PaddedContainer(const charm::observer_ptr<Element>&, float padding_left, float padding_right, float padding_top, float padding_bottom);
 
     ~PaddedContainer() override;
 

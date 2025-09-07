@@ -24,6 +24,7 @@ add_library(
     misc/builder/FramebufferBuilder.cpp
     misc/builder/TextureBuilder.cpp
     ui/Context.cpp
+    ui/Panel.cpp
     ui/elements/Element.cpp
     ui/elements/button/Button.cpp
     ui/elements/canvas/Canvas.cpp

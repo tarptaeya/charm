@@ -13,12 +13,12 @@ HBoxContainer::~HBoxContainer()
 {
 }
 
-void HBoxContainer::add(Element* element)
+void HBoxContainer::add(const charm::observer_ptr<Element>& element)
 {
     m_children.push_back(element);
 }
 
-void HBoxContainer::remove(Element* element)
+void HBoxContainer::remove(const charm::observer_ptr<Element>& element)
 {
     auto it = std::find(m_children.begin(), m_children.end(), element);
     if (it == m_children.end())

@@ -6,7 +6,7 @@ namespace charm::ui {
 #define SCROLLBAR_SIZE 15
 #define CONTENT_PADDING 2
 
-ScrollArea::ScrollArea(Element* element)
+ScrollArea::ScrollArea(const charm::observer_ptr<Element>& element)
     : m_element(element)
 {
     set_is_width_expandable(true);
@@ -23,6 +23,11 @@ void ScrollArea::draw()
 
     bool show_x_scrollbar = m_element->get_min_width() > m_width;
     bool show_y_scrollbar = m_element->get_min_height() > m_height;
+
+    m_shift_x = std::max(m_shift_x, m_width - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_width());
+    m_shift_x = std::min(m_shift_x, 0.0f);
+    m_shift_y = std::max(m_shift_y, m_height - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_height());
+    m_shift_y = std::min(m_shift_y, 0.0f);
 
     m_element->set_bounds(m_x + m_shift_x, m_y + m_shift_y, m_element->get_min_width(), m_element->get_min_height());
     m_element->set_clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
@@ -114,12 +119,6 @@ void ScrollArea::on_mouse_button_callback(int button, int action, int mods)
         if (get_is_mouse_hover_bottom_button()) {
             m_shift_y -= 10;
         }
-
-        m_shift_x = std::max(m_shift_x, m_width - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_width());
-        m_shift_x = std::min(m_shift_x, 0.0f);
-
-        m_shift_y = std::max(m_shift_y, m_height - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_height());
-        m_shift_y = std::min(m_shift_y, 0.0f);
     }
 }
 
