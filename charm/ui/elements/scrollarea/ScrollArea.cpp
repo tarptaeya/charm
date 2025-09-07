@@ -120,6 +120,12 @@ void ScrollArea::on_mouse_button_callback(int button, int action, int mods)
             }
         }
     }
+
+    m_shift_x = std::min(m_shift_x, 0.0f);
+    m_shift_x = std::max(m_shift_x, m_width - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_width());
+
+    m_shift_y = std::min(m_shift_y, 0.0f);
+    m_shift_y = std::max(m_shift_y, m_height - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_height());
 }
 
 }
