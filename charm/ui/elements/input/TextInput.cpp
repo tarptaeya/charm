@@ -9,7 +9,6 @@ namespace charm::ui {
 TextInput::TextInput()
     : m_label("")
 {
-    set_is_width_expandable(true);
 }
 
 TextInput::~TextInput()
@@ -33,27 +32,38 @@ void TextInput::draw()
     auto& ui_context = Context::get_instance();
 
     Context::Rect outer_rect(m_x, m_y, m_width, m_height);
-    outer_rect.set_color({ 0, 0, 0 });
+    outer_rect.set_color({ 0, 0, 0 })
+        .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     ui_context.add_rect(outer_rect);
 
     Context::Rect inner_rect(m_x + BOX_BORDER_WIDTH, m_y + BOX_BORDER_WIDTH, m_width - 2 * BOX_BORDER_WIDTH, m_height - 2 * BOX_BORDER_WIDTH);
-    inner_rect.set_color(charmApp.get_options().ui_background_color);
+    inner_rect.set_color(charmApp.get_options().ui_background_color)
+        .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     ui_context.add_rect(inner_rect);
 
-    m_label.set_clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
-    m_label.draw();
+    float cursor_x = m_label.m_x;
+    float shift = 0;
+    for (int i = 0; i < m_cursor_pos; ++i) {
+        auto chrect = Label::get_rect_for_char(m_label.get_text()[i], m_label.get_font_size());
+        cursor_x += chrect.advance;
+    }
+
+    while (shift + cursor_x > m_x + m_width - 2 * PADDING) {
+        --shift;
+    }
 
     if (m_show_cursor) {
-        float xcurr = m_label.m_x;
-        for (int i = 0; i < m_cursor_pos; ++i) {
-            auto chrect = Label::get_rect_for_char(m_label.get_text()[i], m_label.get_font_size());
-            xcurr += chrect.advance;
-        }
-
-        Context::Rect cursor_rect(xcurr, m_y + 2 * BOX_BORDER_WIDTH, BOX_BORDER_WIDTH, m_height - 4 * BOX_BORDER_WIDTH);
-        cursor_rect.set_color({ 0, 0, 0 });
+        Context::Rect cursor_rect(cursor_x + shift, m_y + 2 * BOX_BORDER_WIDTH, BOX_BORDER_WIDTH, m_height - 4 * BOX_BORDER_WIDTH);
+        cursor_rect.set_color({ 0, 0, 0 })
+            .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
         ui_context.add_rect(cursor_rect);
     }
+
+    float label_y_padding = std::max(0.f, (m_height - m_label.get_min_height()) / 2);
+    m_label.set_bounds(m_x + shift + BOX_BORDER_WIDTH + PADDING, m_y + label_y_padding, m_width, m_height - 2 * label_y_padding);
+    m_label.set_clip(m_clip_x + BOX_BORDER_WIDTH + PADDING, m_clip_y, m_clip_width - BOX_BORDER_WIDTH - PADDING, m_clip_height);
+    m_label.add_clip(m_x, m_y, m_width, m_height);
+    m_label.draw();
 }
 
 float TextInput::get_min_width() const
@@ -69,10 +79,9 @@ float TextInput::get_min_height() const
 void TextInput::set_bounds(float x, float y, float width, float height)
 {
     Element::set_bounds(x, y, width, height);
-    float label_x_padding = std::max(0.f, (width - m_label.get_min_width()) / 2);
-    float label_y_padding = std::max(0.f, (height - m_label.get_min_height()) / 2);
 
-    m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - 2 * label_x_padding, height - 2 * label_y_padding);
+    float label_y_padding = std::max(0.f, (height - m_label.get_min_height()) / 2);
+    m_label.set_bounds(x + BOX_BORDER_WIDTH + PADDING, y + label_y_padding, m_label.get_min_width(), height - 2 * label_y_padding);
 }
 
 void TextInput::update(double delta_time)

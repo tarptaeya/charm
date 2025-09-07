@@ -17,6 +17,7 @@ class Example : public charm::IRootWidget {
     ui::ScrollArea* m_nested_scroll = nullptr;
     std::vector<ui::Button*> m_button_vec;
     ui::HBoxContainer* m_hbox = nullptr;
+    ui::TextInput* m_input = nullptr;
 
 public:
     Example()
@@ -29,6 +30,9 @@ public:
 
         m_vbox = new ui::VBoxContainer;
         m_scroll_area = new ui::ScrollArea(m_vbox);
+
+        m_input = new ui::TextInput;
+        m_vbox->add(m_input);
 
         for (int i = 0; i < 10; ++i) {
             auto label = new ui::Label(std::to_string(i + 1) + ". Lorem Ipsum is simply dummy text of the printing and typesetting industry.");
@@ -70,6 +74,8 @@ public:
         for (const auto& button : m_button_vec) {
             delete button;
         }
+
+        delete m_input;
     }
 
     void update(double delta_time) override
@@ -81,14 +87,18 @@ public:
         m_object.render(m_camera);
 
         draw(m_scroll_area, 50, 50, 300, 150);
+
+        m_input->update(delta_time);
     }
 
     void on_char_callback(unsigned int codepoint) override
     {
+        m_input->on_char_callback(codepoint);
     }
 
     void on_key_callback(int key, int scancode, int action, int mods) override
     {
+        m_input->on_key_callback(key, scancode, action, mods);
     }
 
     void on_cursor_position_callback(double x, double y) override
@@ -99,6 +109,7 @@ public:
         m_nested_scroll->on_cursor_pos_callback(x, y);
         for (const auto& button : m_button_vec)
             button->on_cursor_pos_callback(x, y);
+        m_input->on_cursor_pos_callback(x, y);
     }
 
     void on_mouse_button_callback(int button, int action, int mods) override
@@ -109,6 +120,7 @@ public:
         m_nested_scroll->on_mouse_button_callback(button, action, mods);
         for (const auto& b : m_button_vec)
             b->on_mouse_button_callback(button, action, mods);
+        m_input->on_mouse_button_callback(button, action, mods);
     }
 };
 
