@@ -3,6 +3,7 @@
 namespace charm::ui {
 
 #define SCROLLBAR_SIZE 15
+#define CONTENT_PADDING 2
 
 ScrollArea::ScrollArea(Element* element)
     : m_element(element)
@@ -19,14 +20,14 @@ void ScrollArea::draw()
 {
     Element::draw();
 
+    bool show_x_scrollbar = m_element->get_min_width() > m_width;
+    bool show_y_scrollbar = m_element->get_min_height() > m_height;
+
     m_element->set_bounds(m_x + m_shift_x, m_y + m_shift_y, m_element->get_min_width(), m_element->get_min_height());
-    m_element->set_clip(m_x, m_y, m_width, m_height);
+    m_element->set_clip(m_x, m_y, m_width - (show_y_scrollbar ? SCROLLBAR_SIZE + CONTENT_PADDING : 0), m_height - (show_x_scrollbar ? SCROLLBAR_SIZE + CONTENT_PADDING : 0));
     m_element->draw();
 
     auto& ui_context = Context::get_instance();
-
-    bool show_x_scrollbar = m_element->get_min_width() > m_width;
-    bool show_y_scrollbar = m_element->get_min_height() > m_height;
 
     if (show_x_scrollbar) {
         Context::Rect left_button_rect(m_x, m_y + m_height - SCROLLBAR_SIZE, SCROLLBAR_SIZE, SCROLLBAR_SIZE);
