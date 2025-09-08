@@ -130,26 +130,29 @@ void TextInput::on_char_callback(const InputEventChar& event)
     m_label.set_text(text);
 }
 
-void TextInput::on_key_callback(int key, int scancode, int action, int mods)
+void TextInput::on_key_callback(const InputEventKey& event)
 {
+    if (event.should_stop_propatation())
+        return;
+
     if (!m_is_active)
         return;
 
-    if (key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+    if (event.get_key() == GLFW_KEY_LEFT && (event.get_action() == GLFW_PRESS || event.get_action() == GLFW_REPEAT)) {
         m_cursor_pos -= 1;
         m_show_cursor = true;
         m_cursor_time_so_far = 0;
         m_cursor_pos = std::max(0, m_cursor_pos);
     }
 
-    if (key == GLFW_KEY_RIGHT && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+    if (event.get_key() == GLFW_KEY_RIGHT && (event.get_action() == GLFW_PRESS || event.get_action() == GLFW_REPEAT)) {
         m_cursor_pos += 1;
         m_show_cursor = true;
         m_cursor_time_so_far = 0;
         m_cursor_pos = std::min(m_cursor_pos, (int)m_label.get_text().size());
     }
 
-    if (key == GLFW_KEY_BACKSPACE && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+    if (event.get_key() == GLFW_KEY_BACKSPACE && (event.get_action() == GLFW_PRESS || event.get_action() == GLFW_REPEAT)) {
         auto text = m_label.get_text();
         if (m_cursor_pos != 0) {
             --m_cursor_pos;

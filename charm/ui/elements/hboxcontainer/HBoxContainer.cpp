@@ -95,6 +95,17 @@ void HBoxContainer::on_char_callback(const InputEventChar& event)
     }
 }
 
+void HBoxContainer::on_key_callback(const InputEventKey& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_key_callback(event);
+    for (const auto& child : m_children) {
+        child->on_key_callback(event);
+    }
+}
+
 void HBoxContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
 {
     if (event.should_stop_propatation())

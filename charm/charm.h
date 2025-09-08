@@ -12,6 +12,7 @@
 #include "ch3db/ch3db.h"
 #include "events/InputEvent.h"
 #include "events/InputEventChar.h"
+#include "events/InputEventKey.h"
 #include "events/InputEventMouseMotion.h"
 #include "gl/Context.h"
 #include "graphics/font/Font.h"

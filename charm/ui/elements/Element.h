@@ -1,6 +1,7 @@
 #pragma once
 
 #include "events/InputEventChar.h"
+#include "events/InputEventKey.h"
 #include "events/InputEventMouseMotion.h"
 #include "ui/Context.h"
 
@@ -42,7 +43,7 @@ public:
     virtual void on_mouse_exit() { }
 
     virtual void on_char_callback(const InputEventChar&) { }
-    virtual void on_key_callback(int key, int scancode, int action, int mods) { }
+    virtual void on_key_callback(const InputEventKey&) { }
     virtual void on_cursor_pos_callback(const InputEventMouseMotion&);
     virtual void on_mouse_button_callback(int button, int action, int mods);
 

@@ -94,9 +94,8 @@ void Panel::on_char_callback(unsigned int codepoint)
 
 void Panel::on_key_callback(int key, int scancode, int action, int mods)
 {
-    for (const auto& el : m_elements) {
-        el->on_key_callback(key, scancode, action, mods);
-    }
+    InputEventKey event(key, scancode, action, mods);
+    m_root_element->on_key_callback(event);
 }
 
 void Panel::on_cursor_pos_callback(double x, double y)
