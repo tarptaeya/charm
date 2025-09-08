@@ -10,6 +10,8 @@
 #include "app/IRootWidget.h"
 #include "camera/Camera.h"
 #include "ch3db/ch3db.h"
+#include "events/InputEvent.h"
+#include "events/InputEventMouseMotion.h"
 #include "gl/Context.h"
 #include "graphics/font/Font.h"
 #include "graphics/font/FontMetadata.h"
