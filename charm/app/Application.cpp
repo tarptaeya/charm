@@ -76,6 +76,7 @@ int Application::exec(AppAdapter* adapter)
     glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double x, double y) {
         InputEventMouseMotion event(x, y);
         charmApp.m_adapter->on_cursor_position_callback(event);
+        charmApp.set_cursor(event.get_cursor_shape());
     });
 
     glfwSetMouseButtonCallback(m_window, [](GLFWwindow*, int button, int action, int mods) {

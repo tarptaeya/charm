@@ -96,16 +96,6 @@ void TextInput::update(double delta_time)
     }
 }
 
-void TextInput::on_mouse_enter()
-{
-    charmApp.execute_on_frame_end(ON_ENTER_ELEMENT_PRIORITY, [] { charmApp.set_cursor(GLFW_IBEAM_CURSOR); });
-}
-
-void TextInput::on_mouse_exit()
-{
-    charmApp.execute_on_frame_end(ON_EXIT_ELEMENT_PRIORITY, [] { charmApp.set_cursor(GLFW_ARROW_CURSOR); });
-}
-
 void TextInput::on_char_callback(InputEventChar& event)
 {
     if (event.should_stop_propatation())
@@ -168,7 +158,9 @@ void TextInput::on_cursor_pos_callback(InputEventMouseMotion& event)
         return;
 
     Element::on_cursor_pos_callback(event);
-    m_label.on_cursor_pos_callback(event);
+    if (m_is_mouse_hover) {
+        event.set_cursor_shape(GLFW_IBEAM_CURSOR);
+    }
 }
 
 void TextInput::on_mouse_button_callback(InputEventMouseButton& event)

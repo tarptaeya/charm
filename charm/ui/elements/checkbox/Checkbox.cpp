@@ -69,16 +69,6 @@ Checkbox& Checkbox::set_text(const std::string& text)
     return *this;
 }
 
-void Checkbox::on_mouse_enter()
-{
-    charmApp.execute_on_frame_end(ON_ENTER_ELEMENT_PRIORITY, [] { charmApp.set_cursor(GLFW_HAND_CURSOR); });
-}
-
-void Checkbox::on_mouse_exit()
-{
-    charmApp.execute_on_frame_end(ON_EXIT_ELEMENT_PRIORITY, [] { charmApp.set_cursor(GLFW_ARROW_CURSOR); });
-}
-
 bool Checkbox::is_checked() const
 {
     return m_value;
@@ -91,8 +81,13 @@ int Checkbox::get_box_size() const
 
 void Checkbox::on_cursor_pos_callback(InputEventMouseMotion& event)
 {
+    if (event.should_stop_propatation())
+        return;
+
     Element::on_cursor_pos_callback(event);
-    m_label.on_cursor_pos_callback(event);
+    if (m_is_mouse_hover) {
+        event.set_cursor_shape(GLFW_HAND_CURSOR);
+    }
 }
 
 void Checkbox::on_mouse_button_callback(InputEventMouseButton& event)

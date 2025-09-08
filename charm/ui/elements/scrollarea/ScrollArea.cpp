@@ -116,6 +116,10 @@ void ScrollArea::on_cursor_pos_callback(InputEventMouseMotion& event)
 
     Element::on_cursor_pos_callback(event);
     m_element->on_cursor_pos_callback(event);
+
+    if (get_is_mouse_hover_left_button() || get_is_mouse_hover_right_button() || get_is_mouse_hover_top_button() || get_is_mouse_hover_bottom_button()) {
+        event.set_cursor_shape(GLFW_HAND_CURSOR);
+    }
 }
 
 void ScrollArea::on_mouse_button_callback(InputEventMouseButton& event)

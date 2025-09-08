@@ -27,9 +27,6 @@ public:
     Button& set_on_click_handler(std::function<void(InputEventMouseButton&)> on_click);
     Button& set_text(const std::string& text);
 
-    void on_mouse_enter() override;
-    void on_mouse_exit() override;
-
     void on_cursor_pos_callback(InputEventMouseMotion&) override;
     void on_mouse_button_callback(InputEventMouseButton&) override;
 };

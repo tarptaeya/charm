@@ -26,9 +26,6 @@ public:
 
     Checkbox& set_text(const std::string& text);
 
-    void on_mouse_enter() override;
-    void on_mouse_exit() override;
-
     bool is_checked() const;
 
     void on_cursor_pos_callback(InputEventMouseMotion&) override;
