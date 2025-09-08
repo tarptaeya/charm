@@ -84,4 +84,13 @@ void VBoxContainer::set_bounds(float x, float y, float width, float height)
     }
 }
 
+void VBoxContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
+{
+    Element::on_cursor_pos_callback(event);
+
+    for (const auto& child : m_children) {
+        child->on_cursor_pos_callback(event);
+    }
+}
+
 }

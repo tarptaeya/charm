@@ -69,6 +69,12 @@ void Button::on_mouse_exit()
     charmApp.execute_on_frame_end(ON_EXIT_ELEMENT_PRIORITY, [] { charmApp.set_cursor(GLFW_ARROW_CURSOR); });
 }
 
+void Button::on_cursor_pos_callback(const InputEventMouseMotion& event)
+{
+    Element::on_cursor_pos_callback(event);
+    m_label.on_cursor_pos_callback(event);
+}
+
 void Button::on_mouse_button_callback(int button, int action, int mods)
 {
     Element::on_mouse_button_callback(button, action, mods);

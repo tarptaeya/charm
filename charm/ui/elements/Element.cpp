@@ -124,10 +124,10 @@ void Element::add_clip(float x, float y, float width, float height)
     m_clip_height = std::max(0.0f, y2 - y1);
 }
 
-void Element::on_cursor_pos_callback(double x, double y)
+void Element::on_cursor_pos_callback(const InputEventMouseMotion& event)
 {
-    m_mouse_x = x;
-    m_mouse_y = y;
+    m_mouse_x = event.get_x();
+    m_mouse_y = event.get_y();
 
     bool prev_is_mouse_hover = m_is_mouse_hover;
     if (m_clip_x <= m_mouse_x && m_mouse_x <= m_clip_x + m_clip_width && m_clip_y <= m_mouse_y && m_mouse_y <= m_clip_y + m_clip_height) {

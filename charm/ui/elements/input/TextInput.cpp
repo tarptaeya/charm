@@ -154,9 +154,10 @@ void TextInput::on_key_callback(int key, int scancode, int action, int mods)
     }
 }
 
-void TextInput::on_cursor_pos_callback(double x, double y)
+void TextInput::on_cursor_pos_callback(const InputEventMouseMotion& event)
 {
-    Element::on_cursor_pos_callback(x, y);
+    Element::on_cursor_pos_callback(event);
+    m_label.on_cursor_pos_callback(event);
 }
 
 void TextInput::on_mouse_button_callback(int button, int action, int mods)

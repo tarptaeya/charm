@@ -28,6 +28,8 @@ public:
     float get_min_height() const override;
 
     void set_bounds(float x, float y, float width, float height) override;
+
+    void on_cursor_pos_callback(const InputEventMouseMotion&) override;
 };
 
 }

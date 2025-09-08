@@ -6,7 +6,7 @@
 
 namespace charm::ui {
 
-class Canvas : public Element {
+class [[deprecated]] Canvas : public Element {
     RenderTarget& m_render_target;
 
 public:

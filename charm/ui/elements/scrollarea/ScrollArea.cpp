@@ -91,9 +91,10 @@ float ScrollArea::get_min_height() const
     return 100;
 }
 
-void ScrollArea::on_cursor_pos_callback(double x, double y)
+void ScrollArea::on_cursor_pos_callback(const InputEventMouseMotion& event)
 {
-    Element::on_cursor_pos_callback(x, y);
+    Element::on_cursor_pos_callback(event);
+    m_element->on_cursor_pos_callback(event);
 }
 
 void ScrollArea::on_mouse_button_callback(int button, int action, int mods)

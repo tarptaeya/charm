@@ -71,4 +71,10 @@ void PaddedContainer::set_bounds(float x, float y, float width, float height)
     m_element->set_bounds(x + m_padding_left, y + m_padding_top, child_width, child_height);
 }
 
+void PaddedContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
+{
+    Element::on_cursor_pos_callback(event);
+    m_element->on_cursor_pos_callback(event);
+}
+
 }

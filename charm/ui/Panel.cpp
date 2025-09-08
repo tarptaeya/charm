@@ -102,8 +102,9 @@ void Panel::on_key_callback(int key, int scancode, int action, int mods)
 
 void Panel::on_cursor_pos_callback(double x, double y)
 {
+    InputEventMouseMotion event(x, y);
     for (const auto& el : m_elements) {
-        el->on_cursor_pos_callback(x, y);
+        el->on_cursor_pos_callback(event);
     }
 }
 
