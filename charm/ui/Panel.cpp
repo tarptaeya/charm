@@ -106,9 +106,8 @@ void Panel::on_cursor_pos_callback(double x, double y)
 
 void Panel::on_mouse_button_callback(int button, int action, int mods)
 {
-    for (const auto& el : m_elements) {
-        el->on_mouse_button_callback(button, action, mods);
-    }
+    InputEventMouseButton event(button, action, mods);
+    m_root_element->on_mouse_button_callback(event);
 }
 
 }

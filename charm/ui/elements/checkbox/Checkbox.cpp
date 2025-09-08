@@ -95,9 +95,12 @@ void Checkbox::on_cursor_pos_callback(const InputEventMouseMotion& event)
     m_label.on_cursor_pos_callback(event);
 }
 
-void Checkbox::on_mouse_button_callback(int button, int action, int mods)
+void Checkbox::on_mouse_button_callback(const InputEventMouseButton& event)
 {
-    Element::on_mouse_button_callback(button, action, mods);
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_mouse_button_callback(event);
 
     if (m_is_mouse_just_pressed) {
         m_value = !m_value;

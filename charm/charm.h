@@ -13,6 +13,7 @@
 #include "events/InputEvent.h"
 #include "events/InputEventChar.h"
 #include "events/InputEventKey.h"
+#include "events/InputEventMouseButton.h"
 #include "events/InputEventMouseMotion.h"
 #include "gl/Context.h"
 #include "graphics/font/Font.h"

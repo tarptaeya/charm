@@ -98,4 +98,13 @@ void PaddedContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
     m_element->on_cursor_pos_callback(event);
 }
 
+void PaddedContainer::on_mouse_button_callback(const InputEventMouseButton& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_mouse_button_callback(event);
+    m_element->on_mouse_button_callback(event);
+}
+
 }

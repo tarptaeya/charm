@@ -171,9 +171,12 @@ void TextInput::on_cursor_pos_callback(const InputEventMouseMotion& event)
     m_label.on_cursor_pos_callback(event);
 }
 
-void TextInput::on_mouse_button_callback(int button, int action, int mods)
+void TextInput::on_mouse_button_callback(const InputEventMouseButton& event)
 {
-    Element::on_mouse_button_callback(button, action, mods);
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_mouse_button_callback(event);
 
     if (m_is_mouse_just_pressed) {
         m_is_active = true;
@@ -181,7 +184,7 @@ void TextInput::on_mouse_button_callback(int button, int action, int mods)
         m_cursor_time_so_far = 0;
     }
 
-    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !m_is_mouse_hover) {
+    if (event.get_button() == GLFW_MOUSE_BUTTON_LEFT && event.get_action() == GLFW_PRESS && !m_is_mouse_hover) {
         m_is_active = false;
         m_show_cursor = false;
         m_cursor_time_so_far = 0;

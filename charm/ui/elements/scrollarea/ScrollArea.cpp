@@ -118,30 +118,39 @@ void ScrollArea::on_cursor_pos_callback(const InputEventMouseMotion& event)
     m_element->on_cursor_pos_callback(event);
 }
 
-void ScrollArea::on_mouse_button_callback(int button, int action, int mods)
+void ScrollArea::on_mouse_button_callback(const InputEventMouseButton& event)
 {
-    Element::on_mouse_button_callback(button, action, mods);
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_mouse_button_callback(event);
 
     bool show_x_scrollbar = m_element->get_min_width() > m_width;
     bool show_y_scrollbar = m_element->get_min_height() > m_height;
 
     if (m_is_mouse_just_pressed) {
         if (get_is_mouse_hover_left_button()) {
+            event.should_stop_propatation();
             m_shift_x += 10;
         }
 
         if (get_is_mouse_hover_right_button()) {
+            event.should_stop_propatation();
             m_shift_x -= 10;
         }
 
         if (get_is_mouse_hover_top_button()) {
+            event.should_stop_propatation();
             m_shift_y += 10;
         }
 
         if (get_is_mouse_hover_bottom_button()) {
+            event.should_stop_propatation();
             m_shift_y -= 10;
         }
     }
+
+    m_element->on_mouse_button_callback(event);
 }
 
 bool ScrollArea::get_is_mouse_hover_left_button()

@@ -146,9 +146,12 @@ void Element::on_cursor_pos_callback(const InputEventMouseMotion& event)
     }
 }
 
-void Element::on_mouse_button_callback(int button, int action, int mods)
+void Element::on_mouse_button_callback(const InputEventMouseButton& event)
 {
-    if (m_is_mouse_hover && button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+    if (event.should_stop_propatation())
+        return;
+
+    if (m_is_mouse_hover && event.get_button() == GLFW_MOUSE_BUTTON_LEFT && event.get_action() == GLFW_PRESS) {
         if (!m_is_mouse_just_pressed && !m_is_mouse_pressed)
             m_is_mouse_just_pressed = true;
         else

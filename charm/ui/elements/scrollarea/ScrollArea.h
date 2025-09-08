@@ -26,7 +26,7 @@ public:
     void on_char_callback(const InputEventChar&) override;
     void on_key_callback(const InputEventKey&) override;
     void on_cursor_pos_callback(const InputEventMouseMotion&) override;
-    void on_mouse_button_callback(int button, int action, int mods) override;
+    void on_mouse_button_callback(const InputEventMouseButton&) override;
 
 private:
     bool get_is_mouse_hover_left_button();

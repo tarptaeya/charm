@@ -47,7 +47,7 @@ void Button::set_bounds(float x, float y, float width, float height)
     m_label.set_bounds(x + label_x_padding, y + label_y_padding, width - 2 * label_x_padding, height - 2 * label_y_padding);
 }
 
-Button& Button::set_on_click_handler(std::function<void()> on_click)
+Button& Button::set_on_click_handler(std::function<void(const InputEventMouseButton&)> on_click)
 {
     m_on_click = on_click;
     return *this;
@@ -75,12 +75,14 @@ void Button::on_cursor_pos_callback(const InputEventMouseMotion& event)
     m_label.on_cursor_pos_callback(event);
 }
 
-void Button::on_mouse_button_callback(int button, int action, int mods)
+void Button::on_mouse_button_callback(const InputEventMouseButton& event)
 {
-    Element::on_mouse_button_callback(button, action, mods);
+    if (event.should_stop_propatation())
+        return;
 
+    Element::on_mouse_button_callback(event);
     if (m_is_mouse_just_pressed) {
-        m_on_click();
+        m_on_click(event);
     }
 }
 

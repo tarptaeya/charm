@@ -117,4 +117,15 @@ void HBoxContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
     }
 }
 
+void HBoxContainer::on_mouse_button_callback(const InputEventMouseButton& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_mouse_button_callback(event);
+    for (const auto& child : m_children) {
+        child->on_mouse_button_callback(event);
+    }
+}
+
 }
