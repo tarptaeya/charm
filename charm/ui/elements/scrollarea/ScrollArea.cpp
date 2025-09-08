@@ -91,8 +91,20 @@ float ScrollArea::get_min_height() const
     return 100;
 }
 
+void ScrollArea::on_char_callback(const InputEventChar& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_char_callback(event);
+    m_element->on_char_callback(event);
+}
+
 void ScrollArea::on_cursor_pos_callback(const InputEventMouseMotion& event)
 {
+    if (event.should_stop_propatation())
+        return;
+
     Element::on_cursor_pos_callback(event);
     m_element->on_cursor_pos_callback(event);
 }

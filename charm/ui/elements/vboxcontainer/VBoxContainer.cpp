@@ -84,10 +84,23 @@ void VBoxContainer::set_bounds(float x, float y, float width, float height)
     }
 }
 
+void VBoxContainer::on_char_callback(const InputEventChar& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_char_callback(event);
+    for (const auto& child : m_children) {
+        child->on_char_callback(event);
+    }
+}
+
 void VBoxContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
 {
-    Element::on_cursor_pos_callback(event);
+    if (event.should_stop_propatation())
+        return;
 
+    Element::on_cursor_pos_callback(event);
     for (const auto& child : m_children) {
         child->on_cursor_pos_callback(event);
     }

@@ -29,6 +29,7 @@ public:
 
     void set_bounds(float x, float y, float width, float height) override;
 
+    void on_char_callback(const InputEventChar&) override;
     void on_cursor_pos_callback(const InputEventMouseMotion&) override;
 };
 

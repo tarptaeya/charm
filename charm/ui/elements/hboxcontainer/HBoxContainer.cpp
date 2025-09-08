@@ -84,8 +84,22 @@ void HBoxContainer::set_bounds(float x, float y, float width, float height)
     }
 }
 
+void HBoxContainer::on_char_callback(const InputEventChar& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_char_callback(event);
+    for (const auto& child : m_children) {
+        child->on_char_callback(event);
+    }
+}
+
 void HBoxContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
 {
+    if (event.should_stop_propatation())
+        return;
+
     Element::on_cursor_pos_callback(event);
     for (const auto& child : m_children) {
         child->on_cursor_pos_callback(event);

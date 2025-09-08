@@ -4,6 +4,7 @@ add_library(
     app/Application.cpp
     camera/Camera.cpp
     ch3db/ch3db.cpp
+    events/InputEventChar.cpp
     events/InputEventMouseMotion.cpp
     gl/Buffer.cpp
     gl/Context.cpp

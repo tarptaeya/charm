@@ -33,7 +33,7 @@ public:
     void on_mouse_enter() override;
     void on_mouse_exit() override;
 
-    void on_char_callback(unsigned int codepoint) override;
+    void on_char_callback(const InputEventChar&) override;
     void on_key_callback(int key, int scancode, int action, int mods) override;
     void on_cursor_pos_callback(const InputEventMouseMotion&) override;
     void on_mouse_button_callback(int button, int action, int mods) override;

@@ -126,6 +126,9 @@ void Element::add_clip(float x, float y, float width, float height)
 
 void Element::on_cursor_pos_callback(const InputEventMouseMotion& event)
 {
+    if (event.should_stop_propatation())
+        return;
+
     m_mouse_x = event.get_x();
     m_mouse_y = event.get_y();
 

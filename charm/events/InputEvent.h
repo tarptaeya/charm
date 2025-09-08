@@ -3,7 +3,7 @@
 namespace charm {
 
 class InputEvent {
-    bool m_is_handled = false;
+    bool m_should_stop_propagation = false;
 
 public:
     InputEvent() = default;
@@ -15,14 +15,14 @@ public:
     InputEvent(InputEvent&&) = default;
     InputEvent& operator=(InputEvent&&) = default;
 
-    bool is_handled() const
+    bool should_stop_propatation() const
     {
-        return m_is_handled;
+        return m_should_stop_propagation;
     }
 
     void stop_propagation()
     {
-        m_is_handled = true;
+        m_should_stop_propagation = true;
     }
 };
 

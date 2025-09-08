@@ -71,8 +71,20 @@ void PaddedContainer::set_bounds(float x, float y, float width, float height)
     m_element->set_bounds(x + m_padding_left, y + m_padding_top, child_width, child_height);
 }
 
+void PaddedContainer::on_char_callback(const InputEventChar& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_char_callback(event);
+    m_element->on_char_callback(event);
+}
+
 void PaddedContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
 {
+    if (event.should_stop_propatation())
+        return;
+
     Element::on_cursor_pos_callback(event);
     m_element->on_cursor_pos_callback(event);
 }

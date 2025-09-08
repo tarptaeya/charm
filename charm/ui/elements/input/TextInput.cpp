@@ -106,15 +106,20 @@ void TextInput::on_mouse_exit()
     charmApp.execute_on_frame_end(ON_EXIT_ELEMENT_PRIORITY, [] { charmApp.set_cursor(GLFW_ARROW_CURSOR); });
 }
 
-void TextInput::on_char_callback(unsigned int codepoint)
+void TextInput::on_char_callback(const InputEventChar& event)
 {
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_char_callback(event);
+
     if (!m_is_active)
         return;
 
-    if (codepoint > 127)
+    if (event.get_codepoint() > 127)
         return;
 
-    char ch = static_cast<char>(codepoint);
+    char ch = static_cast<char>(event.get_codepoint());
     auto text = m_label.get_text();
     if (m_cursor_pos == text.size()) {
         text += ch;
@@ -156,6 +161,9 @@ void TextInput::on_key_callback(int key, int scancode, int action, int mods)
 
 void TextInput::on_cursor_pos_callback(const InputEventMouseMotion& event)
 {
+    if (event.should_stop_propatation())
+        return;
+
     Element::on_cursor_pos_callback(event);
     m_label.on_cursor_pos_callback(event);
 }
