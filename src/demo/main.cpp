@@ -52,7 +52,8 @@ public:
         vbox->add(checkbox);
 
         auto button = m_panel.create<ui::Button>("Remove labels");
-        button->set_on_click_handler([](const InputEventMouseButton& event) {
+        button->set_on_click_handler([](InputEventMouseButton& event) {
+            event.stop_propagation();
         });
         vbox->add(button);
     }

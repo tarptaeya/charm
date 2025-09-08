@@ -84,7 +84,7 @@ void VBoxContainer::set_bounds(float x, float y, float width, float height)
     }
 }
 
-void VBoxContainer::on_char_callback(const InputEventChar& event)
+void VBoxContainer::on_char_callback(InputEventChar& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -95,7 +95,7 @@ void VBoxContainer::on_char_callback(const InputEventChar& event)
     }
 }
 
-void VBoxContainer::on_key_callback(const InputEventKey& event)
+void VBoxContainer::on_key_callback(InputEventKey& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -106,7 +106,7 @@ void VBoxContainer::on_key_callback(const InputEventKey& event)
     }
 }
 
-void VBoxContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
+void VBoxContainer::on_cursor_pos_callback(InputEventMouseMotion& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -117,7 +117,7 @@ void VBoxContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
     }
 }
 
-void VBoxContainer::on_mouse_button_callback(const InputEventMouseButton& event)
+void VBoxContainer::on_mouse_button_callback(InputEventMouseButton& event)
 {
     if (event.should_stop_propatation())
         return;

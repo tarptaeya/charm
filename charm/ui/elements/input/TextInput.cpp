@@ -106,7 +106,7 @@ void TextInput::on_mouse_exit()
     charmApp.execute_on_frame_end(ON_EXIT_ELEMENT_PRIORITY, [] { charmApp.set_cursor(GLFW_ARROW_CURSOR); });
 }
 
-void TextInput::on_char_callback(const InputEventChar& event)
+void TextInput::on_char_callback(InputEventChar& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -130,7 +130,7 @@ void TextInput::on_char_callback(const InputEventChar& event)
     m_label.set_text(text);
 }
 
-void TextInput::on_key_callback(const InputEventKey& event)
+void TextInput::on_key_callback(InputEventKey& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -162,7 +162,7 @@ void TextInput::on_key_callback(const InputEventKey& event)
     }
 }
 
-void TextInput::on_cursor_pos_callback(const InputEventMouseMotion& event)
+void TextInput::on_cursor_pos_callback(InputEventMouseMotion& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -171,7 +171,7 @@ void TextInput::on_cursor_pos_callback(const InputEventMouseMotion& event)
     m_label.on_cursor_pos_callback(event);
 }
 
-void TextInput::on_mouse_button_callback(const InputEventMouseButton& event)
+void TextInput::on_mouse_button_callback(InputEventMouseButton& event)
 {
     if (event.should_stop_propatation())
         return;

@@ -89,13 +89,13 @@ int Checkbox::get_box_size() const
     return m_height;
 }
 
-void Checkbox::on_cursor_pos_callback(const InputEventMouseMotion& event)
+void Checkbox::on_cursor_pos_callback(InputEventMouseMotion& event)
 {
     Element::on_cursor_pos_callback(event);
     m_label.on_cursor_pos_callback(event);
 }
 
-void Checkbox::on_mouse_button_callback(const InputEventMouseButton& event)
+void Checkbox::on_mouse_button_callback(InputEventMouseButton& event)
 {
     if (event.should_stop_propatation())
         return;

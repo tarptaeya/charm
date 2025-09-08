@@ -91,7 +91,7 @@ float ScrollArea::get_min_height() const
     return 100;
 }
 
-void ScrollArea::on_char_callback(const InputEventChar& event)
+void ScrollArea::on_char_callback(InputEventChar& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -100,7 +100,7 @@ void ScrollArea::on_char_callback(const InputEventChar& event)
     m_element->on_char_callback(event);
 }
 
-void ScrollArea::on_key_callback(const InputEventKey& event)
+void ScrollArea::on_key_callback(InputEventKey& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -109,7 +109,7 @@ void ScrollArea::on_key_callback(const InputEventKey& event)
     m_element->on_key_callback(event);
 }
 
-void ScrollArea::on_cursor_pos_callback(const InputEventMouseMotion& event)
+void ScrollArea::on_cursor_pos_callback(InputEventMouseMotion& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -118,7 +118,7 @@ void ScrollArea::on_cursor_pos_callback(const InputEventMouseMotion& event)
     m_element->on_cursor_pos_callback(event);
 }
 
-void ScrollArea::on_mouse_button_callback(const InputEventMouseButton& event)
+void ScrollArea::on_mouse_button_callback(InputEventMouseButton& event)
 {
     if (event.should_stop_propatation())
         return;

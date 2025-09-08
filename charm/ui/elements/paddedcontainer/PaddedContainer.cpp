@@ -71,7 +71,7 @@ void PaddedContainer::set_bounds(float x, float y, float width, float height)
     m_element->set_bounds(x + m_padding_left, y + m_padding_top, child_width, child_height);
 }
 
-void PaddedContainer::on_char_callback(const InputEventChar& event)
+void PaddedContainer::on_char_callback(InputEventChar& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -80,7 +80,7 @@ void PaddedContainer::on_char_callback(const InputEventChar& event)
     m_element->on_char_callback(event);
 }
 
-void PaddedContainer::on_key_callback(const InputEventKey& event)
+void PaddedContainer::on_key_callback(InputEventKey& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -89,7 +89,7 @@ void PaddedContainer::on_key_callback(const InputEventKey& event)
     m_element->on_key_callback(event);
 }
 
-void PaddedContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
+void PaddedContainer::on_cursor_pos_callback(InputEventMouseMotion& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -98,7 +98,7 @@ void PaddedContainer::on_cursor_pos_callback(const InputEventMouseMotion& event)
     m_element->on_cursor_pos_callback(event);
 }
 
-void PaddedContainer::on_mouse_button_callback(const InputEventMouseButton& event)
+void PaddedContainer::on_mouse_button_callback(InputEventMouseButton& event)
 {
     if (event.should_stop_propatation())
         return;

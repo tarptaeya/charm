@@ -124,7 +124,7 @@ void Element::add_clip(float x, float y, float width, float height)
     m_clip_height = std::max(0.0f, y2 - y1);
 }
 
-void Element::on_cursor_pos_callback(const InputEventMouseMotion& event)
+void Element::on_cursor_pos_callback(InputEventMouseMotion& event)
 {
     if (event.should_stop_propatation())
         return;
@@ -146,7 +146,7 @@ void Element::on_cursor_pos_callback(const InputEventMouseMotion& event)
     }
 }
 
-void Element::on_mouse_button_callback(const InputEventMouseButton& event)
+void Element::on_mouse_button_callback(InputEventMouseButton& event)
 {
     if (event.should_stop_propatation())
         return;
