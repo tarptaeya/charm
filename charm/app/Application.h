@@ -14,7 +14,7 @@
 namespace charm {
 
 class Window;
-class IRootWidget;
+class AppAdapter;
 class Font;
 
 class Application {
@@ -27,7 +27,7 @@ class Application {
     int m_height = 0;
     std::vector<std::pair<int, std::function<void()>>> m_functions_to_execute_on_frame_end;
 
-    observer_ptr<IRootWidget> m_root_widget = nullptr;
+    observer_ptr<AppAdapter> m_adapter = nullptr;
 
     Application() = default;
 
@@ -43,7 +43,7 @@ public:
 
     const AppOptions& get_options() const;
 
-    int exec(IRootWidget*);
+    int exec(AppAdapter*);
 
     static Application& get_instance();
 

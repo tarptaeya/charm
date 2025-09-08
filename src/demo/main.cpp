@@ -5,7 +5,7 @@
 
 using namespace charm;
 
-class Example : public charm::IRootWidget {
+class Example : public charm::AppAdapter {
     Camera m_camera;
     RootObject m_object;
 
@@ -14,7 +14,7 @@ class Example : public charm::IRootWidget {
 
 public:
     Example()
-        : charm::IRootWidget()
+        : charm::AppAdapter()
     {
         glfwSwapInterval(0);
 
@@ -77,24 +77,24 @@ public:
         m_panel.draw(50, 300, 300, 150);
     }
 
-    void on_char_callback(unsigned int codepoint) override
+    void on_char_callback(InputEventChar& event) override
     {
-        m_panel.on_char_callback(codepoint);
+        m_panel.on_char_callback(event);
     }
 
-    void on_key_callback(int key, int scancode, int action, int mods) override
+    void on_key_callback(InputEventKey& event) override
     {
-        m_panel.on_key_callback(key, scancode, action, mods);
+        m_panel.on_key_callback(event);
     }
 
-    void on_cursor_position_callback(double x, double y) override
+    void on_cursor_position_callback(InputEventMouseMotion& event) override
     {
-        m_panel.on_cursor_pos_callback(x, y);
+        m_panel.on_cursor_pos_callback(event);
     }
 
-    void on_mouse_button_callback(int button, int action, int mods) override
+    void on_mouse_button_callback(InputEventMouseButton& event) override
     {
-        m_panel.on_mouse_button_callback(button, action, mods);
+        m_panel.on_mouse_button_callback(event);
     }
 };
 

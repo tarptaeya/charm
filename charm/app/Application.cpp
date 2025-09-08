@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "IRootWidget.h"
+#include "AppAdapter.h"
 #include "graphics/font/Font.h"
 #include "io/FileIO.h"
 
@@ -59,24 +59,28 @@ const AppOptions& Application::get_options() const
     return m_options;
 }
 
-int Application::exec(IRootWidget* root_widget)
+int Application::exec(AppAdapter* adapter)
 {
-    m_root_widget = observer_ptr(root_widget);
+    m_adapter = observer_ptr(adapter);
 
     glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int codepoint) {
-        charmApp.m_root_widget->on_char_callback(codepoint);
+        InputEventChar event(codepoint);
+        charmApp.m_adapter->on_char_callback(event);
     });
 
     glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-        charmApp.m_root_widget->on_key_callback(key, scancode, action, mods);
+        InputEventKey event(key, scancode, action, mods);
+        charmApp.m_adapter->on_key_callback(event);
     });
 
     glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double x, double y) {
-        charmApp.m_root_widget->on_cursor_position_callback(x, y);
+        InputEventMouseMotion event(x, y);
+        charmApp.m_adapter->on_cursor_position_callback(event);
     });
 
     glfwSetMouseButtonCallback(m_window, [](GLFWwindow*, int button, int action, int mods) {
-        charmApp.m_root_widget->on_mouse_button_callback(button, action, mods);
+        InputEventMouseButton event(button, action, mods);
+        charmApp.m_adapter->on_mouse_button_callback(event);
     });
 
     glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
@@ -91,7 +95,7 @@ int Application::exec(IRootWidget* root_widget)
         prev_time = curr_time;
 
         gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
-        root_widget->update(delta_time);
+        m_adapter->update(delta_time);
 
         std::sort(m_functions_to_execute_on_frame_end.begin(), m_functions_to_execute_on_frame_end.end(), [](const auto& a, const auto& b) {
             return a.first < b.first;

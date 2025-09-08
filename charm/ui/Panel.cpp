@@ -86,27 +86,35 @@ void Panel::update(double delta_time)
     }
 }
 
-void Panel::on_char_callback(unsigned int codepoint)
+void Panel::on_char_callback(InputEventChar& event)
 {
-    InputEventChar event(codepoint);
+    if (event.should_stop_propatation())
+        return;
+
     m_root_element->on_char_callback(event);
 }
 
-void Panel::on_key_callback(int key, int scancode, int action, int mods)
+void Panel::on_key_callback(InputEventKey& event)
 {
-    InputEventKey event(key, scancode, action, mods);
+    if (event.should_stop_propatation())
+        return;
+
     m_root_element->on_key_callback(event);
 }
 
-void Panel::on_cursor_pos_callback(double x, double y)
+void Panel::on_cursor_pos_callback(InputEventMouseMotion& event)
 {
-    InputEventMouseMotion event(x, y);
+    if (event.should_stop_propatation())
+        return;
+
     m_root_element->on_cursor_pos_callback(event);
 }
 
-void Panel::on_mouse_button_callback(int button, int action, int mods)
+void Panel::on_mouse_button_callback(InputEventMouseButton& event)
 {
-    InputEventMouseButton event(button, action, mods);
+    if (event.should_stop_propatation())
+        return;
+
     m_root_element->on_mouse_button_callback(event);
 }
 

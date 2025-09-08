@@ -32,10 +32,10 @@ public:
     void draw(float x, float y, float width, float height);
 
     void update(double delta_time);
-    void on_char_callback(unsigned int codepoint);
-    void on_key_callback(int key, int scancode, int action, int mods);
-    void on_cursor_pos_callback(double x, double y);
-    void on_mouse_button_callback(int button, int action, int mods);
+    void on_char_callback(InputEventChar&);
+    void on_key_callback(InputEventKey&);
+    void on_cursor_pos_callback(InputEventMouseMotion&);
+    void on_mouse_button_callback(InputEventMouseButton&);
 };
 
 }

@@ -5,9 +5,9 @@
 
 #include <cmath>
 
+#include "app/AppAdapter.h"
 #include "app/AppOptions.h"
 #include "app/Application.h"
-#include "app/IRootWidget.h"
 #include "camera/Camera.h"
 #include "ch3db/ch3db.h"
 #include "events/InputEvent.h"
