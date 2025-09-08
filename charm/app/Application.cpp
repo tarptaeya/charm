@@ -121,6 +121,10 @@ Application& Application::get_instance()
 
 void Application::set_cursor(int shape)
 {
+    if (m_prev_cursor_shape == shape)
+        return;
+
+    m_prev_cursor_shape = shape;
     if (m_cursor)
         glfwDestroyCursor(m_cursor);
 

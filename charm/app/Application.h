@@ -22,6 +22,7 @@ class Application {
 
     AppOptions m_options;
     GLFWwindow* m_window = nullptr;
+    int m_prev_cursor_shape = 0;
     GLFWcursor* m_cursor = nullptr;
     int m_width = 0;
     int m_height = 0;
