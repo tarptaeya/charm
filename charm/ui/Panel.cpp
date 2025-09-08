@@ -79,4 +79,39 @@ void Panel::draw(float x, float y, float width, float height)
     gl::Context::enable(GL_DEPTH_TEST);
 }
 
+void Panel::update(double delta_time)
+{
+    for (const auto& el : m_elements) {
+        el->update(delta_time);
+    }
+}
+
+void Panel::on_char_callback(unsigned int codepoint)
+{
+    for (const auto& el : m_elements) {
+        el->on_char_callback(codepoint);
+    }
+}
+
+void Panel::on_key_callback(int key, int scancode, int action, int mods)
+{
+    for (const auto& el : m_elements) {
+        el->on_key_callback(key, scancode, action, mods);
+    }
+}
+
+void Panel::on_cursor_pos_callback(double x, double y)
+{
+    for (const auto& el : m_elements) {
+        el->on_cursor_pos_callback(x, y);
+    }
+}
+
+void Panel::on_mouse_button_callback(int button, int action, int mods)
+{
+    for (const auto& el : m_elements) {
+        el->on_mouse_button_callback(button, action, mods);
+    }
+}
+
 }
