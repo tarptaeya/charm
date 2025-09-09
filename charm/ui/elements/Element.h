@@ -41,9 +41,6 @@ public:
 
     virtual void update(double delta_time) { }
 
-    virtual void on_mouse_enter() { }
-    virtual void on_mouse_exit() { }
-
     virtual void on_char_callback(InputEventChar&) { }
     virtual void on_key_callback(InputEventKey&) { }
     virtual void on_cursor_pos_callback(InputEventMouseMotion&);
@@ -67,6 +64,8 @@ protected:
     bool m_is_mouse_hover = false;
     bool m_is_mouse_pressed = false;
     bool m_is_mouse_just_pressed = false;
+    bool m_is_mouse_just_entered = false;
+    bool m_is_mouse_just_exited = false;
 };
 
 }

@@ -139,10 +139,11 @@ void Element::on_cursor_pos_callback(InputEventMouseMotion& event)
         m_is_mouse_hover = false;
     }
 
+    m_is_mouse_just_entered = m_is_mouse_just_exited = false;
     if (!prev_is_mouse_hover && m_is_mouse_hover) {
-        on_mouse_enter();
+        m_is_mouse_just_entered = true;
     } else if (prev_is_mouse_hover && !m_is_mouse_hover) {
-        on_mouse_exit();
+        m_is_mouse_just_exited = true;
     }
 }
 
