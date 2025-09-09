@@ -4,6 +4,7 @@
 #include "events/InputEventKey.h"
 #include "events/InputEventMouseButton.h"
 #include "events/InputEventMouseMotion.h"
+#include "events/InputEventScroll.h"
 
 namespace charm {
 
@@ -22,6 +23,7 @@ public:
     virtual void on_key_callback(InputEventKey&) { }
     virtual void on_cursor_position_callback(InputEventMouseMotion&) { }
     virtual void on_mouse_button_callback(InputEventMouseButton&) { }
+    virtual void on_scroll_callback(InputEventScroll&) { }
 };
 
 }

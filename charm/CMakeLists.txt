@@ -8,6 +8,7 @@ add_library(
     events/InputEventKey.cpp
     events/InputEventMouseButton.cpp
     events/InputEventMouseMotion.cpp
+    events/InputEventScroll.cpp
     gl/Buffer.cpp
     gl/Context.cpp
     gl/Framebuffer.cpp

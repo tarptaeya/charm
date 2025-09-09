@@ -4,6 +4,7 @@
 #include "events/InputEventKey.h"
 #include "events/InputEventMouseButton.h"
 #include "events/InputEventMouseMotion.h"
+#include "events/InputEventScroll.h"
 #include "ui/Context.h"
 
 namespace charm::ui {
@@ -47,6 +48,7 @@ public:
     virtual void on_key_callback(InputEventKey&) { }
     virtual void on_cursor_pos_callback(InputEventMouseMotion&);
     virtual void on_mouse_button_callback(InputEventMouseButton&);
+    virtual void on_scroll_callback(InputEventScroll&) { }
 
 protected:
     float m_x = 0;

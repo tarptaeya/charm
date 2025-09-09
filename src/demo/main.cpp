@@ -96,6 +96,11 @@ public:
     {
         m_panel.on_mouse_button_callback(event);
     }
+
+    void on_scroll_callback(InputEventScroll& event) override
+    {
+        m_panel.on_scroll_callback(event);
+    }
 };
 
 int main()

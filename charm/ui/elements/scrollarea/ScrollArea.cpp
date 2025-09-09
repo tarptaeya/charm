@@ -157,6 +157,21 @@ void ScrollArea::on_mouse_button_callback(InputEventMouseButton& event)
     m_element->on_mouse_button_callback(event);
 }
 
+void ScrollArea::on_scroll_callback(InputEventScroll& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_scroll_callback(event);
+    m_element->on_scroll_callback(event);
+
+    if (m_is_mouse_hover && !event.should_stop_propatation()) {
+        m_shift_x += event.get_xoffset();
+        m_shift_y += event.get_yoffset();
+        event.stop_propagation();
+    }
+}
+
 bool ScrollArea::get_is_mouse_hover_left_button()
 {
     if (!m_is_mouse_hover)

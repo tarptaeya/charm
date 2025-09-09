@@ -15,6 +15,7 @@
 #include "events/InputEventKey.h"
 #include "events/InputEventMouseButton.h"
 #include "events/InputEventMouseMotion.h"
+#include "events/InputEventScroll.h"
 #include "gl/Context.h"
 #include "graphics/font/Font.h"
 #include "graphics/font/FontMetadata.h"

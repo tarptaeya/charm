@@ -84,6 +84,11 @@ int Application::exec(AppAdapter* adapter)
         charmApp.m_adapter->on_mouse_button_callback(event);
     });
 
+    glfwSetScrollCallback(m_window, [](GLFWwindow*, double xoffset, double yoffset) {
+        InputEventScroll event(xoffset, yoffset);
+        charmApp.m_adapter->on_scroll_callback(event);
+    });
+
     glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
         charmApp.m_width = width;
         charmApp.m_height = height;

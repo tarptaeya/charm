@@ -36,6 +36,7 @@ public:
     void on_key_callback(InputEventKey&);
     void on_cursor_pos_callback(InputEventMouseMotion&);
     void on_mouse_button_callback(InputEventMouseButton&);
+    void on_scroll_callback(InputEventScroll&);
 };
 
 }

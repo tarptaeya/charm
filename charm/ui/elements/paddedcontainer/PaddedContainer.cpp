@@ -107,4 +107,13 @@ void PaddedContainer::on_mouse_button_callback(InputEventMouseButton& event)
     m_element->on_mouse_button_callback(event);
 }
 
+void PaddedContainer::on_scroll_callback(InputEventScroll& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_scroll_callback(event);
+    m_element->on_scroll_callback(event);
+}
+
 }

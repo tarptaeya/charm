@@ -30,6 +30,7 @@ public:
     void on_key_callback(InputEventKey&) override;
     void on_cursor_pos_callback(InputEventMouseMotion&) override;
     void on_mouse_button_callback(InputEventMouseButton&) override;
+    void on_scroll_callback(InputEventScroll&) override;
 };
 
 }

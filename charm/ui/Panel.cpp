@@ -118,4 +118,12 @@ void Panel::on_mouse_button_callback(InputEventMouseButton& event)
     m_root_element->on_mouse_button_callback(event);
 }
 
+void Panel::on_scroll_callback(InputEventScroll& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    m_root_element->on_scroll_callback(event);
+}
+
 }

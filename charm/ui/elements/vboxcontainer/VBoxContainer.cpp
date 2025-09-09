@@ -128,4 +128,15 @@ void VBoxContainer::on_mouse_button_callback(InputEventMouseButton& event)
     }
 }
 
+void VBoxContainer::on_scroll_callback(InputEventScroll& event)
+{
+    if (event.should_stop_propatation())
+        return;
+
+    Element::on_scroll_callback(event);
+    for (const auto& child : m_children) {
+        child->on_scroll_callback(event);
+    }
+}
+
 }
