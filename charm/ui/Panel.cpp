@@ -81,9 +81,7 @@ void Panel::draw(float x, float y, float width, float height)
 
 void Panel::update(double delta_time)
 {
-    for (const auto& el : m_elements) {
-        el->update(delta_time);
-    }
+    m_root_element->update(delta_time);
 }
 
 void Panel::on_char_callback(InputEventChar& event)

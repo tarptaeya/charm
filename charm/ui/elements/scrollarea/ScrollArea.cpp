@@ -91,6 +91,11 @@ float ScrollArea::get_min_height() const
     return 100;
 }
 
+void ScrollArea::update(double delta_time)
+{
+    m_element->update(delta_time);
+}
+
 void ScrollArea::on_char_callback(InputEventChar& event)
 {
     if (event.should_stop_propatation())

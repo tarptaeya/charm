@@ -84,6 +84,13 @@ void HBoxContainer::set_bounds(float x, float y, float width, float height)
     }
 }
 
+void HBoxContainer::update(double delta_time)
+{
+    for (const auto& child : m_children) {
+        child->update(delta_time);
+    }
+}
+
 void HBoxContainer::on_char_callback(InputEventChar& event)
 {
     if (event.should_stop_propatation())

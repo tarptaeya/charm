@@ -84,6 +84,13 @@ void VBoxContainer::set_bounds(float x, float y, float width, float height)
     }
 }
 
+void VBoxContainer::update(double delta_time)
+{
+    for (const auto& child : m_children) {
+        child->update(delta_time);
+    }
+}
+
 void VBoxContainer::on_char_callback(InputEventChar& event)
 {
     if (event.should_stop_propatation())

@@ -26,6 +26,8 @@ public:
 
     void set_bounds(float x, float y, float width, float height) override;
 
+    void update(double delta_time) override;
+
     void on_char_callback(InputEventChar&) override;
     void on_key_callback(InputEventKey&) override;
     void on_cursor_pos_callback(InputEventMouseMotion&) override;
