@@ -5,6 +5,7 @@ namespace charm::ui {
 
 #define SCROLLBAR_SIZE 15
 #define CONTENT_PADDING 2
+#define SPEED 10
 
 ScrollArea::ScrollArea(const charm::observer_ptr<Element>& element)
     : m_element(element)
@@ -140,22 +141,22 @@ void ScrollArea::on_mouse_button_callback(InputEventMouseButton& event)
     if (m_is_mouse_just_pressed) {
         if (get_is_mouse_hover_left_button()) {
             event.should_stop_propatation();
-            m_shift_x += 10;
+            m_shift_x += SPEED;
         }
 
         if (get_is_mouse_hover_right_button()) {
             event.should_stop_propatation();
-            m_shift_x -= 10;
+            m_shift_x -= SPEED;
         }
 
         if (get_is_mouse_hover_top_button()) {
             event.should_stop_propatation();
-            m_shift_y += 10;
+            m_shift_y += SPEED;
         }
 
         if (get_is_mouse_hover_bottom_button()) {
             event.should_stop_propatation();
-            m_shift_y -= 10;
+            m_shift_y -= SPEED;
         }
     }
 
@@ -171,8 +172,8 @@ void ScrollArea::on_scroll_callback(InputEventScroll& event)
     m_element->on_scroll_callback(event);
 
     if (m_is_mouse_hover && !event.should_stop_propatation()) {
-        m_shift_x += event.get_xoffset();
-        m_shift_y += event.get_yoffset();
+        m_shift_x += event.get_xoffset() * SPEED;
+        m_shift_y += event.get_yoffset() * SPEED;
         event.stop_propagation();
     }
 }
