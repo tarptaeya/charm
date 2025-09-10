@@ -25,9 +25,9 @@ void ScrollArea::draw()
     bool show_x_scrollbar = m_element->get_min_width() > m_width;
     bool show_y_scrollbar = m_element->get_min_height() > m_height;
 
-    m_shift_x = std::max(m_shift_x, m_width - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_width());
+    m_shift_x = std::max(m_shift_x, m_width - m_element->get_min_width() - (show_y_scrollbar ? SCROLLBAR_SIZE + CONTENT_PADDING : 0));
     m_shift_x = std::min(m_shift_x, 0.0f);
-    m_shift_y = std::max(m_shift_y, m_height - SCROLLBAR_SIZE - CONTENT_PADDING - m_element->get_min_height());
+    m_shift_y = std::max(m_shift_y, m_height - m_element->get_min_height() - (show_x_scrollbar ? SCROLLBAR_SIZE + CONTENT_PADDING : 0));
     m_shift_y = std::min(m_shift_y, 0.0f);
 
     m_element->set_bounds(m_x + m_shift_x, m_y + m_shift_y, m_element->get_min_width(), m_element->get_min_height());
@@ -38,41 +38,33 @@ void ScrollArea::draw()
     auto& ui_context = Context::get_instance();
 
     if (show_x_scrollbar) {
-        Context::Rect left_button_rect(m_x, m_y + m_height - SCROLLBAR_SIZE, SCROLLBAR_SIZE, SCROLLBAR_SIZE);
-        left_button_rect.set_color({ 0, 0, 0 })
-            .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
-        ui_context.add_rect(left_button_rect);
+        float handle_container_width = m_width;
+        float handle_size = m_width / m_element->get_min_width() * handle_container_width;
 
         if (show_y_scrollbar) {
-            Context::Rect right_button_rect(m_x + m_width - 2 * SCROLLBAR_SIZE, m_y + m_height - SCROLLBAR_SIZE, SCROLLBAR_SIZE, SCROLLBAR_SIZE);
-            right_button_rect.set_color({ 0, 0, 0 })
-                .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
-            ui_context.add_rect(right_button_rect);
-        } else {
-            Context::Rect right_button_rect(m_x + m_width - SCROLLBAR_SIZE, m_y + m_height - SCROLLBAR_SIZE, SCROLLBAR_SIZE, SCROLLBAR_SIZE);
-            right_button_rect.set_color({ 0, 0, 0 })
-                .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
-            ui_context.add_rect(right_button_rect);
+            handle_container_width = m_width - SCROLLBAR_SIZE;
+            handle_size = (m_width - SCROLLBAR_SIZE) / m_element->get_min_width() * handle_container_width;
         }
+
+        Context::Rect handle_rect(m_x - handle_container_width * m_shift_x / m_element->get_min_width(), m_y + m_height - SCROLLBAR_SIZE, handle_size, SCROLLBAR_SIZE);
+        handle_rect.set_color({ 1.0, 0, 0 })
+            .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
+        ui_context.add_rect(handle_rect);
     }
 
     if (show_y_scrollbar) {
-        Context::Rect top_button_rect(m_x + m_width - SCROLLBAR_SIZE, m_y, SCROLLBAR_SIZE, SCROLLBAR_SIZE);
-        top_button_rect.set_color({ 0, 0, 0 })
-            .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
-        ui_context.add_rect(top_button_rect);
+        float handle_container_height = m_height;
+        float handle_size = m_height / m_element->get_min_height() * handle_container_height;
 
         if (show_x_scrollbar) {
-            Context::Rect bottom_button_rect(m_x + m_width - SCROLLBAR_SIZE, m_y + m_height - 2 * SCROLLBAR_SIZE, SCROLLBAR_SIZE, SCROLLBAR_SIZE);
-            bottom_button_rect.set_color({ 0, 0, 0 })
-                .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
-            ui_context.add_rect(bottom_button_rect);
-        } else {
-            Context::Rect bottom_button_rect(m_x + m_width - SCROLLBAR_SIZE, m_y + m_height - SCROLLBAR_SIZE, SCROLLBAR_SIZE, SCROLLBAR_SIZE);
-            bottom_button_rect.set_color({ 0, 0, 0 })
-                .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
-            ui_context.add_rect(bottom_button_rect);
+            handle_container_height = m_height - SCROLLBAR_SIZE;
+            handle_size = (m_height - SCROLLBAR_SIZE) / m_element->get_min_height() * handle_container_height;
         }
+
+        Context::Rect handle_rect(m_x + m_width - SCROLLBAR_SIZE, m_y - handle_container_height * m_shift_y / m_element->get_min_height(), SCROLLBAR_SIZE, handle_size);
+        handle_rect.set_color({ 1.0, 0, 0 })
+            .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
+        ui_context.add_rect(handle_rect);
     }
 }
 
