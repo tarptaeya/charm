@@ -23,18 +23,18 @@ void Checkbox::draw()
     auto& ui_context = Context::get_instance();
 
     Context::Rect outer_rect(m_x, m_y, get_box_size(), get_box_size());
-    outer_rect.set_color({ 0, 0, 0 })
+    outer_rect.set_color(m_style.checkbox_color)
         .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     ui_context.add_rect(outer_rect);
 
     Context::Rect inner_rect(m_x + BOX_BORDER_WIDTH, m_y + BOX_BORDER_WIDTH, get_box_size() - 2 * BOX_BORDER_WIDTH, get_box_size() - 2 * BOX_BORDER_WIDTH);
-    inner_rect.set_color(charmApp.get_options().ui_background_color)
+    inner_rect.set_color(m_style.checkbox_background_color)
         .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     ui_context.add_rect(inner_rect);
 
     if (m_value) {
         Context::Rect value_rect(m_x + 2 * BOX_BORDER_WIDTH, m_y + 2 * BOX_BORDER_WIDTH, get_box_size() - 4 * BOX_BORDER_WIDTH, get_box_size() - 4 * BOX_BORDER_WIDTH);
-        value_rect.set_color({ 0, 0, 0 })
+        value_rect.set_color(m_style.checkbox_color)
             .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
         ui_context.add_rect(value_rect);
     }
@@ -100,6 +100,12 @@ void Checkbox::on_mouse_button_callback(InputEventMouseButton& event)
     if (m_is_mouse_just_pressed) {
         m_value = !m_value;
     }
+}
+
+void Checkbox::set_style(const Style& style)
+{
+    m_style = style;
+    m_label.set_style(style);
 }
 
 }

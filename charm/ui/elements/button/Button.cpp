@@ -20,7 +20,7 @@ void Button::draw()
     auto& ui_context = Context::get_instance();
 
     Context::Rect rect(m_x, m_y, m_width, m_height);
-    rect.set_color(m_is_mouse_hover ? Context::Color { 0.25, 0.55, 0.6 } : Context::Color { 0.2, 0.5, 0.5 })
+    rect.set_color(m_is_mouse_hover ? m_style.button_active_color : m_style.button_color)
         .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     ui_context.add_rect(rect);
 
@@ -79,6 +79,15 @@ void Button::on_mouse_button_callback(InputEventMouseButton& event)
     if (m_is_mouse_just_pressed) {
         m_on_click(event);
     }
+}
+
+void Button::set_style(const Style& style)
+{
+    m_style = style;
+
+    Style other_style = style;
+    other_style.text_color = style.button_text_color;
+    m_label.set_style(other_style);
 }
 
 }

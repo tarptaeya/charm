@@ -31,6 +31,8 @@ public:
     void on_cursor_pos_callback(InputEventMouseMotion&) override;
     void on_mouse_button_callback(InputEventMouseButton&) override;
 
+    void set_style(const Style&) override;
+
 private:
     int get_box_size() const;
 };

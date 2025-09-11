@@ -6,6 +6,7 @@
 #include "events/InputEventMouseMotion.h"
 #include "events/InputEventScroll.h"
 #include "ui/Context.h"
+#include "ui/Style.h"
 
 namespace charm::ui {
 
@@ -47,6 +48,8 @@ public:
     virtual void on_mouse_button_callback(InputEventMouseButton&);
     virtual void on_scroll_callback(InputEventScroll&) { }
 
+    virtual void set_style(const Style&);
+
 protected:
     float m_x = 0;
     float m_y = 0;
@@ -57,6 +60,8 @@ protected:
     float m_clip_y = 0;
     float m_clip_width = 0;
     float m_clip_height = 0;
+
+    Style m_style = { 0 };
 
     float m_mouse_x = 0;
     float m_mouse_y = 0;

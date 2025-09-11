@@ -3,6 +3,11 @@
 
 namespace charm::ui {
 
+Panel::Panel(const Style& style)
+{
+    m_style = style;
+}
+
 Panel::~Panel()
 {
     for (const auto& el : m_elements) {
@@ -13,6 +18,7 @@ Panel::~Panel()
 
 Panel::Panel(Panel&& other)
 {
+    m_style = other.m_style;
     m_root_element = other.m_root_element;
     m_elements = std::move(other.m_elements);
     m_elements.clear();
@@ -24,6 +30,7 @@ Panel& Panel::operator=(Panel&& other)
     if (this == &other)
         return *this;
 
+    m_style = other.m_style;
     m_root_element = other.m_root_element;
     m_elements = std::move(other.m_elements);
     m_elements.clear();
@@ -69,7 +76,7 @@ void Panel::draw(float x, float y, float width, float height)
 
     ui_context.begin();
 
-    ui_context.add_rect(x, y, width, height, charmApp.get_options().ui_background_color, 0, { 0, 0 }, { 0, 0 });
+    ui_context.add_rect(x, y, width, height, m_style.background_color, 0, { 0, 0 }, { 0, 0 });
     m_root_element->set_bounds(x, y, width, height);
     m_root_element->set_clip(x, y, width, height);
     m_root_element->draw();

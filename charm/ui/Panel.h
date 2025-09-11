@@ -1,16 +1,18 @@
 #pragma once
 
+#include "Style.h"
 #include "memory/observer_ptr.h"
 #include "ui/elements/Element.h"
 
 namespace charm::ui {
 
 class Panel {
+    Style m_style;
     std::vector<ui::Element*> m_elements;
     charm::observer_ptr<ui::Element> m_root_element = nullptr;
 
 public:
-    Panel() = default;
+    Panel(const Style& style);
     ~Panel();
 
     Panel(const Panel&) = delete;
@@ -24,6 +26,7 @@ public:
     {
         static_assert(std::is_base_of<Element, T>::value);
         T* element = new T(std::forward<Args>(args)...);
+        element->set_style(m_style);
         m_elements.push_back(element);
         return charm::observer_ptr(element);
     }

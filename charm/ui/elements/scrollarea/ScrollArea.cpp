@@ -47,7 +47,7 @@ void ScrollArea::draw()
         }
 
         Context::Rect handle_rect(m_x - handle_container_width * m_shift_x / m_element->get_min_width(), m_y + m_height - SCROLLBAR_SIZE, handle_size, SCROLLBAR_SIZE);
-        handle_rect.set_color({ 1.0, 0, 0 })
+        handle_rect.set_color(m_style.scroll_handle_color)
             .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
         ui_context.add_rect(handle_rect);
     }
@@ -62,7 +62,7 @@ void ScrollArea::draw()
         }
 
         Context::Rect handle_rect(m_x + m_width - SCROLLBAR_SIZE, m_y - handle_container_height * m_shift_y / m_element->get_min_height(), SCROLLBAR_SIZE, handle_size);
-        handle_rect.set_color({ 1.0, 0, 0 })
+        handle_rect.set_color(m_style.scroll_handle_color)
             .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
         ui_context.add_rect(handle_rect);
     }

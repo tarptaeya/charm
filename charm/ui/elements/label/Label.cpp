@@ -27,7 +27,7 @@ void Label::draw()
         auto chrect = get_rect_for_char(c, m_font_size);
 
         Context::Rect rect(chrect.x + xcurr, chrect.y + ycurr, chrect.width, chrect.height);
-        rect.set_color({ 0, 0, 0 })
+        rect.set_color(m_style.text_color)
             .set_active_texture(FONT_TEXTURE_UNIT)
             .set_texcoords({ chrect.u1, chrect.v1 }, { chrect.u2, chrect.v2 })
             .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);

@@ -165,4 +165,9 @@ void Element::on_mouse_button_callback(InputEventMouseButton& event)
     }
 }
 
+void Element::set_style(const Style& style)
+{
+    m_style = style;
+}
+
 }

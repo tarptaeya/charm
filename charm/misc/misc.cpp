@@ -2,6 +2,11 @@
 
 namespace charm {
 
+bool Color::operator==(const Color& other) const
+{
+    return r == other.r && g == other.g && b == other.b;
+}
+
 namespace utils {
 
     std::vector<std::string> split(const std::string& str, char delim)

@@ -32,12 +32,12 @@ void TextInput::draw()
     auto& ui_context = Context::get_instance();
 
     Context::Rect outer_rect(m_x, m_y, m_width, m_height);
-    outer_rect.set_color({ 0, 0, 0 })
+    outer_rect.set_color(m_style.input_outline_color)
         .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     ui_context.add_rect(outer_rect);
 
     Context::Rect inner_rect(m_x + BOX_BORDER_WIDTH, m_y + BOX_BORDER_WIDTH, m_width - 2 * BOX_BORDER_WIDTH, m_height - 2 * BOX_BORDER_WIDTH);
-    inner_rect.set_color(charmApp.get_options().ui_background_color)
+    inner_rect.set_color(m_style.input_background_color)
         .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
     ui_context.add_rect(inner_rect);
 
@@ -54,7 +54,7 @@ void TextInput::draw()
 
     if (m_show_cursor) {
         Context::Rect cursor_rect(cursor_x + shift, m_y + 2 * BOX_BORDER_WIDTH, BOX_BORDER_WIDTH, m_height - 4 * BOX_BORDER_WIDTH);
-        cursor_rect.set_color({ 0, 0, 0 })
+        cursor_rect.set_color(m_style.input_text_color)
             .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
         ui_context.add_rect(cursor_rect);
     }
@@ -181,6 +181,15 @@ void TextInput::on_mouse_button_callback(InputEventMouseButton& event)
         m_show_cursor = false;
         m_cursor_time_so_far = 0;
     }
+}
+
+void TextInput::set_style(const Style& style)
+{
+    m_style = style;
+
+    Style other_style = style;
+    other_style.text_color = style.input_text_color;
+    m_label.set_style(other_style);
 }
 
 }

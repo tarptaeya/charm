@@ -2,6 +2,7 @@
 
 #include "gl/Context.h"
 #include "graphics/font/Font.h"
+#include "misc/misc.h"
 #include <iostream>
 #include <vector>
 
@@ -15,14 +16,6 @@ namespace charm::ui {
 
 class Context {
 public:
-    struct Color {
-        float r, g, b;
-    };
-
-    struct Texcoord {
-        float u, v;
-    };
-
     struct Vertex {
         float x, y;
         Color color;
