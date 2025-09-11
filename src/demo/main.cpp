@@ -5,6 +5,11 @@
 
 using namespace charm;
 
+void add_spacer(observer_ptr<ui::VBoxContainer>& container, ui::Panel* panel)
+{
+    container->add(panel->create<ui::Label>(" "));
+}
+
 class Example : public charm::AppAdapter {
     Camera m_camera;
     RootObject m_object;
@@ -31,6 +36,7 @@ public:
         auto main_container = m_panel->create<ui::VBoxContainer>();
         m_fps_counter = m_panel->create<ui::Label>("");
         main_container->add(m_fps_counter);
+        add_spacer(main_container, m_panel.get());
         main_container->add(scroll);
         m_panel->set_root(main_container);
 
@@ -42,18 +48,26 @@ public:
             vbox->add(label);
         }
 
+        add_spacer(vbox, m_panel.get());
+
         auto hbox = m_panel->create<ui::HBoxContainer>();
         for (int i = 0; i < 5; ++i) {
             auto button = m_panel->create<ui::Button>("Click Me");
             hbox->add(button);
         }
 
+        add_spacer(vbox, m_panel.get());
+
         auto nested_scroll = m_panel->create<ui::ScrollArea>(hbox);
         nested_scroll->set_is_width_expandable(false).set_is_height_expandable(false);
         vbox->add(nested_scroll);
 
+        add_spacer(vbox, m_panel.get());
+
         auto checkbox = m_panel->create<ui::Checkbox>("I am a checkbox!");
         vbox->add(checkbox);
+
+        add_spacer(vbox, m_panel.get());
 
         auto button = m_panel->create<ui::Button>("Remove labels");
         button->set_on_click_handler([](InputEventMouseButton& event) {
@@ -78,7 +92,7 @@ public:
         m_fps_counter->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));
 
         m_panel->update(delta_time);
-        m_panel->draw(50, 300, 300, 150);
+        m_panel->draw(50, 50, 300, 400);
     }
 
     void on_char_callback(InputEventChar& event) override
