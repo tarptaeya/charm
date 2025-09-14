@@ -38,6 +38,7 @@ add_library(
     ui/elements/input/TextInput.cpp
     ui/elements/label/Label.cpp
     ui/elements/paddedcontainer/PaddedContainer.cpp
+    ui/elements/paragraph/Paragraph.cpp
     ui/elements/scrollarea/ScrollArea.cpp
     ui/elements/vboxcontainer/VBoxContainer.cpp
 )

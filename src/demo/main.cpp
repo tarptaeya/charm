@@ -74,6 +74,12 @@ public:
             event.stop_propagation();
         });
         vbox->add(button);
+
+        std::string text = R"(
+Members of an inline namespace are treated as if they are members of the enclosing namespace in many situations (listed below). This property is transitive: if a namespace N contains an inline namespace M, which in turn contains an inline namespace O, then the members of O can be used as though they were members of M or N.
+)";
+        auto paragraph = m_panel->create<ui::Paragraph>(text);
+        vbox->add(paragraph);
     }
 
     ~Example()
