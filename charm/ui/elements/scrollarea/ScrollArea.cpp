@@ -38,30 +38,14 @@ void ScrollArea::draw()
     auto& ui_context = Context::get_instance();
 
     if (show_x_scrollbar) {
-        float handle_container_width = m_width;
-        float handle_size = m_width / m_element->get_min_width() * handle_container_width;
-
-        if (show_y_scrollbar) {
-            handle_container_width = m_width - SCROLLBAR_SIZE;
-            handle_size = (m_width - SCROLLBAR_SIZE) / m_element->get_min_width() * handle_container_width;
-        }
-
-        Context::Rect handle_rect(m_x - handle_container_width * m_shift_x / m_element->get_min_width(), m_y + m_height - SCROLLBAR_SIZE, handle_size, SCROLLBAR_SIZE);
+        Context::Rect handle_rect = get_horizontal_handle_rect();
         handle_rect.set_color(m_style.scroll_handle_color)
             .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
         ui_context.add_rect(handle_rect);
     }
 
     if (show_y_scrollbar) {
-        float handle_container_height = m_height;
-        float handle_size = m_height / m_element->get_min_height() * handle_container_height;
-
-        if (show_x_scrollbar) {
-            handle_container_height = m_height - SCROLLBAR_SIZE;
-            handle_size = (m_height - SCROLLBAR_SIZE) / m_element->get_min_height() * handle_container_height;
-        }
-
-        Context::Rect handle_rect(m_x + m_width - SCROLLBAR_SIZE, m_y - handle_container_height * m_shift_y / m_element->get_min_height(), SCROLLBAR_SIZE, handle_size);
+        Context::Rect handle_rect = get_vertical_handle_rect();
         handle_rect.set_color(m_style.scroll_handle_color)
             .clip(m_clip_x, m_clip_y, m_clip_width, m_clip_height);
         ui_context.add_rect(handle_rect);
@@ -115,8 +99,34 @@ void ScrollArea::on_cursor_pos_callback(InputEventMouseMotion& event)
     Element::on_cursor_pos_callback(event);
     m_element->on_cursor_pos_callback(event);
 
-    if (get_is_mouse_hover_left_button() || get_is_mouse_hover_right_button() || get_is_mouse_hover_top_button() || get_is_mouse_hover_bottom_button()) {
+    if (get_is_mouse_hover_horizontal_handle() || get_is_mouse_hover_vertical_handle()) {
         event.set_cursor_shape(GLFW_HAND_CURSOR);
+    }
+
+    if (m_is_horizontal_handle_dragged) {
+        bool show_y_scrollbar = m_element->get_min_height() > m_height;
+
+        float handle_container_width = m_width;
+        if (show_y_scrollbar) {
+            handle_container_width = m_width - SCROLLBAR_SIZE;
+        }
+
+        float dx = m_mouse_x - m_drag_prev_x;
+        m_drag_prev_x = m_mouse_x;
+        m_shift_x -= dx * m_element->get_min_width() / handle_container_width;
+    }
+
+    if (m_is_vertical_handle_dragged) {
+        bool show_x_scrollbar = m_element->get_min_width() > m_width;
+
+        float handle_container_height = m_height;
+        if (show_x_scrollbar) {
+            handle_container_height = m_height - SCROLLBAR_SIZE;
+        }
+
+        float dy = m_mouse_y - m_drag_prev_y;
+        m_drag_prev_y = m_mouse_y;
+        m_shift_y -= dy * m_element->get_min_height() / handle_container_height;
     }
 }
 
@@ -131,25 +141,19 @@ void ScrollArea::on_mouse_button_callback(InputEventMouseButton& event)
     bool show_y_scrollbar = m_element->get_min_height() > m_height;
 
     if (m_is_mouse_just_pressed) {
-        if (get_is_mouse_hover_left_button()) {
-            event.should_stop_propatation();
-            m_shift_x += SPEED;
+        if (get_is_mouse_hover_horizontal_handle()) {
+            m_is_horizontal_handle_dragged = true;
+            m_drag_prev_x = m_mouse_x;
         }
+        if (get_is_mouse_hover_vertical_handle()) {
+            m_is_vertical_handle_dragged = true;
+            m_drag_prev_y = m_mouse_y;
+        }
+    }
 
-        if (get_is_mouse_hover_right_button()) {
-            event.should_stop_propatation();
-            m_shift_x -= SPEED;
-        }
-
-        if (get_is_mouse_hover_top_button()) {
-            event.should_stop_propatation();
-            m_shift_y += SPEED;
-        }
-
-        if (get_is_mouse_hover_bottom_button()) {
-            event.should_stop_propatation();
-            m_shift_y -= SPEED;
-        }
+    if (!m_is_mouse_pressed) {
+        m_is_horizontal_handle_dragged = false;
+        m_is_vertical_handle_dragged = false;
     }
 
     m_element->on_mouse_button_callback(event);
@@ -170,80 +174,62 @@ void ScrollArea::on_scroll_callback(InputEventScroll& event)
     }
 }
 
-bool ScrollArea::get_is_mouse_hover_left_button()
+bool ScrollArea::get_is_mouse_hover_horizontal_handle() const
 {
-    if (!m_is_mouse_hover)
-        return false;
-
     bool show_x_scrollbar = m_element->get_min_width() > m_width;
 
     if (show_x_scrollbar) {
-        if (m_x <= m_mouse_x && m_mouse_x <= m_x + SCROLLBAR_SIZE && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
-            return true;
-        }
+        auto rect = get_horizontal_handle_rect();
+        return rect.x <= m_mouse_x && m_mouse_x <= rect.x + rect.width && rect.y <= m_mouse_y && m_mouse_y <= rect.y + rect.height;
     }
+
     return false;
 }
 
-bool ScrollArea::get_is_mouse_hover_right_button()
+bool ScrollArea::get_is_mouse_hover_vertical_handle() const
 {
-    if (!m_is_mouse_hover)
-        return false;
+    bool show_y_scrollbar = m_element->get_min_height() > m_height;
 
+    if (show_y_scrollbar) {
+        auto rect = get_vertical_handle_rect();
+        return rect.x <= m_mouse_x && m_mouse_x <= rect.x + rect.width && rect.y <= m_mouse_y && m_mouse_y <= rect.y + rect.height;
+    }
+
+    return false;
+}
+
+Context::Rect ScrollArea::get_horizontal_handle_rect() const
+{
     bool show_x_scrollbar = m_element->get_min_width() > m_width;
     bool show_y_scrollbar = m_element->get_min_height() > m_height;
+
+    float handle_container_width = m_width;
+    float handle_size = m_width / m_element->get_min_width() * handle_container_width;
+
+    if (show_y_scrollbar) {
+        handle_container_width = m_width - SCROLLBAR_SIZE;
+        handle_size = (m_width - SCROLLBAR_SIZE) / m_element->get_min_width() * handle_container_width;
+    }
+
+    Context::Rect handle_rect(m_x - handle_container_width * m_shift_x / m_element->get_min_width(), m_y + m_height - SCROLLBAR_SIZE, handle_size, SCROLLBAR_SIZE);
+    return handle_rect;
+}
+
+Context::Rect ScrollArea::get_vertical_handle_rect() const
+{
+    bool show_x_scrollbar = m_element->get_min_width() > m_width;
+    bool show_y_scrollbar = m_element->get_min_height() > m_height;
+
+    float handle_container_height = m_height;
+    float handle_size = m_height / m_element->get_min_height() * handle_container_height;
 
     if (show_x_scrollbar) {
-        if (show_y_scrollbar) {
-            if (m_x + m_width - 2 * SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width - SCROLLBAR_SIZE && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
-                return true;
-            }
-        } else {
-            if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-bool ScrollArea::get_is_mouse_hover_top_button()
-{
-    if (!m_is_mouse_hover)
-        return false;
-
-    bool show_x_scrollbar = m_element->get_min_width() > m_width;
-    bool show_y_scrollbar = m_element->get_min_height() > m_height;
-
-    if (show_y_scrollbar) {
-        if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y <= m_mouse_y && m_mouse_y <= m_y + SCROLLBAR_SIZE) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool ScrollArea::get_is_mouse_hover_bottom_button()
-{
-    if (!m_is_mouse_hover)
-        return false;
-
-    bool show_x_scrollbar = m_element->get_min_width() > m_width;
-    bool show_y_scrollbar = m_element->get_min_height() > m_height;
-
-    if (show_y_scrollbar) {
-        if (show_x_scrollbar) {
-            if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y + m_height - 2 * SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height - SCROLLBAR_SIZE) {
-                return true;
-            }
-        } else {
-            if (m_x + m_width - SCROLLBAR_SIZE <= m_mouse_x && m_mouse_x <= m_x + m_width && m_y + m_height - SCROLLBAR_SIZE <= m_mouse_y && m_mouse_y <= m_y + m_height) {
-                return true;
-            }
-        }
+        handle_container_height = m_height - SCROLLBAR_SIZE;
+        handle_size = (m_height - SCROLLBAR_SIZE) / m_element->get_min_height() * handle_container_height;
     }
 
-    return false;
+    Context::Rect handle_rect(m_x + m_width - SCROLLBAR_SIZE, m_y - handle_container_height * m_shift_y / m_element->get_min_height(), SCROLLBAR_SIZE, handle_size);
+    return handle_rect;
 }
 
 }

@@ -10,6 +10,11 @@ class ScrollArea : public Element {
     float m_shift_x = 0;
     float m_shift_y = 0;
 
+    bool m_is_horizontal_handle_dragged = false;
+    bool m_is_vertical_handle_dragged = false;
+    float m_drag_prev_x = 0;
+    float m_drag_prev_y = 0;
+
 public:
     ScrollArea(const charm::observer_ptr<Element>&);
     ~ScrollArea();
@@ -32,10 +37,11 @@ public:
     void on_scroll_callback(InputEventScroll&) override;
 
 private:
-    bool get_is_mouse_hover_left_button();
-    bool get_is_mouse_hover_right_button();
-    bool get_is_mouse_hover_top_button();
-    bool get_is_mouse_hover_bottom_button();
+    bool get_is_mouse_hover_horizontal_handle() const;
+    bool get_is_mouse_hover_vertical_handle() const;
+
+    Context::Rect get_horizontal_handle_rect() const;
+    Context::Rect get_vertical_handle_rect() const;
 };
 
 }
