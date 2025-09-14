@@ -133,6 +133,7 @@ void TextInput::on_key_callback(InputEventKey& event)
         m_show_cursor = true;
         m_cursor_time_so_far = 0;
         m_cursor_pos = std::max(0, m_cursor_pos);
+        event.stop_propagation();
     }
 
     if (event.get_key() == GLFW_KEY_RIGHT && (event.get_action() == GLFW_PRESS || event.get_action() == GLFW_REPEAT)) {
@@ -140,6 +141,7 @@ void TextInput::on_key_callback(InputEventKey& event)
         m_show_cursor = true;
         m_cursor_time_so_far = 0;
         m_cursor_pos = std::min(m_cursor_pos, (int)m_label.get_text().size());
+        event.stop_propagation();
     }
 
     if (event.get_key() == GLFW_KEY_BACKSPACE && (event.get_action() == GLFW_PRESS || event.get_action() == GLFW_REPEAT)) {
@@ -149,6 +151,12 @@ void TextInput::on_key_callback(InputEventKey& event)
             text.erase(m_cursor_pos, 1);
         }
         m_label.set_text(text);
+        event.stop_propagation();
+    }
+
+    if (event.get_key() == GLFW_KEY_A && event.get_action() == GLFW_PRESS && ((event.get_mods() & GLFW_MOD_SUPER) || (event.get_mods() & GLFW_MOD_CONTROL))) {
+        // TODO: enable selection
+        event.stop_propagation();
     }
 }
 
