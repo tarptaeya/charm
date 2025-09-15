@@ -28,7 +28,7 @@ public:
         m_panel = std::make_unique<ui::Panel>(m_style);
 
         m_camera.set_projection(Mat4::perspective(M_PI / 3, 1.0, 0.1, 100));
-        m_camera.set_view(Mat4::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
+        m_camera.set_view(Mat4::look_at(Vec3(0, 0, 3), Vec3(0, 0, 0), Vec3(0, 1, 0)));
 
         auto vbox = m_panel->create<ui::VBoxContainer>();
         auto scroll = m_panel->create<ui::ScrollArea>(vbox);

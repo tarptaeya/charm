@@ -24,7 +24,7 @@
 #include "io/BinaryIO.h"
 #include "io/FileIO.h"
 #include "math/Mat4.h"
-#include "math/Vector3f.h"
+#include "math/Vec3.h"
 #include "memory/observer_ptr.h"
 #include "misc/builder/FramebufferBuilder.h"
 #include "misc/builder/TextureBuilder.h"

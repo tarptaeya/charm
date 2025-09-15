@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector3f.h"
+#include "Vec3.h"
 
 namespace charm {
 
@@ -46,7 +46,7 @@ public:
     static Mat4 translation(float, float, float);
 
     static Mat4 perspective(float vertical_fov, float aspect_ratio, float near, float far);
-    static Mat4 look_at(const Vector3f& position, const Vector3f& target, const Vector3f& world_up);
+    static Mat4 look_at(const Vec3& position, const Vec3& target, const Vec3& world_up);
 };
 
 }

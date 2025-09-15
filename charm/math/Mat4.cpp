@@ -221,11 +221,11 @@ Mat4 Mat4::perspective(float vertical_fov, float aspect_ratio, float near, float
     // clang-format on
 }
 
-Mat4 Mat4::look_at(const Vector3f& position, const Vector3f& target, const Vector3f& world_up)
+Mat4 Mat4::look_at(const Vec3& position, const Vec3& target, const Vec3& world_up)
 {
-    Vector3f direction = (position - target).normalized();
-    Vector3f right = Vector3f::cross(world_up, direction).normalized();
-    Vector3f up = Vector3f::cross(direction, right).normalized();
+    Vec3 direction = (position - target).normalized();
+    Vec3 right = Vec3::cross(world_up, direction).normalized();
+    Vec3 up = Vec3::cross(direction, right).normalized();
 
     // clang-format off
     Mat4 change_of_basis({
