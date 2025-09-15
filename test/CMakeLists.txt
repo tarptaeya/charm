@@ -1,5 +1,5 @@
 include_directories(../charm .)
 
-add_executable(test_matrix4f test_matrix4f.cpp)
-target_link_libraries(test_matrix4f charm)
-add_test(NAME test_matrix4f COMMAND test_matrix4f)
+add_executable(test_mat4 test_mat4.cpp)
+target_link_libraries(test_mat4 charm)
+add_test(NAME test_mat4 COMMAND test_mat4)

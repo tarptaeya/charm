@@ -6,15 +6,15 @@
 
 class TestObject : public IGameObject {
     charm::gl::Program m_program;
-    charm::Matrix4f m_transform;
+    charm::Mat4 m_transform;
     charm::gl::Texture m_texture;
 
 public:
-    TestObject(const charm::Matrix4f& transform);
+    TestObject(const charm::Mat4& transform);
 
     ~TestObject() override;
 
     void render(charm::Camera& camera) override;
 
-    void set_transform(const charm::Matrix4f& transform);
+    void set_transform(const charm::Mat4& transform);
 };

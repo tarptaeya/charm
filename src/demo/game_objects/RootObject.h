@@ -4,8 +4,6 @@
 #include "TestObject.h"
 #include <vector>
 
-using charm::Matrix4f;
-
 class RootObject : public IGameObject {
     std::vector<std::unique_ptr<IGameObject>> m_objects;
 
@@ -14,6 +12,7 @@ public:
 
     ~RootObject() = default;
 
+    void update(double delta_time) override;
     void render(charm::Camera& camera) override;
 
     template <typename T, typename... Args>

@@ -65,14 +65,16 @@ void Panel::draw(float x, float y, float width, float height)
     gl::Context::set_uniform(ui_context.get_program(), "u_font_texture", FONT_TEXTURE_UNIT);
     gl::Context::set_uniform(ui_context.get_program(), "u_canvas_texture", CANVAS_TEXTURE_UNIT);
     gl::Context::set_uniform(ui_context.get_program(), "u_projection",
-        Matrix4f({
-            // clang-format off
-                2.f / window_width, 0,               0, 0,
-                0,             -2.f / window_height, 0, 0,
-                0,             0,             1, 0,
-                -1,            1,             0, 1,
-            // clang-format on
-        }));
+        // clang-format off
+        Mat4({ 
+            { 2.f / window_width, 0,                    0, -1 },
+            { 0,                  -2.f / window_height, 0, 1 },
+            { 0,                  0,                    1, 0 },
+            { 0,                  0,                    0, 1 }         
+        })
+        // clang-format on
+
+    );
 
     ui_context.begin();
 

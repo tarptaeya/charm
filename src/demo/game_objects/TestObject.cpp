@@ -1,6 +1,6 @@
 #include "TestObject.h"
 
-TestObject::TestObject(const charm::Matrix4f& transform)
+TestObject::TestObject(const charm::Mat4& transform)
     : m_transform(transform)
 {
     m_program = charm::gl::Context::create_program(
@@ -28,7 +28,7 @@ void TestObject::render(charm::Camera& camera)
     }
 }
 
-void TestObject::set_transform(const charm::Matrix4f& transform)
+void TestObject::set_transform(const charm::Mat4& transform)
 {
     m_transform = transform;
 }

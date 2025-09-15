@@ -91,7 +91,7 @@ int Context::get_uniform_location(Program& program, const std::string& name)
     return program.m_uniform_locations[name];
 }
 
-void Context::set_uniform(Program& program, const std::string& name, const Matrix4f& mat)
+void Context::set_uniform(Program& program, const std::string& name, const Mat4& mat)
 {
     int location = get_uniform_location(program, name);
     glUniformMatrix4fv(location, 1, false, mat.get_data());

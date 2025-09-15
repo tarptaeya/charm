@@ -23,7 +23,7 @@
 #include "graphics/render_target/RenderTarget.h"
 #include "io/BinaryIO.h"
 #include "io/FileIO.h"
-#include "math/Matrix4f.h"
+#include "math/Mat4.h"
 #include "math/Vector3f.h"
 #include "memory/observer_ptr.h"
 #include "misc/builder/FramebufferBuilder.h"

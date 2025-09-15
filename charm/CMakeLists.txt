@@ -22,7 +22,7 @@ add_library(
     graphics/render_target/RenderTarget.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp
-    math/Matrix4f.cpp
+    math/Mat4.cpp
     math/Vector3f.cpp
     misc/misc.cpp
     misc/stb_image.cpp

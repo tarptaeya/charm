@@ -27,8 +27,8 @@ public:
         m_style = ui::Style::standard(Color { 0.92, 0.2, 0.4 }, Color { 1, 1, 1 }, Color { 0.2, 0.3, 0.4 });
         m_panel = std::make_unique<ui::Panel>(m_style);
 
-        m_camera.set_projection(Matrix4f::perspective(M_PI / 3, 1.0, 0.1, 100));
-        m_camera.set_view(Matrix4f::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
+        m_camera.set_projection(Mat4::perspective(M_PI / 3, 1.0, 0.1, 100));
+        m_camera.set_view(Mat4::look_at(Vector3f(0, 0, 3), Vector3f(0, 0, 0), Vector3f(0, 1, 0)));
 
         auto vbox = m_panel->create<ui::VBoxContainer>();
         auto scroll = m_panel->create<ui::ScrollArea>(vbox);
@@ -92,13 +92,14 @@ Members of an inline namespace are treated as if they are members of the enclosi
         gl::Context::viewport(0, 0, charmApp.get_width(), charmApp.get_height());
         gl::Context::clear_color(0.3, 0.1, 0.2, 1.0);
         gl::Context::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        m_object.update(delta_time);
         m_object.render(m_camera);
 
         FPSCounter::get_instance().push(delta_time);
         m_fps_counter->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));
 
         m_panel->update(delta_time);
-        m_panel->draw(50, 50, 300, 400);
+        m_panel->draw(100, 580, 600, 200);
     }
 
     void on_char_callback(InputEventChar& event) override

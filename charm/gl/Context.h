@@ -10,7 +10,7 @@
 #include "Texture.h"
 #include "VertexArray.h"
 #include "constants.h"
-#include "math/Matrix4f.h"
+#include "math/Mat4.h"
 #include <string>
 
 namespace charm {
@@ -44,7 +44,7 @@ public:
     [[nodiscard]] static Program create_program(const std::string& vertex_source, const std::string& fragment_source);
     static void use(const Program& program);
     [[nodiscard]] static int get_uniform_location(Program& program, const std::string&);
-    static void set_uniform(Program& program, const std::string&, const Matrix4f&);
+    static void set_uniform(Program& program, const std::string&, const Mat4&);
     static void set_uniform(Program& program, const std::string&, int);
 
     [[nodiscard]] static VertexArray gen_vertex_array();
