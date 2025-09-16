@@ -28,6 +28,8 @@ namespace ch3db {
         Position position;
         Normal normal;
         Texcoord texcoord;
+        int bone_ids[4] = { 0 };
+        float bone_weights[4] = { 0 };
     };
 
     struct Mesh {

@@ -35,6 +35,11 @@ namespace ch3db {
                 vertex.texcoord.u = BinaryIO::read_float(f);
                 vertex.texcoord.v = BinaryIO::read_float(f);
 
+                for (int i = 0; i < 4; ++i) {
+                    vertex.bone_ids[i] = BinaryIO::read_int(f);
+                    vertex.bone_weights[i] = BinaryIO::read_float(f);
+                }
+
                 vertices.push_back(vertex);
             }
 

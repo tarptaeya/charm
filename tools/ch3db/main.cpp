@@ -4,9 +4,22 @@
 #include <assimp/scene.h>
 #include <fstream>
 #include <iostream>
+#include <unordered_map>
 #include <vector>
 
 using namespace charm;
+
+std::unordered_map<std::string, int> s_bone_to_id;
+
+int get_bone_index(const std::string& name)
+{
+    if (!s_bone_to_id.count(name)) {
+        static int id = 0;
+        s_bone_to_id[name] = id++;
+    }
+
+    return s_bone_to_id[name];
+}
 
 ch3db::Mesh process_mesh(aiMesh* amesh, const aiScene* scene)
 {
@@ -22,6 +35,25 @@ ch3db::Mesh process_mesh(aiMesh* amesh, const aiScene* scene)
         }
 
         vertices.push_back(vertex);
+    }
+
+    for (int i = 0; i < amesh->mNumBones; ++i) {
+        auto abone = amesh->mBones[i];
+        for (int j = 0; j < abone->mNumWeights; ++j) {
+            auto vertex_weight = abone->mWeights[j];
+            auto& vertex = vertices[vertex_weight.mVertexId];
+            // Out of 4 bones for a vertex, find the first index whose weight is 0.
+            // We can replace the bone at this index with the current bone as the
+            // existing bone with weight 0 has no effect on animation.
+            for (int k = 0; k < 4; ++k) {
+                if (vertex.bone_weights[k] > 0) {
+                    continue;
+                }
+                vertex.bone_ids[k] = get_bone_index(abone->mName.C_Str());
+                vertex.bone_weights[k] = vertex_weight.mWeight;
+                break;
+            }
+        }
     }
 
     std::vector<unsigned int> indices;
@@ -79,6 +111,11 @@ int main(int argc, const char** argv)
             auto& texcoord = vertex.texcoord;
             BinaryIO::write(f, texcoord.u);
             BinaryIO::write(f, texcoord.v);
+
+            for (int j = 0; j < 4; ++j) {
+                BinaryIO::write(f, vertex.bone_ids[j]);
+                BinaryIO::write(f, vertex.bone_weights[j]);
+            }
         }
 
         BinaryIO::write(f, (uint32_t)mesh.indices.size());

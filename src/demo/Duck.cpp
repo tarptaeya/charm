@@ -11,14 +11,18 @@ Duck::Duck()
         unsigned int vertex_buffer;
         glGenBuffers(1, &vertex_buffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8 * mesh.vertices.size(), &mesh.vertices[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * sizeof(charm::ch3db::Vertex) * mesh.vertices.size(), &mesh.vertices[0], GL_STATIC_DRAW);
 
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * sizeof(float), 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(charm::ch3db::Vertex), (void*)(offsetof(charm::ch3db::Vertex, position)));
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, sizeof(charm::ch3db::Vertex), (void*)(offsetof(charm::ch3db::Vertex, normal)));
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, false, sizeof(charm::ch3db::Vertex), (void*)(offsetof(charm::ch3db::Vertex, texcoord)));
+        glEnableVertexAttribArray(3);
+        glVertexAttribIPointer(3, 4, GL_INT, sizeof(charm::ch3db::Vertex), (void*)(offsetof(charm::ch3db::Vertex, bone_ids)));
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, false, sizeof(charm::ch3db::Vertex), (void*)(offsetof(charm::ch3db::Vertex, bone_weights)));
 
         unsigned int index_buffer;
         glGenBuffers(1, &index_buffer);
