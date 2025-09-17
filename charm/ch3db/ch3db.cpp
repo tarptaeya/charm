@@ -47,11 +47,11 @@ namespace ch3db {
             }
         }
 
-        Skeleton* read_skeleton(std::ifstream& f)
+        std::shared_ptr<Skeleton> read_skeleton(std::ifstream& f)
         {
             unsigned int num_nodes = BinaryIO::read_unsigned_int(f);
-            std::vector<Skeleton*> nodes;
-            std::unordered_map<int, Skeleton*> bone_id_to_node;
+            std::vector<std::shared_ptr<Skeleton>> nodes;
+            std::unordered_map<int, std::shared_ptr<Skeleton>> bone_id_to_node;
             std::vector<int> parent_index(num_nodes + 1);
             for (int i = 0; i < num_nodes; ++i) {
                 int bone_id = BinaryIO::read_int(f);
@@ -59,7 +59,7 @@ namespace ch3db {
                 std::string name = BinaryIO::read_string(f);
                 Mat4 transform = BinaryIO::read_mat4(f);
 
-                auto* node = new Skeleton;
+                auto node = std::make_shared<Skeleton>();
                 node->bone_id = bone_id;
                 node->name = name;
                 node->transform = transform;
@@ -70,86 +70,20 @@ namespace ch3db {
             }
 
             int root_index = -1;
-            for (auto* node : nodes) {
+            for (const auto& node : nodes) {
                 int bone_id = node->bone_id;
                 int parent_id = parent_index[bone_id];
                 if (parent_id == 0) {
                     root_index = bone_id;
                     std::cout << node->name << std::endl;
                 } else {
-                    auto* parent = bone_id_to_node[parent_id];
+                    auto& parent = bone_id_to_node[parent_id];
                     parent->children.push_back(node);
                 }
             }
 
             return nodes[root_index];
         }
-    }
-
-    Skeleton::~Skeleton()
-    {
-        for (int i = 0; i < children.size(); ++i) {
-            delete children[i];
-        }
-        children.clear();
-    }
-
-    Skeleton::Skeleton(Skeleton&& other)
-        : bone_id(other.bone_id)
-        , name(other.name)
-        , transform(other.transform)
-    {
-        children = std::move(other.children);
-        other.children.clear();
-    }
-
-    Skeleton& Skeleton::operator=(Skeleton&& other)
-    {
-        if (this == &other)
-            return *this;
-
-        bone_id = other.bone_id;
-        name = other.name;
-        transform = other.transform;
-
-        for (int i = 0; i < children.size(); ++i) {
-            delete children[i];
-        }
-
-        children = std::move(other.children);
-        other.children.clear();
-
-        return *this;
-    }
-
-    Model::~Model()
-    {
-        delete root;
-    }
-
-    Model::Model(Model&& other)
-    {
-        meshes = std::move(other.meshes);
-        root = other.root;
-        other.meshes.clear();
-        other.root = nullptr;
-    }
-
-    Model& Model::operator=(Model&& other)
-    {
-        if (this == &other)
-            return *this;
-
-        if (root) {
-            delete root;
-        }
-
-        meshes = std::move(other.meshes);
-        root = other.root;
-        other.meshes.clear();
-        other.root = nullptr;
-
-        return *this;
     }
 
     Model Model::read(const std::string& path)

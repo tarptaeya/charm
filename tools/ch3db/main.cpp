@@ -70,10 +70,10 @@ ch3db::Mesh process_mesh(aiMesh* amesh, const aiScene* scene)
     return { vertices, indices };
 }
 
-ch3db::Skeleton* process_skeleton(aiNode* anode, uint32_t& counter)
+std::shared_ptr<ch3db::Skeleton> process_skeleton(aiNode* anode, uint32_t& counter)
 {
     ++counter;
-    auto skeleton = new ch3db::Skeleton;
+    auto skeleton = std::make_shared<ch3db::Skeleton>();
     skeleton->bone_id = get_bone_index(anode->mName.C_Str());
     skeleton->name = anode->mName.C_Str();
     skeleton->transform = Mat4({
@@ -154,12 +154,12 @@ int main(int argc, const char** argv)
     // Write skeleton hierarchy to file
     BinaryIO::write(f, num_skeleton_nodes);
     std::stack<std::pair<ch3db::Skeleton*, ch3db::Skeleton*>> st;
-    st.push({ skeleton_root_node, nullptr });
+    st.push({ skeleton_root_node.get(), nullptr });
     while (!st.empty()) {
         auto [curr, parent] = st.top();
         st.pop();
         for (const auto& child : curr->children) {
-            st.push({ child, curr });
+            st.push({ child.get(), curr });
         }
 
         BinaryIO::write(f, curr->bone_id);
@@ -167,6 +167,4 @@ int main(int argc, const char** argv)
         BinaryIO::write(f, curr->name);
         BinaryIO::write(f, curr->transform);
     }
-
-    delete skeleton_root_node;
 }

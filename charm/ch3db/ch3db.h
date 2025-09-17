@@ -42,32 +42,12 @@ namespace ch3db {
         int bone_id = 0;
         std::string name;
         Mat4 transform;
-        std::vector<Skeleton*> children;
-
-        Skeleton() = default;
-
-        ~Skeleton();
-
-        Skeleton(const Skeleton&) = delete;
-        Skeleton& operator=(const Skeleton&) = delete;
-
-        Skeleton(Skeleton&&);
-        Skeleton& operator=(Skeleton&&);
+        std::vector<std::shared_ptr<Skeleton>> children;
     };
 
     struct Model {
         std::vector<Mesh> meshes;
-        Skeleton* root = nullptr;
-
-        Model() = default;
-
-        ~Model();
-
-        Model(const Model&) = delete;
-        Model& operator=(const Model&) = delete;
-
-        Model(Model&&);
-        Model& operator=(Model&&);
+        std::shared_ptr<Skeleton> root = nullptr;
 
         static Model read(const std::string&);
     };
