@@ -4,6 +4,7 @@
 #include <assimp/scene.h>
 #include <fstream>
 #include <iostream>
+#include <stack>
 #include <unordered_map>
 #include <vector>
 
@@ -14,8 +15,10 @@ std::unordered_map<std::string, int> s_bone_to_id;
 int get_bone_index(const std::string& name)
 {
     if (!s_bone_to_id.count(name)) {
+        // Bone id of 0 is reserved to represent the null node in the skeleton
+        // This the bone ids start with 1 and 0 represents null bone.
         static int id = 0;
-        s_bone_to_id[name] = id++;
+        s_bone_to_id[name] = ++id;
     }
 
     return s_bone_to_id[name];
@@ -67,6 +70,26 @@ ch3db::Mesh process_mesh(aiMesh* amesh, const aiScene* scene)
     return { vertices, indices };
 }
 
+ch3db::Skeleton* process_skeleton(aiNode* anode, uint32_t& counter)
+{
+    ++counter;
+    auto skeleton = new ch3db::Skeleton;
+    skeleton->bone_id = get_bone_index(anode->mName.C_Str());
+    skeleton->name = anode->mName.C_Str();
+    skeleton->transform = Mat4({
+        // clang-format off
+        {anode->mTransformation.a1, anode->mTransformation.a2, anode->mTransformation.a3, anode->mTransformation.a4},
+        {anode->mTransformation.b1, anode->mTransformation.b2, anode->mTransformation.b3, anode->mTransformation.b4},
+        {anode->mTransformation.c1, anode->mTransformation.c2, anode->mTransformation.c3, anode->mTransformation.c4},
+        {anode->mTransformation.d1, anode->mTransformation.d2, anode->mTransformation.d3, anode->mTransformation.d4}
+        // clang-format on
+    });
+    for (int i = 0; i < anode->mNumChildren; ++i) {
+        skeleton->children.push_back(process_skeleton(anode->mChildren[i], counter));
+    }
+    return skeleton;
+}
+
 int main(int argc, const char** argv)
 {
     if (argc != 3) {
@@ -86,12 +109,16 @@ int main(int argc, const char** argv)
         meshes.push_back(process_mesh(scene->mMeshes[i], scene));
     }
 
+    uint32_t num_skeleton_nodes = 0;
+    auto skeleton_root_node = process_skeleton(scene->mRootNode, num_skeleton_nodes);
+
     std::ofstream f(argv[2], std::ios::binary);
     if (!f) {
         std::cerr << "[error] cannot open " << argv[2] << std::endl;
         std::exit(0);
     }
 
+    // Write meshes to file
     BinaryIO::write(f, (uint32_t)meshes.size());
     for (int i = 0; i < meshes.size(); ++i) {
         auto& mesh = meshes[i];
@@ -123,4 +150,23 @@ int main(int argc, const char** argv)
             BinaryIO::write(f, index);
         }
     }
+
+    // Write skeleton hierarchy to file
+    BinaryIO::write(f, num_skeleton_nodes);
+    std::stack<std::pair<ch3db::Skeleton*, ch3db::Skeleton*>> st;
+    st.push({ skeleton_root_node, nullptr });
+    while (!st.empty()) {
+        auto [curr, parent] = st.top();
+        st.pop();
+        for (const auto& child : curr->children) {
+            st.push({ child, curr });
+        }
+
+        BinaryIO::write(f, curr->bone_id);
+        BinaryIO::write(f, parent ? parent->bone_id : 0);
+        BinaryIO::write(f, curr->name);
+        BinaryIO::write(f, curr->transform);
+    }
+
+    delete skeleton_root_node;
 }

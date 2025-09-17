@@ -7,6 +7,151 @@ namespace charm {
 
 namespace ch3db {
 
+    namespace {
+
+        void read_meshes(std::ifstream& f, std::vector<Mesh>& meshes)
+        {
+            int num_meshes = BinaryIO::read_unsigned_int(f);
+            for (int i = 0; i < num_meshes; ++i) {
+                int num_vertices = BinaryIO::read_unsigned_int(f);
+                std::vector<Vertex> vertices;
+                for (int j = 0; j < num_vertices; ++j) {
+                    Vertex vertex;
+
+                    vertex.position.x = BinaryIO::read_float(f);
+                    vertex.position.y = BinaryIO::read_float(f);
+                    vertex.position.z = BinaryIO::read_float(f);
+
+                    vertex.normal.x = BinaryIO::read_float(f);
+                    vertex.normal.y = BinaryIO::read_float(f);
+                    vertex.normal.z = BinaryIO::read_float(f);
+
+                    vertex.texcoord.u = BinaryIO::read_float(f);
+                    vertex.texcoord.v = BinaryIO::read_float(f);
+
+                    for (int i = 0; i < 4; ++i) {
+                        vertex.bone_ids[i] = BinaryIO::read_int(f);
+                        vertex.bone_weights[i] = BinaryIO::read_float(f);
+                    }
+
+                    vertices.push_back(vertex);
+                }
+
+                int num_indices = BinaryIO::read_unsigned_int(f);
+                std::vector<unsigned int> indices;
+                for (int j = 0; j < num_indices; ++j) {
+                    indices.push_back(BinaryIO::read_unsigned_int(f));
+                }
+
+                meshes.push_back({ vertices, indices });
+            }
+        }
+
+        Skeleton* read_skeleton(std::ifstream& f)
+        {
+            unsigned int num_nodes = BinaryIO::read_unsigned_int(f);
+            std::vector<Skeleton*> nodes;
+            std::unordered_map<int, Skeleton*> bone_id_to_node;
+            std::vector<int> parent_index(num_nodes + 1);
+            for (int i = 0; i < num_nodes; ++i) {
+                int bone_id = BinaryIO::read_int(f);
+                int parent_id = BinaryIO::read_int(f);
+                std::string name = BinaryIO::read_string(f);
+                Mat4 transform = BinaryIO::read_mat4(f);
+
+                auto* node = new Skeleton;
+                node->bone_id = bone_id;
+                node->name = name;
+                node->transform = transform;
+                nodes.push_back(node);
+
+                bone_id_to_node[bone_id] = node;
+                parent_index[bone_id] = parent_id;
+            }
+
+            int root_index = -1;
+            for (auto* node : nodes) {
+                int bone_id = node->bone_id;
+                int parent_id = parent_index[bone_id];
+                if (parent_id == 0) {
+                    root_index = bone_id;
+                    std::cout << node->name << std::endl;
+                } else {
+                    auto* parent = bone_id_to_node[parent_id];
+                    parent->children.push_back(node);
+                }
+            }
+
+            return nodes[root_index];
+        }
+    }
+
+    Skeleton::~Skeleton()
+    {
+        for (int i = 0; i < children.size(); ++i) {
+            delete children[i];
+        }
+        children.clear();
+    }
+
+    Skeleton::Skeleton(Skeleton&& other)
+        : bone_id(other.bone_id)
+        , name(other.name)
+        , transform(other.transform)
+    {
+        children = std::move(other.children);
+        other.children.clear();
+    }
+
+    Skeleton& Skeleton::operator=(Skeleton&& other)
+    {
+        if (this == &other)
+            return *this;
+
+        bone_id = other.bone_id;
+        name = other.name;
+        transform = other.transform;
+
+        for (int i = 0; i < children.size(); ++i) {
+            delete children[i];
+        }
+
+        children = std::move(other.children);
+        other.children.clear();
+
+        return *this;
+    }
+
+    Model::~Model()
+    {
+        delete root;
+    }
+
+    Model::Model(Model&& other)
+    {
+        meshes = std::move(other.meshes);
+        root = other.root;
+        other.meshes.clear();
+        other.root = nullptr;
+    }
+
+    Model& Model::operator=(Model&& other)
+    {
+        if (this == &other)
+            return *this;
+
+        if (root) {
+            delete root;
+        }
+
+        meshes = std::move(other.meshes);
+        root = other.root;
+        other.meshes.clear();
+        other.root = nullptr;
+
+        return *this;
+    }
+
     Model Model::read(const std::string& path)
     {
         std::ifstream f(path, std::ios::binary);
@@ -16,43 +161,12 @@ namespace ch3db {
         }
 
         std::vector<Mesh> meshes;
+        read_meshes(f, meshes);
 
-        int num_meshes = BinaryIO::read_unsigned_int(f);
-        for (int i = 0; i < num_meshes; ++i) {
-            int num_vertices = BinaryIO::read_unsigned_int(f);
-            std::vector<Vertex> vertices;
-            for (int j = 0; j < num_vertices; ++j) {
-                Vertex vertex;
-
-                vertex.position.x = BinaryIO::read_float(f);
-                vertex.position.y = BinaryIO::read_float(f);
-                vertex.position.z = BinaryIO::read_float(f);
-
-                vertex.normal.x = BinaryIO::read_float(f);
-                vertex.normal.y = BinaryIO::read_float(f);
-                vertex.normal.z = BinaryIO::read_float(f);
-
-                vertex.texcoord.u = BinaryIO::read_float(f);
-                vertex.texcoord.v = BinaryIO::read_float(f);
-
-                for (int i = 0; i < 4; ++i) {
-                    vertex.bone_ids[i] = BinaryIO::read_int(f);
-                    vertex.bone_weights[i] = BinaryIO::read_float(f);
-                }
-
-                vertices.push_back(vertex);
-            }
-
-            int num_indices = BinaryIO::read_unsigned_int(f);
-            std::vector<unsigned int> indices;
-            for (int j = 0; j < num_indices; ++j) {
-                indices.push_back(BinaryIO::read_unsigned_int(f));
-            }
-
-            meshes.push_back({ vertices, indices });
-        }
-
-        return { meshes };
+        Model model;
+        model.meshes = meshes;
+        model.root = read_skeleton(f);
+        return model;
     }
 
 }

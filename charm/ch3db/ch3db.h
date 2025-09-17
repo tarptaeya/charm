@@ -1,5 +1,6 @@
 #pragma once
 
+#include "math/Mat4.h"
 #include <string>
 #include <vector>
 
@@ -37,8 +38,36 @@ namespace ch3db {
         std::vector<unsigned int> indices;
     };
 
+    struct Skeleton {
+        int bone_id = 0;
+        std::string name;
+        Mat4 transform;
+        std::vector<Skeleton*> children;
+
+        Skeleton() = default;
+
+        ~Skeleton();
+
+        Skeleton(const Skeleton&) = delete;
+        Skeleton& operator=(const Skeleton&) = delete;
+
+        Skeleton(Skeleton&&);
+        Skeleton& operator=(Skeleton&&);
+    };
+
     struct Model {
         std::vector<Mesh> meshes;
+        Skeleton* root = nullptr;
+
+        Model() = default;
+
+        ~Model();
+
+        Model(const Model&) = delete;
+        Model& operator=(const Model&) = delete;
+
+        Model(Model&&);
+        Model& operator=(Model&&);
 
         static Model read(const std::string&);
     };
