@@ -58,11 +58,13 @@ namespace ch3db {
                 int parent_id = BinaryIO::read_int(f);
                 std::string name = BinaryIO::read_string(f);
                 Mat4 transform = BinaryIO::read_mat4(f);
+                Mat4 inverse_bind_pose = BinaryIO::read_mat4(f);
 
                 auto node = std::make_shared<Skeleton>();
                 node->bone_id = bone_id;
                 node->name = name;
                 node->transform = transform;
+                node->inverse_bind_pose = inverse_bind_pose;
                 nodes.push_back(node);
 
                 bone_id_to_node[bone_id] = node;
@@ -70,15 +72,14 @@ namespace ch3db {
             }
 
             int root_index = -1;
-            for (const auto& node : nodes) {
-                int bone_id = node->bone_id;
+            for (int i = 0; i < nodes.size(); ++i) {
+                int bone_id = nodes[i]->bone_id;
                 int parent_id = parent_index[bone_id];
                 if (parent_id == 0) {
-                    root_index = bone_id;
-                    std::cout << node->name << std::endl;
+                    root_index = i;
                 } else {
                     auto& parent = bone_id_to_node[parent_id];
-                    parent->children.push_back(node);
+                    parent->children.push_back(nodes[i]);
                 }
             }
 
@@ -87,6 +88,41 @@ namespace ch3db {
                 std::exit(0);
             }
             return nodes[root_index];
+        }
+
+        void read_animations(std::ifstream& f, std::vector<Animation>& animations)
+        {
+            int num_animations = BinaryIO::read_unsigned_int(f);
+            for (int i = 0; i < num_animations; ++i) {
+                Animation animation;
+                animation.name = BinaryIO::read_string(f);
+                animation.duration = BinaryIO::read_float(f);
+                animation.ticks_per_second = BinaryIO::read_float(f);
+                int num_keys = BinaryIO::read_unsigned_int(f);
+                for (int j = 0; j < num_keys; ++j) {
+                    std::string name = BinaryIO::read_string(f);
+                    std::vector<Keyframe> keyframes;
+                    int num_frames = BinaryIO::read_unsigned_int(f);
+                    for (int k = 0; k < num_frames; ++k) {
+                        Keyframe kf;
+                        kf.time = BinaryIO::read_float(f);
+                        kf.position.x = BinaryIO::read_float(f);
+                        kf.position.y = BinaryIO::read_float(f);
+                        kf.position.z = BinaryIO::read_float(f);
+                        kf.rotation.w = BinaryIO::read_float(f);
+                        kf.rotation.x = BinaryIO::read_float(f);
+                        kf.rotation.y = BinaryIO::read_float(f);
+                        kf.rotation.z = BinaryIO::read_float(f);
+                        kf.scale.x = BinaryIO::read_float(f);
+                        kf.scale.y = BinaryIO::read_float(f);
+                        kf.scale.z = BinaryIO::read_float(f);
+                        keyframes.push_back(kf);
+                    }
+                    animation.keyframes[name] = keyframes;
+                }
+
+                animations.push_back(animation);
+            }
         }
     }
 
@@ -97,13 +133,10 @@ namespace ch3db {
             std::cerr << "[error] unable to open " << path << std::endl;
             std::exit(0);
         }
-
-        std::vector<Mesh> meshes;
-        read_meshes(f, meshes);
-
         Model model;
-        model.meshes = meshes;
+        read_meshes(f, model.meshes);
         model.root = read_skeleton(f);
+        read_animations(f, model.animations);
         return model;
     }
 

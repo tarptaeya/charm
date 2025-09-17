@@ -2,7 +2,6 @@
 
 in vec2 v_texcoord;
 in vec3 v_normal;
-in vec3 v_color;
 
 uniform sampler2D u_texture;
 
@@ -19,5 +18,4 @@ void main()
     vec3 diffuse = d * vec3(color);
 
     FragColor = vec4(diffuse, 1);
-    FragColor = vec4(v_color, 1);
 }

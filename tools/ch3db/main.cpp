@@ -11,6 +11,7 @@
 using namespace charm;
 
 std::unordered_map<std::string, int> s_bone_to_id;
+std::unordered_map<std::string, aiMatrix4x4> s_bone_to_offset;
 
 int get_bone_index(const std::string& name)
 {
@@ -57,6 +58,8 @@ ch3db::Mesh process_mesh(aiMesh* amesh, const aiScene* scene)
                 break;
             }
         }
+
+        s_bone_to_offset[abone->mName.C_Str()] = abone->mOffsetMatrix;
     }
 
     std::vector<unsigned int> indices;
@@ -84,10 +87,58 @@ std::shared_ptr<ch3db::Skeleton> process_skeleton(aiNode* anode, uint32_t& count
         {anode->mTransformation.d1, anode->mTransformation.d2, anode->mTransformation.d3, anode->mTransformation.d4}
         // clang-format on
     });
+    skeleton->inverse_bind_pose = Mat4::identity();
+    if (s_bone_to_offset.count(skeleton->name)) {
+        auto offset = s_bone_to_offset[skeleton->name];
+        skeleton->inverse_bind_pose = Mat4({
+            // clang-format off
+            {offset.a1, offset.a2, offset.a3, offset.a4},
+            {offset.b1, offset.b2, offset.b3, offset.b4},
+            {offset.c1, offset.c2, offset.c3, offset.c4},
+            {offset.d1, offset.d2, offset.d3, offset.d4}
+            // clang-format on
+        });
+    }
     for (int i = 0; i < anode->mNumChildren; ++i) {
         skeleton->children.push_back(process_skeleton(anode->mChildren[i], counter));
     }
     return skeleton;
+}
+
+ch3db::Animation process_animation(aiAnimation* scene_anim)
+{
+    ch3db::Animation animation;
+    animation.name = scene_anim->mName.C_Str();
+    animation.duration = scene_anim->mDuration;
+    animation.ticks_per_second = scene_anim->mTicksPerSecond;
+    for (int i = 0; i < scene_anim->mNumChannels; ++i) {
+        auto* channel = scene_anim->mChannels[i];
+        if (channel->mNumPositionKeys != channel->mNumRotationKeys || channel->mNumPositionKeys != channel->mNumScalingKeys) {
+            std::cerr << "[error] position, rotation and scaling channel should have same number of keys" << std::endl;
+            std::exit(0);
+        }
+
+        std::vector<ch3db::Keyframe> keyframes;
+        for (int j = 0; j < channel->mNumPositionKeys; ++j) {
+            auto position_key = channel->mPositionKeys[j];
+            auto rotation_key = channel->mRotationKeys[j];
+            auto scaling_key = channel->mScalingKeys[j];
+            if (position_key.mTime != rotation_key.mTime || position_key.mTime != scaling_key.mTime) {
+                std::cerr << "[error] all keys should be set at the same time" << std::endl;
+                std::exit(0);
+            }
+
+            ch3db::Keyframe keyframe;
+            keyframe.time = position_key.mTime;
+            keyframe.position = ch3db::Position { position_key.mValue.x, position_key.mValue.y, position_key.mValue.z };
+            keyframe.rotation = ch3db::Rotation { rotation_key.mValue.w, rotation_key.mValue.x, rotation_key.mValue.y, rotation_key.mValue.z };
+            keyframe.scale = ch3db::Scale { scaling_key.mValue.x, scaling_key.mValue.y, scaling_key.mValue.z };
+            keyframes.push_back(keyframe);
+        }
+        animation.keyframes[channel->mNodeName.C_Str()] = keyframes;
+    }
+
+    return animation;
 }
 
 int main(int argc, const char** argv)
@@ -111,6 +162,11 @@ int main(int argc, const char** argv)
 
     uint32_t num_skeleton_nodes = 0;
     auto skeleton_root_node = process_skeleton(scene->mRootNode, num_skeleton_nodes);
+
+    std::vector<ch3db::Animation> animations;
+    for (int i = 0; i < scene->mNumAnimations; ++i) {
+        animations.push_back(process_animation(scene->mAnimations[i]));
+    }
 
     std::ofstream f(argv[2], std::ios::binary);
     if (!f) {
@@ -166,5 +222,32 @@ int main(int argc, const char** argv)
         BinaryIO::write(f, parent ? parent->bone_id : 0);
         BinaryIO::write(f, curr->name);
         BinaryIO::write(f, curr->transform);
+        BinaryIO::write(f, curr->inverse_bind_pose);
+    }
+
+    // Write animation data to file
+    BinaryIO::write(f, (uint32_t)animations.size());
+    for (int i = 0; i < animations.size(); ++i) {
+        BinaryIO::write(f, animations[i].name);
+        BinaryIO::write(f, animations[i].duration);
+        BinaryIO::write(f, animations[i].ticks_per_second);
+        BinaryIO::write(f, (uint32_t)animations[i].keyframes.size());
+        for (const auto& [k, vs] : animations[i].keyframes) {
+            BinaryIO::write(f, k);
+            BinaryIO::write(f, (uint32_t)vs.size());
+            for (const auto& v : vs) {
+                BinaryIO::write(f, v.time);
+                BinaryIO::write(f, v.position.x);
+                BinaryIO::write(f, v.position.y);
+                BinaryIO::write(f, v.position.z);
+                BinaryIO::write(f, v.rotation.w);
+                BinaryIO::write(f, v.rotation.x);
+                BinaryIO::write(f, v.rotation.y);
+                BinaryIO::write(f, v.rotation.z);
+                BinaryIO::write(f, v.scale.x);
+                BinaryIO::write(f, v.scale.y);
+                BinaryIO::write(f, v.scale.z);
+            }
+        }
     }
 }

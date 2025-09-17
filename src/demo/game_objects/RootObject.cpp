@@ -23,6 +23,10 @@ RootObject::RootObject()
 
 void RootObject::update(double delta_time)
 {
+    for (const auto& object : m_objects) {
+        object->update(delta_time);
+    }
+
     float positions[10][3] = {
         { 0, 0, 0 },
         { 2, 5, -15 },
@@ -42,7 +46,7 @@ void RootObject::update(double delta_time)
     for (int i = 0; i < 10; ++i) {
         charm::Mat4 transform = charm::Mat4::identity();
         transform *= charm::Mat4::translation(positions[i][0], positions[i][1], positions[i][2]);
-        transform *= charm::Mat4::rotation_y(angle) * charm::Mat4::rotation_x(-M_PI_2);
+        transform *= charm::Mat4::rotation_y(angle + i * 1.7);
         transform *= charm::Mat4::scaling(0.1);
         dynamic_cast<TestObject*>(m_objects[i].get())->set_transform(transform);
     }
