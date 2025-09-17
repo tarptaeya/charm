@@ -82,6 +82,10 @@ namespace ch3db {
                 }
             }
 
+            if (root_index == -1) {
+                std::cerr << "[error] ch3db: no root skeleton found" << std::endl;
+                std::exit(0);
+            }
             return nodes[root_index];
         }
     }
