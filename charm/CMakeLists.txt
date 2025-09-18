@@ -23,6 +23,7 @@ add_library(
     io/BinaryIO.cpp
     io/FileIO.cpp
     math/Mat4.cpp
+    math/Quat.cpp
     math/Vec3.cpp
     misc/misc.cpp
     misc/stb_image.cpp

@@ -83,16 +83,19 @@ void Duck::apply_animation(charm::ch3db::Skeleton* node, charm::Mat4 parent_tran
 
         for (int i = 0; i < keyframes.size(); ++i) {
             if (tick <= keyframes[i].time) {
-                auto translation = charm::Mat4::translation(keyframes[i].position.x, keyframes[i].position.y, keyframes[i].position.z);
-                auto q = keyframes[i].rotation;
-                auto rotation = charm::Mat4({
-                    // clang-format off
-                    { 1 - 2 * (q.y * q.y + q.z * q.z),     2 * (q.x * q.y - q.w * q.z),     2 * (q.x * q.z + q.w * q.y),     0 },
-                    { 2 * (q.x * q.y + q.w * q.z),         1 - 2 * (q.x * q.x + q.z * q.z), 2 * (q.y * q.z - q.w * q.x),     0 },
-                    { 2 * (q.x * q.z - q.w * q.y),         2 * (q.y * q.z + q.w * q.x),     1 - 2 * (q.x * q.x + q.y * q.y), 0 },
-                    { 0,                                   0,                               0,                               1 }
-                    // clang-format on
-                });
+                float j = i - 1 >= 0 ? i - 1 : keyframes.size() - 1;
+                float t = (tick - keyframes[j].time) / (keyframes[i].time - keyframes[j].time);
+
+                auto v = charm::Vec3(keyframes[i].position.x, keyframes[i].position.y, keyframes[i].position.z);
+                auto v_prev = charm::Vec3(keyframes[j].position.x, keyframes[j].position.y, keyframes[j].position.z);
+                v = charm::Vec3::lerp(v_prev, v, t);
+                auto translation = charm::Mat4::translation(v.x(), v.y(), v.z());
+
+                auto q = charm::Quat(keyframes[i].rotation.w, keyframes[i].rotation.x, keyframes[i].rotation.y, keyframes[i].rotation.z);
+                auto q_prev = charm::Quat(keyframes[j].rotation.w, keyframes[j].rotation.x, keyframes[j].rotation.y, keyframes[j].rotation.z);
+                q = charm::Quat::slerp(q_prev, q, t);
+                auto rotation = q.to_rotation();
+
                 current_transform = parent_transform * translation * rotation;
                 break;
             }

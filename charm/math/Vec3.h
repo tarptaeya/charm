@@ -28,8 +28,10 @@ public:
 
     friend Vec3 operator+(const Vec3&, const Vec3&);
     friend Vec3 operator-(const Vec3&, const Vec3&);
+    friend Vec3 operator*(float, const Vec3&);
 
     static Vec3 cross(const Vec3&, const Vec3&);
+    static Vec3 lerp(const Vec3&, const Vec3&, float t);
 };
 
 }

@@ -64,12 +64,22 @@ Vec3 operator-(const Vec3& a, const Vec3& b)
     return ans;
 }
 
+Vec3 operator*(float k, const Vec3& a)
+{
+    return Vec3(k * a.x(), k * a.y(), k * a.z());
+}
+
 Vec3 Vec3::cross(const Vec3& a, const Vec3& b)
 {
     float x = a.y() * b.z() - a.z() * b.y();
     float y = a.z() * b.x() - a.x() * b.z();
     float z = a.x() * b.y() - a.y() * b.x();
     return Vec3(x, y, z);
+}
+
+Vec3 Vec3::lerp(const Vec3& a, const Vec3& b, float t)
+{
+    return (1 - t) * a + t * b;
 }
 
 }

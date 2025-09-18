@@ -24,6 +24,7 @@
 #include "io/BinaryIO.h"
 #include "io/FileIO.h"
 #include "math/Mat4.h"
+#include "math/Quat.h"
 #include "math/Vec3.h"
 #include "memory/observer_ptr.h"
 #include "misc/builder/FramebufferBuilder.h"
