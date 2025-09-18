@@ -4,19 +4,19 @@
 #include <unordered_map>
 #include <vector>
 
-class Duck {
+class Character {
     charm::ch3db::Model m_model;
     std::vector<charm::Geometry> m_geometries;
     std::unordered_map<int, charm::Mat4> m_joint_transforms;
 
 public:
-    Duck();
-    ~Duck();
-    Duck(const Duck&) = delete;
-    Duck& operator=(const Duck&) = delete;
+    Character();
+    ~Character();
+    Character(const Character&) = delete;
+    Character& operator=(const Character&) = delete;
 
-    Duck(Duck&&);
-    Duck& operator=(Duck&&);
+    Character(Character&&);
+    Character& operator=(Character&&);
 
     std::vector<charm::Geometry>::const_iterator begin() const;
     std::vector<charm::Geometry>::const_iterator end() const;

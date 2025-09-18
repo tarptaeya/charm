@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Duck.h"
+#include "Character.h"
 #include "IGameObject.h"
 #include "charm.h"
 
 class TestObject : public IGameObject {
-    Duck* m_duck = nullptr;
+    Character* m_character = nullptr;
     charm::gl::Program m_program;
     charm::Mat4 m_transform;
     charm::gl::Texture m_texture;

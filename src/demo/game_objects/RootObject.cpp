@@ -47,7 +47,7 @@ void RootObject::update(double delta_time)
         charm::Mat4 transform = charm::Mat4::identity();
         transform *= charm::Mat4::translation(positions[i][0], positions[i][1], positions[i][2]);
         transform *= charm::Mat4::rotation_y(angle + i * 1.7);
-        transform *= charm::Mat4::scaling(0.1);
+        transform *= charm::Mat4::scaling(1.0);
         dynamic_cast<TestObject*>(m_objects[i].get())->set_transform(transform);
     }
 }

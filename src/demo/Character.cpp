@@ -1,6 +1,6 @@
-#include "Duck.h"
+#include "Character.h"
 
-Duck::Duck()
+Character::Character()
 {
     m_model = charm::ch3db::Model::read("res/demo/model.ch3db");
     for (const auto& mesh : m_model.meshes) {
@@ -33,15 +33,15 @@ Duck::Duck()
     }
 }
 
-Duck::~Duck()
+Character::~Character()
 {
 }
 
-Duck::Duck(Duck&& other)
+Character::Character(Character&& other)
 {
 }
 
-Duck& Duck::operator=(Duck&& other)
+Character& Character::operator=(Character&& other)
 {
     if (this == &other)
         return *this;
@@ -49,31 +49,31 @@ Duck& Duck::operator=(Duck&& other)
     return *this;
 }
 
-std::vector<charm::Geometry>::const_iterator Duck::begin() const
+std::vector<charm::Geometry>::const_iterator Character::begin() const
 {
     return m_geometries.begin();
 }
 
-std::vector<charm::Geometry>::const_iterator Duck::end() const
+std::vector<charm::Geometry>::const_iterator Character::end() const
 {
     return m_geometries.end();
 }
 
-void Duck::update(double delta_time)
+void Character::update(double delta_time)
 {
     auto& animation = m_model.animations[0];
-    float tick = fmod(0.5 * glfwGetTime() * animation.ticks_per_second, animation.duration);
+    float tick = fmod(glfwGetTime() * animation.ticks_per_second, animation.duration);
     apply_animation(m_model.root.get(), charm::Mat4::identity(), tick);
 }
 
-void Duck::setup_joint_uniform(charm::gl::Program& program)
+void Character::setup_joint_uniform(charm::gl::Program& program)
 {
     for (const auto& [bone_id, transform] : m_joint_transforms) {
         charm::gl::Context::set_uniform(program, "u_joints[" + std::to_string(bone_id) + "]", transform);
     }
 }
 
-void Duck::apply_animation(charm::ch3db::Skeleton* node, charm::Mat4 parent_transform, float tick)
+void Character::apply_animation(charm::ch3db::Skeleton* node, charm::Mat4 parent_transform, float tick)
 {
     charm::Mat4 current_transform = parent_transform * node->transform;
 
