@@ -19,6 +19,7 @@ add_library(
     graphics/font/Font.cpp
     graphics/font/FontMetadata.cpp
     graphics/geometry/Geometry.cpp
+    graphics/model/Model.cpp
     graphics/render_target/RenderTarget.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp

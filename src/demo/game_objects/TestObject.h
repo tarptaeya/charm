@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Character.h"
 #include "IGameObject.h"
 #include "charm.h"
 
 class TestObject : public IGameObject {
-    Character* m_character = nullptr;
+    charm::Model m_character;
     charm::gl::Program m_program;
     charm::Mat4 m_transform;
     charm::gl::Texture m_texture;
