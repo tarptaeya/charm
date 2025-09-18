@@ -88,10 +88,10 @@ Members of an inline namespace are treated as if they are members of the enclosi
 
     void update(double delta_time) override
     {
-        gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
-        gl::Context::viewport(0, 0, charmApp.get_width(), charmApp.get_height());
-        gl::Context::clear_color(0.3, 0.1, 0.2, 1.0);
-        gl::Context::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        gl::reset_framebuffer(GL_FRAMEBUFFER);
+        gl::viewport(0, 0, charmApp.get_width(), charmApp.get_height());
+        gl::clear_color(0.3, 0.1, 0.2, 1.0);
+        gl::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_object.update(delta_time);
         m_object.render(m_camera);
 

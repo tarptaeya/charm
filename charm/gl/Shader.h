@@ -4,11 +4,10 @@ namespace charm::gl {
 
 class Shader {
     unsigned int m_handle = 0;
-    friend class Context;
-
-    Shader(unsigned int handle);
 
 public:
+    Shader(unsigned int handle);
+
     Shader() = default;
     ~Shader();
 

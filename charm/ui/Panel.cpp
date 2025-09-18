@@ -51,20 +51,20 @@ void Panel::draw(float x, float y, float width, float height)
 
     auto& ui_context = ui::Context::get_instance();
 
-    gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
-    gl::Context::viewport(0, 0, window_width, window_height);
+    gl::reset_framebuffer(GL_FRAMEBUFFER);
+    gl::viewport(0, 0, window_width, window_height);
 
-    gl::Context::disable(GL_DEPTH_TEST);
-    gl::Context::enable(GL_BLEND);
-    gl::Context::blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    gl::disable(GL_DEPTH_TEST);
+    gl::enable(GL_BLEND);
+    gl::blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    gl::Context::active_texture(GL_TEXTURE0 + FONT_TEXTURE_UNIT);
-    gl::Context::bind(GL_TEXTURE_2D, ui_context.get_font().get_texture());
+    gl::active_texture(GL_TEXTURE0 + FONT_TEXTURE_UNIT);
+    gl::bind(GL_TEXTURE_2D, ui_context.get_font().get_texture());
 
-    gl::Context::use(ui_context.get_program());
-    gl::Context::set_uniform(ui_context.get_program(), "u_font_texture", FONT_TEXTURE_UNIT);
-    gl::Context::set_uniform(ui_context.get_program(), "u_canvas_texture", CANVAS_TEXTURE_UNIT);
-    gl::Context::set_uniform(ui_context.get_program(), "u_projection",
+    gl::use(ui_context.get_program());
+    gl::set_uniform(ui_context.get_program(), "u_font_texture", FONT_TEXTURE_UNIT);
+    gl::set_uniform(ui_context.get_program(), "u_canvas_texture", CANVAS_TEXTURE_UNIT);
+    gl::set_uniform(ui_context.get_program(), "u_projection",
         // clang-format off
         Mat4({ 
             { 2.f / window_width, 0,                    0, -1 },
@@ -84,8 +84,8 @@ void Panel::draw(float x, float y, float width, float height)
     m_root_element->draw();
     ui_context.commit();
 
-    gl::Context::disable(GL_BLEND);
-    gl::Context::enable(GL_DEPTH_TEST);
+    gl::disable(GL_BLEND);
+    gl::enable(GL_DEPTH_TEST);
 }
 
 void Panel::update(double delta_time)

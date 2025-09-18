@@ -15,8 +15,8 @@ void Canvas::draw()
     auto& ui_context = Context::get_instance();
     ui_context.commit();
 
-    gl::Context::active_texture(GL_TEXTURE0 + CANVAS_TEXTURE_UNIT);
-    gl::Context::bind(GL_TEXTURE_2D, m_render_target.get_color_texture());
+    gl::active_texture(GL_TEXTURE0 + CANVAS_TEXTURE_UNIT);
+    gl::bind(GL_TEXTURE_2D, m_render_target.get_color_texture());
     ui_context.begin();
 
     Element::draw();

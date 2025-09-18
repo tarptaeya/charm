@@ -43,15 +43,15 @@ TextureBuilder& TextureBuilder::set_parameteri(unsigned int name, int value)
 
 gl::Texture TextureBuilder::build()
 {
-    gl::Texture texture = gl::Context::gen_texture();
-    gl::Context::active_texture(m_active_texture);
-    gl::Context::bind(GL_TEXTURE_2D, texture);
-    gl::Context::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    gl::Context::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    gl::Context::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    gl::Context::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    gl::Texture texture = gl::gen_texture();
+    gl::active_texture(m_active_texture);
+    gl::bind(GL_TEXTURE_2D, texture);
+    gl::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    gl::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    gl::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    gl::tex_parameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     for (auto entry : m_parameteri_map) {
-        gl::Context::tex_parameteri(GL_TEXTURE_2D, entry.first, entry.second);
+        gl::tex_parameteri(GL_TEXTURE_2D, entry.first, entry.second);
     }
 
     int width, height, channels;
@@ -62,8 +62,8 @@ gl::Texture TextureBuilder::build()
         std::exit(0);
     }
 
-    gl::Context::tex_image2d(GL_TEXTURE_2D, 0, m_internal_format, width, height, 0, m_format, m_type, data);
-    gl::Context::generate_mipmap(GL_TEXTURE_2D);
+    gl::tex_image2d(GL_TEXTURE_2D, 0, m_internal_format, width, height, 0, m_format, m_type, data);
+    gl::generate_mipmap(GL_TEXTURE_2D);
     stbi_image_free(data);
 
     return texture;

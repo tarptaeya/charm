@@ -39,7 +39,7 @@ void Application::initialize(const AppOptions& options)
     }
 
     glfwMakeContextCurrent(m_window);
-    gl::Context::init(glfwGetProcAddress);
+    gl::init(glfwGetProcAddress);
 
     glfwGetFramebufferSize(m_window, &m_width, &m_height);
 }
@@ -100,7 +100,7 @@ int Application::exec(AppAdapter* adapter)
         double delta_time = curr_time - prev_time;
         prev_time = curr_time;
 
-        gl::Context::reset_framebuffer(GL_FRAMEBUFFER);
+        gl::reset_framebuffer(GL_FRAMEBUFFER);
         m_adapter->update(delta_time);
 
         std::sort(m_functions_to_execute_on_frame_end.begin(), m_functions_to_execute_on_frame_end.end(), [](const auto& a, const auto& b) {

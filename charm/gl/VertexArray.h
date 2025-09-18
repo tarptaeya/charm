@@ -4,12 +4,10 @@ namespace charm::gl {
 
 class VertexArray {
     unsigned int m_handle = 0;
-    friend class Context;
-
-    VertexArray(unsigned int handle);
 
 public:
     VertexArray() = default;
+    VertexArray(unsigned int handle);
     ~VertexArray();
 
     VertexArray(const VertexArray&) = delete;

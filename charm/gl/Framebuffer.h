@@ -5,11 +5,9 @@ namespace charm::gl {
 class Framebuffer {
     unsigned int m_handle = 0;
 
-    friend class Context;
-    Framebuffer(unsigned int handle);
-
 public:
     Framebuffer() = default;
+    Framebuffer(unsigned int handle);
     ~Framebuffer();
 
     Framebuffer(const Framebuffer&) = delete;

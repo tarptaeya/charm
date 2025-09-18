@@ -7,13 +7,12 @@ namespace charm::gl {
 
 class Program {
     unsigned int m_handle = 0;
-    std::unordered_map<std::string, int> m_uniform_locations;
-
-    friend class Context;
-    Program(unsigned int handle);
 
 public:
+    std::unordered_map<std::string, int> uniform_locations;
+
     Program() = default;
+    Program(unsigned int handle);
     ~Program();
 
     Program(const Program&) = delete;

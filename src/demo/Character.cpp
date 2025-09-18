@@ -69,7 +69,7 @@ void Character::update(double delta_time)
 void Character::setup_joint_uniform(charm::gl::Program& program)
 {
     for (const auto& [bone_id, transform] : m_joint_transforms) {
-        charm::gl::Context::set_uniform(program, "u_joints[" + std::to_string(bone_id) + "]", transform);
+        charm::gl::set_uniform(program, "u_joints[" + std::to_string(bone_id) + "]", transform);
     }
 }
 

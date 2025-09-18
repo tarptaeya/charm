@@ -4,12 +4,10 @@ namespace charm::gl {
 
 class Texture {
     unsigned int m_handle = 0;
-    friend class Context;
-
-    Texture(unsigned int handle);
 
 public:
     Texture() = default;
+    Texture(unsigned int handle);
     ~Texture();
 
     Texture(const Texture&) = delete;
