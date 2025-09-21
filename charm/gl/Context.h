@@ -20,6 +20,8 @@ void init(GLFWglproc (*fn)(const char*));
 void disable(int capability);
 void enable(int capability);
 
+void depth_mask(bool flag);
+
 void viewport(int x, int y, int width, int height);
 
 void clear_color(float r, float g, float b, float a);

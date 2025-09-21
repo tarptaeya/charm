@@ -22,6 +22,7 @@
 #include "graphics/geometry/Geometry.h"
 #include "graphics/model/Model.h"
 #include "graphics/render_target/RenderTarget.h"
+#include "graphics/skybox/Skybox.h"
 #include "io/BinaryIO.h"
 #include "io/FileIO.h"
 #include "math/Mat4.h"

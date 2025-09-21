@@ -21,6 +21,7 @@ add_library(
     graphics/geometry/Geometry.cpp
     graphics/model/Model.cpp
     graphics/render_target/RenderTarget.cpp
+    graphics/skybox/Skybox.cpp
     io/BinaryIO.cpp
     io/FileIO.cpp
     math/Mat4.cpp

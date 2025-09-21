@@ -20,6 +20,11 @@ void enable(int capacity)
     glEnable(capacity);
 }
 
+void depth_mask(bool flag)
+{
+    glDepthMask(flag);
+}
+
 void viewport(int x, int y, int width, int height)
 {
     glViewport(x, y, width, height);

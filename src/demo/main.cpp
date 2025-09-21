@@ -18,6 +18,8 @@ class Example : public charm::AppAdapter {
     std::unique_ptr<ui::Panel> m_panel = nullptr;
     observer_ptr<ui::Label> m_fps_counter = nullptr;
 
+    Skybox m_skybox;
+
 public:
     Example()
         : charm::AppAdapter()
@@ -80,6 +82,13 @@ Members of an inline namespace are treated as if they are members of the enclosi
 )";
         auto paragraph = m_panel->create<ui::Paragraph>(text);
         vbox->add(paragraph);
+
+        m_skybox = Skybox({ "res/demo/skybox/right.jpg",
+            "res/demo/skybox/left.jpg",
+            "res/demo/skybox/top.jpg",
+            "res/demo/skybox/bottom.jpg",
+            "res/demo/skybox/front.jpg",
+            "res/demo/skybox/back.jpg" });
     }
 
     ~Example()
@@ -93,6 +102,8 @@ Members of an inline namespace are treated as if they are members of the enclosi
         gl::clear_color(0.3, 0.1, 0.2, 1.0);
         gl::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_object.update(delta_time);
+
+        m_skybox.render(m_camera);
         m_object.render(m_camera);
 
         FPSCounter::get_instance().push(delta_time);
