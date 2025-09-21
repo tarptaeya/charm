@@ -25,6 +25,11 @@ void depth_mask(bool flag)
     glDepthMask(flag);
 }
 
+void depth_func(unsigned int func)
+{
+    glDepthFunc(func);
+}
+
 void viewport(int x, int y, int width, int height)
 {
     glViewport(x, y, width, height);

@@ -103,8 +103,8 @@ Members of an inline namespace are treated as if they are members of the enclosi
         gl::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_object.update(delta_time);
 
-        m_skybox.render(m_camera);
         m_object.render(m_camera);
+        m_skybox.render(m_camera);
 
         FPSCounter::get_instance().push(delta_time);
         m_fps_counter->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));

@@ -120,7 +120,7 @@ Skybox& Skybox::operator=(Skybox&& other)
 
 void Skybox::render(const Camera& camera)
 {
-    gl::depth_mask(GL_FALSE);
+    gl::depth_func(GL_LEQUAL);
 
     gl::use(m_program);
     charm::gl::set_uniform(m_program, "u_view", camera.get_view());
@@ -131,7 +131,7 @@ void Skybox::render(const Camera& camera)
     gl::bind(m_vertex_array);
     gl::draw_elements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 
-    gl::depth_mask(GL_TRUE);
+    gl::depth_func(GL_LESS);
 }
 
 }

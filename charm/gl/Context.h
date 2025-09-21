@@ -21,6 +21,7 @@ void disable(int capability);
 void enable(int capability);
 
 void depth_mask(bool flag);
+void depth_func(unsigned int func);
 
 void viewport(int x, int y, int width, int height);
 
