@@ -22,6 +22,10 @@ void Application::initialize(const AppOptions& options)
         std::exit(0);
     }
 
+    glfwSetErrorCallback([](int error, const char* message) {
+        std::cerr << "[error][glfw] " << message << std::endl;
+    });
+
     if (!glfwInit()) {
         std::cerr << "[error] glfw initialization faield" << std::endl;
         std::exit(0);
