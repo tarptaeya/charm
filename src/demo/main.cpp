@@ -8,11 +8,6 @@ using namespace charm;
 constexpr double window_width = 1024;
 constexpr double window_height = 720;
 
-void add_spacer(observer_ptr<ui::VBoxContainer>& container, ui::Panel* panel)
-{
-    container->add(panel->create<ui::Label>(" "));
-}
-
 class Example : public charm::AppAdapter {
     Camera m_camera;
     RootObject m_object;
@@ -46,7 +41,7 @@ public:
     {
         gl::reset_framebuffer(GL_FRAMEBUFFER);
         gl::viewport(0, 0, charmApp.get_width(), charmApp.get_height());
-        gl::clear_color(0.3, 0.1, 0.2, 1.0);
+        gl::clear_color(0, 0, 0, 1);
         gl::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_object.update(delta_time);
 
