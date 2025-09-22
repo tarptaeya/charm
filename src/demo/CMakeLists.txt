@@ -4,6 +4,7 @@ add_executable(
     demo
     main.cpp
     ScreenGeometry.cpp
+    UI.cpp
     game_objects/Ground.cpp
     game_objects/RootObject.cpp
     game_objects/TestObject.cpp
