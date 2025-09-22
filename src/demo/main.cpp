@@ -5,6 +5,9 @@
 
 using namespace charm;
 
+constexpr double window_width = 1024;
+constexpr double window_height = 720;
+
 void add_spacer(observer_ptr<ui::VBoxContainer>& container, ui::Panel* panel)
 {
     container->add(panel->create<ui::Label>(" "));
@@ -29,8 +32,8 @@ public:
         m_style = ui::Style::standard(Color { 0.92, 0.2, 0.4 }, Color { 1, 1, 1 }, Color { 0.2, 0.3, 0.4 });
         m_panel = std::make_unique<ui::Panel>(m_style);
 
-        m_camera.set_projection(Mat4::perspective(M_PI / 3, 1.0, 0.1, 100));
-        m_camera.set_view(Mat4::look_at(Vec3(0, 0, 3), Vec3(0, 0, 0), Vec3(0, 1, 0)));
+        m_camera.set_projection(Mat4::perspective(M_PI / 3, window_width / window_height, 0.1, 100));
+        m_camera.set_view(Mat4::look_at(Vec3(10, 3, 10), Vec3(5, 0, 5), Vec3(0, 1, 0)));
 
         auto vbox = m_panel->create<ui::VBoxContainer>();
         auto scroll = m_panel->create<ui::ScrollArea>(vbox);
@@ -110,7 +113,7 @@ Members of an inline namespace are treated as if they are members of the enclosi
         m_fps_counter->set_text("FPS: " + std::to_string((int)FPSCounter::get_instance().get()));
 
         m_panel->update(delta_time);
-        m_panel->draw(100, 580, 600, 200);
+        m_panel->draw(200, window_height - 250, window_width - 400, 200);
     }
 
     void on_char_callback(InputEventChar& event) override
@@ -142,8 +145,8 @@ Members of an inline namespace are treated as if they are members of the enclosi
 int main()
 {
     AppOptions options;
-    options.window_width = 800;
-    options.window_height = 800;
+    options.window_width = window_width;
+    options.window_height = window_height;
     options.window_title = "Charmed Demo";
     options.font_texture_path = "res/charm/bitmap.png";
     options.font_metadata_path = "res/charm/font.txt";

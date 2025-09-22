@@ -6,6 +6,7 @@
 
 class RootObject : public IGameObject {
     std::vector<std::unique_ptr<IGameObject>> m_objects;
+    std::unique_ptr<IGameObject> m_ground = nullptr;
 
 public:
     RootObject();
