@@ -16,6 +16,7 @@ add_library(
     gl/Shader.cpp
     gl/Texture.cpp
     gl/VertexArray.cpp
+    graphics/environment/Environment.cpp
     graphics/font/Font.cpp
     graphics/font/FontMetadata.cpp
     graphics/geometry/Geometry.cpp

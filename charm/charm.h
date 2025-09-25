@@ -17,6 +17,7 @@
 #include "events/InputEventMouseMotion.h"
 #include "events/InputEventScroll.h"
 #include "gl/Context.h"
+#include "graphics/environment/Environment.h"
 #include "graphics/font/Font.h"
 #include "graphics/font/FontMetadata.h"
 #include "graphics/geometry/Geometry.h"

@@ -11,7 +11,7 @@ constexpr double window_height = 720;
 class Example : public charm::AppAdapter {
     Camera m_camera;
     RootObject m_object;
-    Skybox m_skybox;
+    Environment m_environment;
     std::unique_ptr<UI> m_ui = nullptr;
 
 public:
@@ -23,12 +23,13 @@ public:
         m_camera.set_projection(Mat4::perspective(M_PI / 3, window_width / window_height, 0.1, 100));
         m_camera.set_view(Mat4::look_at(Vec3(10, 3, 10), Vec3(5, 0, 5), Vec3(0, 1, 0)));
 
-        m_skybox = Skybox({ "res/demo/skybox/right.jpg",
+        auto skybox = std::make_unique<Skybox>(std::vector<std::string> { "res/demo/skybox/right.jpg",
             "res/demo/skybox/left.jpg",
             "res/demo/skybox/top.jpg",
             "res/demo/skybox/bottom.jpg",
             "res/demo/skybox/front.jpg",
             "res/demo/skybox/back.jpg" });
+        m_environment.set_skybox(skybox);
 
         m_ui = std::make_unique<UI>();
     }
@@ -46,7 +47,7 @@ public:
         m_object.update(delta_time);
 
         m_object.render(m_camera);
-        m_skybox.render(m_camera);
+        m_environment.get_skybox()->render(m_camera);
 
         m_ui->update(delta_time);
         m_ui->draw(200, window_height - 250, window_width - 400, 200);
