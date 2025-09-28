@@ -6,6 +6,6 @@ class IGameObject {
 public:
     virtual ~IGameObject() = default;
     virtual void update(double delta_time) { }
-    virtual void render(charm::Camera&) { }
+    virtual void render(charm::Camera&, charm::Environment& environment) { }
     virtual void shadow(charm::Camera&) { }
 };

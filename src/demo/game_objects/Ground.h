@@ -16,5 +16,5 @@ public:
     Ground& operator=(const Ground&) = delete;
 
     void update(double delta_time) override;
-    void render(charm::Camera&) override;
+    void render(charm::Camera&, charm::Environment&) override;
 };

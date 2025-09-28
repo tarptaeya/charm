@@ -22,13 +22,14 @@ void TestObject::update(double delta_time)
     m_character.update(delta_time);
 }
 
-void TestObject::render(charm::Camera& camera)
+void TestObject::render(charm::Camera& camera, charm::Environment& environment)
 {
     charm::gl::use(m_program);
     charm::gl::set_uniform(m_program, "u_model", m_transform);
     charm::gl::set_uniform(m_program, "u_view", camera.get_view());
     charm::gl::set_uniform(m_program, "u_projection", camera.get_projection());
     m_character.set_joint_uniforms(m_program);
+    environment.set_uniforms(m_program);
 
     charm::gl::bind(GL_TEXTURE_2D, m_texture);
     m_character.draw();

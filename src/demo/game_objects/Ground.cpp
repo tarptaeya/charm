@@ -41,7 +41,7 @@ void Ground::update(double delta_time)
 {
 }
 
-void Ground::render(Camera& camera)
+void Ground::render(Camera& camera, Environment& environment)
 {
     Mat4 transform = Mat4::identity();
     transform *= Mat4::translation(3, 0, 3);
@@ -51,6 +51,7 @@ void Ground::render(Camera& camera)
     set_uniform(m_program, "u_model", transform);
     set_uniform(m_program, "u_view", camera.get_view());
     set_uniform(m_program, "u_projection", camera.get_projection());
+    environment.set_uniforms(m_program);
 
     bind(m_vertex_array);
     draw_elements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

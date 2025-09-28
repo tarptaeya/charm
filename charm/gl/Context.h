@@ -34,6 +34,7 @@ void use(const Program& program);
 [[nodiscard]] int get_uniform_location(Program& program, const std::string&);
 void set_uniform(Program& program, const std::string&, const Mat4&);
 void set_uniform(Program& program, const std::string&, int);
+void set_uniform(Program& program, const std::string& name, const Vec3& vec);
 
 [[nodiscard]] VertexArray gen_vertex_array();
 void bind(const VertexArray& vertex_array);

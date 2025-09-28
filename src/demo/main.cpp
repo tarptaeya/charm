@@ -31,6 +31,10 @@ public:
             "res/demo/skybox/back.jpg" });
         m_environment.set_skybox(skybox);
 
+        m_environment.get_directional_light().direction = Vec3(-1, -1, -1);
+        m_environment.get_directional_light().ambient = Vec3(0.2, 0.2, 0.2);
+        m_environment.get_directional_light().diffuse = Vec3(0.9, 0.9, 0.9);
+
         m_ui = std::make_unique<UI>();
     }
 
@@ -46,7 +50,7 @@ public:
         gl::clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_object.update(delta_time);
 
-        m_object.render(m_camera);
+        m_object.render(m_camera, m_environment);
         m_environment.get_skybox()->render(m_camera);
 
         m_ui->update(delta_time);

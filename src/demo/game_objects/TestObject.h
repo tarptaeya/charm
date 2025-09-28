@@ -15,7 +15,7 @@ public:
     ~TestObject() override;
 
     void update(double delta_time) override;
-    void render(charm::Camera& camera) override;
+    void render(charm::Camera& camera, charm::Environment& environment) override;
 
     void set_transform(const charm::Mat4& transform);
 };

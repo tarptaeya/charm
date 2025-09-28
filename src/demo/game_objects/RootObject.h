@@ -14,7 +14,7 @@ public:
     ~RootObject() = default;
 
     void update(double delta_time) override;
-    void render(charm::Camera& camera) override;
+    void render(charm::Camera& camera, charm::Environment& environment) override;
 
     template <typename T, typename... Args>
     void add_object(Args&&... args)

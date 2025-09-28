@@ -31,11 +31,11 @@ void RootObject::update(double delta_time)
     m_ground->update(delta_time);
 }
 
-void RootObject::render(charm::Camera& camera)
+void RootObject::render(charm::Camera& camera, charm::Environment& environment)
 {
     for (auto& object : m_objects) {
-        object->render(camera);
+        object->render(camera, environment);
     }
 
-    m_ground->render(camera);
+    m_ground->render(camera, environment);
 }

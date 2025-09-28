@@ -113,6 +113,12 @@ void set_uniform(Program& program, const std::string& name, int value)
     glUniform1i(location, value);
 }
 
+void set_uniform(Program& program, const std::string& name, const Vec3& vec)
+{
+    int location = get_uniform_location(program, name);
+    glUniform3fv(location, 1, vec.get_data());
+}
+
 VertexArray gen_vertex_array()
 {
     unsigned int vertex_array;
