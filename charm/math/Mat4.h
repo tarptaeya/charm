@@ -47,6 +47,8 @@ public:
 
     static Mat4 perspective(float vertical_fov, float aspect_ratio, float near, float far);
     static Mat4 look_at(const Vec3& position, const Vec3& target, const Vec3& world_up);
+
+    static Mat4 ortho(float width, float height, float near, float far);
 };
 
 }

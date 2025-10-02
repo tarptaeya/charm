@@ -21,6 +21,7 @@ public:
         glfwSwapInterval(0);
 
         m_camera.set_projection(Mat4::perspective(M_PI / 3, window_width / window_height, 0.1, 100));
+        m_camera.set_projection(Mat4::ortho(window_width / 100, window_height / 100, 0.1, 100));
         m_camera.set_view(Mat4::look_at(Vec3(10, 3, 10), Vec3(5, 0, 5), Vec3(0, 1, 0)));
 
         auto skybox = std::make_unique<Skybox>(std::vector<std::string> { "res/demo/skybox/right.jpg",

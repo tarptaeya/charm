@@ -239,6 +239,18 @@ Mat4 Mat4::look_at(const Vec3& position, const Vec3& target, const Vec3& world_u
     return change_of_basis * translation(-position.x(), -position.y(), -position.z());
 }
 
+Mat4 Mat4::ortho(float width, float height, float near, float far)
+{
+    // clang-format off
+    return Mat4({ 
+        { 1 / width, 0,          0,                 0                           },
+        { 0,         1 / height, 0,                 0                           },
+        { 0,         0,          -2 / (far - near), -(far + near) / (far - near)},
+        {0 ,         0,          0,                 1                           }
+    });
+    // clang-format on
+}
+
 Mat4 operator+(const Mat4& a, const Mat4& b)
 {
     Mat4 ans(a);
